@@ -64,12 +64,12 @@ export default function Insights({ newsBlogs }) {
               
               {/* Scrolling Container */}
               <div className="relative h-full overflow-hidden">
-                {/* Gradient Overlays */}
-                <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none"></div>
+                {/* Gradient Overlays - Hidden on mobile */}
+                <div className="hidden sm:block absolute top-0 left-0 right-0 h-6 md:h-8 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none"></div>
+                <div className="hidden sm:block absolute bottom-0 left-0 right-0 h-6 md:h-8 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none"></div>
                 
                 {/* Scrolling Track */}
-                <div className="animate-scroll-y space-y-4 px-6 py-4 hover:[animation-play-state:paused]">
+                <div className="animate-scroll-y-mobile sm:animate-scroll-y-fast lg:animate-scroll-y space-y-4 px-6 py-4 hover:[animation-play-state:paused]">
                   {/* First set of news */}
                   {newsBlogs.slice(1).map((article, index) => (
                     <Link

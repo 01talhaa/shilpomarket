@@ -15,36 +15,34 @@ const Partners = ({ partners }) => {
 
         {/* Auto-scrolling Partners Container */}
         <div className="relative">
-          {/* Gradient Overlays */}
-          <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-white via-white to-transparent z-10"></div>
-          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-white via-white to-transparent z-10"></div>
+          {/* Gradient Overlays - Hidden on mobile */}
+          <div className="hidden sm:block absolute left-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-r from-white via-white to-transparent z-10"></div>
+          <div className="hidden sm:block absolute right-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-l from-white via-white to-transparent z-10"></div>
           
           {/* Scrolling Track */}
-          <div className="flex space-x-8 animate-scroll-x">
+          <div className="flex space-x-8 animate-scroll-x-mobile sm:animate-scroll-x-fast lg:animate-scroll-x">
             {/* First set of partners */}
             {partners.map((partner, index) => (
               <div
                 key={`first-${index}`}
                 className="flex-shrink-0 group hover:scale-105 transition-transform duration-300"
               >
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-lg transition-shadow duration-300 min-w-[280px]">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-full font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
-
-                        
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 md:p-8 hover:shadow-lg transition-shadow duration-300 min-w-[220px] sm:min-w-[260px] md:min-w-[280px]">
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full flex items-center justify-center font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg text-lg sm:text-xl md:text-2xl">
                       {partner.logo}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-800 text-lg">{partner.name}</h3>
-                      <p className="text-gray-500 text-sm">{partner.industry}</p>
+                      <h3 className="font-semibold text-gray-800 text-sm sm:text-base md:text-lg">{partner.name}</h3>
+                      <p className="text-gray-500 text-xs sm:text-sm">{partner.industry}</p>
                     </div>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <div className="flex items-center justify-between text-sm">
+                  <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
+                    <div className="flex items-center justify-between text-xs sm:text-sm">
                       <span className="text-gray-500">Partnership since</span>
                       <span className="font-semibold text-gray-700">{partner.since}</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm mt-2">
+                    <div className="flex items-center justify-between text-xs sm:text-sm mt-2">
                       <span className="text-gray-500">Volume</span>
                       <span className="font-semibold text-green-600">{partner.volume}</span>
                     </div>
@@ -59,22 +57,22 @@ const Partners = ({ partners }) => {
                 key={`second-${index}`}
                 className="flex-shrink-0 group hover:scale-105 transition-transform duration-300"
               >
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 hover:shadow-lg transition-shadow duration-300 min-w-[280px]">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white text-2xl font-bold">
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 md:p-8 hover:shadow-lg transition-shadow duration-300 min-w-[220px] sm:min-w-[260px] md:min-w-[280px]">
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg sm:text-xl md:text-2xl">
                       {partner.logo}
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-800 text-lg">{partner.name}</h3>
-                      <p className="text-gray-500 text-sm">{partner.industry}</p>
+                      <h3 className="font-semibold text-gray-800 text-sm sm:text-base md:text-lg">{partner.name}</h3>
+                      <p className="text-gray-500 text-xs sm:text-sm">{partner.industry}</p>
                     </div>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <div className="flex items-center justify-between text-sm">
+                  <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
+                    <div className="flex items-center justify-between text-xs sm:text-sm">
                       <span className="text-gray-500">Partnership since</span>
                       <span className="font-semibold text-gray-700">{partner.since}</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm mt-2">
+                    <div className="flex items-center justify-between text-xs sm:text-sm mt-2">
                       <span className="text-gray-500">Volume</span>
                       <span className="font-semibold text-green-600">{partner.volume}</span>
                     </div>

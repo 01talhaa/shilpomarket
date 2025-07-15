@@ -69,15 +69,15 @@ export default function Header() {
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-700 ease-in-out ${
-        isScrolled ? "bg-white/95 backdrop-blur-lg shadow-2xl border-b border-gray-200" : "bg-white shadow-lg"
+        isScrolled ? "bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50" : "bg-white shadow-sm"
       }`}
     >
       <div className="container mx-auto px-4">
         {/* Top Bar - Hide when shrinked */}
         <div className={`flex items-center justify-between text-sm border-b border-gray-200 transition-all duration-700 ease-in-out overflow-hidden ${
-          isShrinked ? "py-0 max-h-0 opacity-0" : "py-3 max-h-20 opacity-100"
+          isShrinked ? "py-0 max-h-0 opacity-0" : "py-3 max-h-16 opacity-100"
         }`}>
-          <div className="flex items-center space-x-6 text-gray-600">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 text-gray-600 space-y-1 sm:space-y-0">
             <span className="flex items-center">
               <span className="mr-2">📧</span>
               <span>support@rawmart.com</span>
@@ -87,13 +87,15 @@ export default function Header() {
               <span>+1 (555) 123-4567</span>
             </span>
           </div>
-          <div className="flex items-center space-x-4 text-gray-600">
-            <Link href="/help" className="hover:text-blue-600 transition-colors">
-              Help
-            </Link>
-            <Link href="/contact" className="hover:text-blue-600 transition-colors">
-              Contact
-            </Link>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-gray-600 space-y-1 sm:space-y-0">
+            <div className="flex items-center space-x-4">
+              <Link href="/help" className="hover:text-blue-600 transition-colors">
+                Help
+              </Link>
+              <Link href="/contact" className="hover:text-blue-600 transition-colors">
+                Contact
+              </Link>
+            </div>
             <div className="flex items-center space-x-2">
               <span className="text-xs">Follow us:</span>
               <div className="flex space-x-1">
@@ -107,7 +109,7 @@ export default function Header() {
 
         {/* Main Header */}
         <div className={`flex items-center justify-between transition-all duration-700 ease-in-out ${
-          isShrinked ? "py-3" : "py-6"
+          isShrinked ? "py-2" : "py-4"
         }`}>
           {/* Logo */}
           <Link href="/" onClick={scrollToTop} className="flex items-center space-x-3 group">
@@ -118,8 +120,8 @@ export default function Header() {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
             </div>
             <div className="text-gray-800">
-              <div className="text-2xl font-bold tracking-tight">RawMart</div>
-              <div className="text-xs text-gray-600 -mt-1">Industrial Materials</div>
+              <div className="text-2xl font-bold tracking-tight">ShilpoMarket</div>
+              <div className="text-xs text-gray-600 -mt-1">Raw Materials Marketplace</div>
             </div>
           </Link>
 
@@ -220,7 +222,7 @@ export default function Header() {
           </nav>
 
           {/* Search Bar */}
-          <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
+          <div className="hidden md:flex items-center flex-1 max-w-sm mx-4">
             <div className="relative w-full">
               <input
                 type="text"
@@ -268,7 +270,7 @@ export default function Header() {
             </Link>
             <Link
               href="/auth/signup"
-              className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-full font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-full font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 hidden shadow-lg sm:block"
             >
               Sign Up
             </Link>

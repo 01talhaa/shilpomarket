@@ -120,12 +120,12 @@ export default function States() {
 
         {/* Stats Grid - Desktop */}
         <div className="hidden md:block relative">
-          {/* Gradient Overlays */}
-          <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
+          {/* Gradient Overlays - Hidden on mobile */}
+          <div className="hidden sm:block absolute left-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-r from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
+          <div className="hidden sm:block absolute right-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-l from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
           
           {/* Infinite Scrolling Track */}
-          <div className="flex space-x-8 animate-scroll-x hover:[animation-play-state:paused] mb-16">
+          <div className="flex space-x-8 animate-scroll-x-mobile sm:animate-scroll-x-fast lg:animate-scroll-x hover:[animation-play-state:paused] mb-16">
             {/* First set of stats */}
             {stats.map((stat, index) => (
               <div
@@ -216,48 +216,48 @@ export default function States() {
 
         {/* Infinite Horizontal Scroll - Mobile */}
         <div className="md:hidden relative overflow-hidden">
-          {/* Gradient Overlays */}
-          <div className="absolute left-0 top-0 w-16 h-full bg-gradient-to-r from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
+          {/* Gradient Overlays - Hidden on mobile */}
+          <div className="hidden sm:block absolute left-0 top-0 w-8 md:w-12 lg:w-16 h-full bg-gradient-to-r from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
+          <div className="hidden sm:block absolute right-0 top-0 w-8 md:w-12 lg:w-16 h-full bg-gradient-to-l from-slate-50 via-blue-50 to-transparent z-10 pointer-events-none"></div>
           
           {/* Infinite Scrolling Track */}
-          <div className="flex space-x-4 animate-scroll-x hover:[animation-play-state:paused] mb-8">
+          <div className="flex space-x-4 animate-scroll-x-mobile sm:animate-scroll-x-fast lg:animate-scroll-x hover:[animation-play-state:paused] mb-8">
             {/* First set of stats */}
             {stats.map((stat, index) => (
               <div
                 key={`mobile-first-${index}`}
-                className="flex-shrink-0 min-w-[280px]"
+                className="flex-shrink-0 min-w-[200px] sm:min-w-[240px] md:min-w-[280px]"
               >
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20 relative overflow-hidden">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 sm:p-5 md:p-6 shadow-xl border border-white/20 relative overflow-hidden">
                   {/* Gradient Background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-5`}></div>
                   
                   {/* Badge */}
                   <div className="absolute -top-2 -right-2">
-                    <div className={`bg-gradient-to-r ${stat.color} text-white text-xs px-3 py-1 rounded-full shadow-lg`}>
+                    <div className={`bg-gradient-to-r ${stat.color} text-white text-xs px-2 sm:px-3 py-1 rounded-full shadow-lg`}>
                       {stat.badge}
                     </div>
                   </div>
 
                   <div className="relative z-10 text-center">
                     {/* Icon */}
-                    <div className="text-5xl mb-3">
+                    <div className="text-3xl sm:text-4xl md:text-5xl mb-2 sm:mb-3">
                       {stat.icon}
                     </div>
 
                     {/* Main Number */}
-                    <div className={`text-4xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
+                    <div className={`text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-1 sm:mb-2`}>
                       {stat.number}
                     </div>
 
                     {/* Label */}
-                    <div className="text-lg font-bold text-gray-800 mb-1">{stat.label}</div>
+                    <div className="text-sm sm:text-base md:text-lg font-bold text-gray-800 mb-1">{stat.label}</div>
                     
                     {/* Description */}
-                    <div className="text-sm text-gray-600 mb-2">{stat.description}</div>
+                    <div className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">{stat.description}</div>
                     
                     {/* Details */}
-                    <div className="text-xs text-gray-500 mb-2">{stat.details}</div>
+                    <div className="text-xs text-gray-500 mb-1 sm:mb-2">{stat.details}</div>
                     
                     {/* Trend */}
                     <div className="flex items-center justify-center text-xs">
@@ -272,9 +272,9 @@ export default function States() {
             {stats.map((stat, index) => (
               <div
                 key={`mobile-second-${index}`}
-                className="flex-shrink-0 min-w-[280px]"
+                className="flex-shrink-0 min-w-[200px] sm:min-w-[240px] md:min-w-[280px]"
               >
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20 relative overflow-hidden">
+                <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 sm:p-5 md:p-6 shadow-xl border border-white/20 relative overflow-hidden">
                   {/* Gradient Background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-5`}></div>
                   

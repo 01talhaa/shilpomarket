@@ -13,31 +13,31 @@ export default function Category({ categories }) {
 
         {/* Auto-scrolling Categories Container */}
         <div className="relative">
-          {/* Gradient Overlays */}
-          <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-gray-50 via-gray-50 to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-gray-50 via-gray-50 to-transparent z-10 pointer-events-none"></div>
+          {/* Gradient Overlays - Hidden on mobile */}
+          <div className="hidden sm:block absolute left-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-r from-gray-50 via-gray-50 to-transparent z-10 pointer-events-none"></div>
+          <div className="hidden sm:block absolute right-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-l from-gray-50 via-gray-50 to-transparent z-10 pointer-events-none"></div>
           
         
           {/* Scrolling Track */}
-          <div className="flex space-x-6 animate-scroll-x hover:[animation-play-state:paused]">
+          <div className="flex space-x-6 animate-scroll-x-mobile sm:animate-scroll-x-fast lg:animate-scroll-x hover:[animation-play-state:paused]">
             {/* First set of categories */}
             {categories.map((category, index) => (
               <Link
                 key={`first-${category.id}`}
                 href={`/categories/${category.name.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`}
-                className="flex-shrink-0 group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-500 cursor-pointer border border-gray-100 hover:-translate-y-2 min-w-[280px]"
+                className="flex-shrink-0 group bg-white rounded-2xl p-3 sm:p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-500 cursor-pointer border border-gray-100 hover:-translate-y-2 min-w-[200px] sm:min-w-[240px] md:min-w-[280px]"
               >
                 <div
-                  className={`w-14 h-14 bg-gradient-to-r ${category.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
+                  className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gradient-to-r ${category.color} rounded-xl flex items-center justify-center mb-2 sm:mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
                 >
-                  <span className="text-2xl">{category.icon}</span>
+                  <span className="text-lg sm:text-xl md:text-2xl">{category.icon}</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-800 mb-1 sm:mb-2 group-hover:text-blue-600 transition-colors">
                   {category.name}
                 </h3>
-                <p className="text-sm text-gray-600 mb-3">{category.description}</p>
+                <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">{category.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-blue-600 font-semibold">{category.count}</span>
+                  <span className="text-xs sm:text-sm text-blue-600 font-semibold">{category.count}</span>
                   <span className="text-blue-600 group-hover:translate-x-2 transition-transform duration-300">→</span>
                 </div>
               </Link>
@@ -48,19 +48,19 @@ export default function Category({ categories }) {
               <Link
                 key={`second-${category.id}`}
                 href={`/categories/${category.name.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`}
-                className="flex-shrink-0 group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-500 cursor-pointer border border-gray-100 hover:-translate-y-2 min-w-[280px]"
+                className="flex-shrink-0 group bg-white rounded-2xl p-3 sm:p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-500 cursor-pointer border border-gray-100 hover:-translate-y-2 min-w-[200px] sm:min-w-[240px] md:min-w-[280px]"
               >
                 <div
-                  className={`w-14 h-14 bg-gradient-to-r ${category.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
+                  className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gradient-to-r ${category.color} rounded-xl flex items-center justify-center mb-2 sm:mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}
                 >
-                  <span className="text-2xl">{category.icon}</span>
+                  <span className="text-lg sm:text-xl md:text-2xl">{category.icon}</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-800 mb-1 sm:mb-2 group-hover:text-blue-600 transition-colors">
                   {category.name}
                 </h3>
-                <p className="text-sm text-gray-600 mb-3">{category.description}</p>
+                <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">{category.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-blue-600 font-semibold">{category.count}</span>
+                  <span className="text-xs sm:text-sm text-blue-600 font-semibold">{category.count}</span>
                   <span className="text-blue-600 group-hover:translate-x-2 transition-transform duration-300">→</span>
                 </div>
               </Link>
