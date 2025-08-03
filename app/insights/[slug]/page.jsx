@@ -1,21 +1,18 @@
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// Mock data for insights
-const insightsData = {
-  "global-steel-prices-rise-15-q4-2024": {
-    id: 1,
-    slug: "global-steel-prices-rise-15-q4-2024",
-    title: "Global Steel Prices Rise 15% in Q4 2024",
-    excerpt: "Market analysis shows significant price increases across all steel categories due to increased demand from construction and automotive sectors...",
-    image: "/placeholder.svg?height=400&width=800",
-    date: "Dec 15, 2024",
-    category: "Market News",
-    readTime: "5 min read",
-    author: "John Smith",
-    trending: true,
+  const insightsData = {
+    "global-steel-prices-rise-15-q4-2024": {
+      id: 1,
+      slug: "global-steel-prices-rise-15-q4-2024",
+      title: "Global Steel Prices Rise 15% in Q4 2024",
+      excerpt: "Market analysis shows significant price increases across all steel categories due to increased demand from construction and automotive sectors...",
+      image: "https://images.unsplash.com/photo-1565728744382-61accd4aa148?w=800&h=400&fit=crop",
+      date: "Dec 15, 2024",
+      category: "Market News",
+      readTime: "5 min read",
+      author: "John Smith",
+      trending: true,
     content: `
       <p>The global steel market has experienced a significant surge in prices during the fourth quarter of 2024, with an average increase of 15% across all major steel categories. This unprecedented rise is primarily attributed to the robust demand from construction and automotive sectors, coupled with supply chain constraints affecting raw material availability.</p>
       
@@ -37,17 +34,17 @@ const insightsData = {
       <p>Looking ahead, the steel industry is expected to adapt through increased production capacity and technological improvements. Companies are investing in more efficient production methods and exploring alternative supply chains to mitigate future price volatility.</p>
     `,
   },
-  "sustainable-raw-materials-future-manufacturing": {
-    id: 2,
-    slug: "sustainable-raw-materials-future-manufacturing",
-    title: "Sustainable Raw Materials: The Future of Manufacturing",
-    excerpt: "How eco-friendly materials are reshaping industrial production and creating new opportunities for suppliers and manufacturers worldwide...",
-    image: "/placeholder.svg?height=400&width=800",
-    date: "Dec 12, 2024",
-    category: "Industry Insights",
-    readTime: "8 min read",
-    author: "Sarah Johnson",
-    trending: false,
+    "sustainable-raw-materials-future-manufacturing": {
+      id: 2,
+      slug: "sustainable-raw-materials-future-manufacturing",
+      title: "Sustainable Raw Materials: The Future of Manufacturing",
+      excerpt: "How eco-friendly materials are reshaping industrial production and creating new opportunities for suppliers and manufacturers worldwide...",
+      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop",
+      date: "Dec 12, 2024",
+      category: "Industry Insights",
+      readTime: "8 min read",
+      author: "Sarah Johnson",
+      trending: false,
     content: `
       <p>The manufacturing industry is undergoing a revolutionary transformation as sustainability becomes a core business imperative. Companies worldwide are increasingly adopting eco-friendly raw materials to reduce their environmental footprint while maintaining operational efficiency.</p>
       
@@ -66,17 +63,17 @@ const insightsData = {
       <p>The sustainable materials market is projected to grow by 35% over the next five years, creating significant opportunities for forward-thinking suppliers and manufacturers.</p>
     `,
   },
-  "new-trade-regulations-impact-raw-material-imports": {
-    id: 3,
-    slug: "new-trade-regulations-impact-raw-material-imports",
-    title: "New Trade Regulations Impact Raw Material Imports",
-    excerpt: "Latest government policies affecting international trade and what suppliers need to know about compliance and documentation requirements...",
-    image: "/placeholder.svg?height=400&width=800",
-    date: "Dec 10, 2024",
-    category: "Regulations",
-    readTime: "6 min read",
-    author: "Michael Chen",
-    trending: true,
+    "new-trade-regulations-impact-raw-material-imports": {
+      id: 3,
+      slug: "new-trade-regulations-impact-raw-material-imports",
+      title: "New Trade Regulations Impact Raw Material Imports",
+      excerpt: "Latest government policies affecting international trade and what suppliers need to know about compliance and documentation requirements...",
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=400&fit=crop",
+      date: "Dec 10, 2024",
+      category: "Regulations",
+      readTime: "6 min read",
+      author: "Michael Chen",
+      trending: true,
     content: `
       <p>Recent changes in international trade regulations are significantly impacting raw material imports, requiring suppliers and manufacturers to adapt their compliance strategies and documentation processes.</p>
       
@@ -234,114 +231,128 @@ export default function InsightDetailPage({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
-      <Header />
-
-      <main className="py-16">
-        <div className="container mx-auto px-4">
-          {/* Breadcrumb */}
-          <nav className="mb-8">
-            <ol className="flex items-center space-x-2 text-sm text-gray-600">
-              <li>
-                <Link href="/" className="hover:text-blue-600">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <span className="mx-2">/</span>
-              </li>
-              <li>
-                <Link href="/insights" className="hover:text-blue-600">
-                  Insights
-                </Link>
-              </li>
-              <li>
-                <span className="mx-2">/</span>
-              </li>
-              <li className="text-gray-400 truncate">{insight.title}</li>
-            </ol>
-          </nav>
-
-          <article className="max-w-4xl mx-auto">
-            {/* Header */}
-            <header className="mb-8">
-              <div className="flex items-center space-x-4 mb-4">
-                <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  {insight.category}
-                </span>
-                {insight.trending && (
-                  <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    🔥 Trending
-                  </span>
-                )}
-              </div>
-
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-                {insight.title}
-              </h1>
-
-              <div className="flex items-center justify-between text-gray-600 mb-6">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium">
-                        {insight.author.split(' ').map(n => n[0]).join('')}
-                      </span>
-                    </div>
-                    <span className="font-medium">{insight.author}</span>
-                  </div>
-                  <span>•</span>
-                  <span>{insight.date}</span>
-                  <span>•</span>
-                  <span>{insight.readTime}</span>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center space-x-3 group">
+              <div className="relative">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                  <span className="text-white font-bold text-sm">🏭</span>
                 </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               </div>
-
-              <div className="relative rounded-2xl overflow-hidden shadow-lg mb-8">
-                <img
-                  src={insight.image}
-                  alt={insight.title}
-                  className="w-full h-64 md:h-96 object-cover"
-                />
+              <div className="text-gray-800">
+                <div className="text-lg font-bold tracking-tight">ShilpoMarket</div>
+                <div className="text-xs text-gray-600 -mt-1">Raw Materials Marketplace</div>
               </div>
-            </header>
+            </Link>
+            <div className="flex items-center space-x-6 text-xs">
+              <span className="text-gray-500">Electronics</span>
+              <span className="text-gray-500">Fashion</span>
+              <span className="text-gray-500">Machinery</span>
+              <span className="text-gray-500">Textiles</span>
+              <span className="text-gray-500">Chemicals</span>
+              <span className="text-gray-500">Agriculture</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            {/* Content */}
-            <div className="prose prose-lg max-w-none">
-              <div
-                className="text-gray-700 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: insight.content }}
+      {/* Breadcrumb */}
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 py-2">
+          <nav className="text-xs text-gray-600">
+            <Link href="/" className="hover:text-blue-600">
+              Home
+            </Link>
+            <span className="mx-2">›</span>
+            <Link href="/insights" className="hover:text-blue-600">
+              Insights
+            </Link>
+            <span className="mx-2">›</span>
+            <span className="text-gray-800 truncate">{insight.title}</span>
+          </nav>
+        </div>
+      </div>
+
+      <main className="max-w-4xl mx-auto px-4 py-6">
+        <article>
+          {/* Header */}
+          <header className="mb-6">
+            <div className="flex items-center space-x-3 mb-3">
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs font-medium">
+                {insight.category}
+              </span>
+              {insight.trending && (
+                <span className="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">
+                  🔥 Trending
+                </span>
+              )}
+            </div>
+
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+              {insight.title}
+            </h1>
+
+            <div className="flex items-center space-x-3 text-gray-600 mb-4">
+              <div className="flex items-center space-x-2">
+                <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
+                  <span className="text-xs font-medium">
+                    {insight.author.split(' ').map(n => n[0]).join('')}
+                  </span>
+                </div>
+                <span className="text-sm font-medium">{insight.author}</span>
+              </div>
+              <span>•</span>
+              <span className="text-sm">{insight.date}</span>
+              <span>•</span>
+              <span className="text-sm">{insight.readTime}</span>
+            </div>
+
+            <div className="relative rounded-lg overflow-hidden shadow-sm mb-6">
+              <img
+                src={insight.image}
+                alt={insight.title}
+                className="w-full h-48 md:h-64 object-cover"
               />
             </div>
+          </header>
 
-            {/* Share & Actions */}
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <span className="text-gray-600">Share this article:</span>
-                  <button className="text-blue-600 hover:text-blue-800 transition-colors">
-                    LinkedIn
-                  </button>
-                  <button className="text-blue-600 hover:text-blue-800 transition-colors">
-                    Twitter
-                  </button>
-                  <button className="text-blue-600 hover:text-blue-800 transition-colors">
-                    Facebook
-                  </button>
-                </div>
-                <Link
-                  href="/insights"
-                  className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
-                >
-                  ← Back to Insights
-                </Link>
+          {/* Content */}
+          <div className="prose prose-sm max-w-none">
+            <div
+              className="text-gray-700 leading-relaxed text-sm"
+              dangerouslySetInnerHTML={{ __html: insight.content }}
+            />
+          </div>
+
+          {/* Share & Actions */}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <span className="text-gray-600 text-sm">Share this article:</span>
+                <button className="text-blue-600 hover:text-blue-800 transition-colors text-sm">
+                  LinkedIn
+                </button>
+                <button className="text-blue-600 hover:text-blue-800 transition-colors text-sm">
+                  Twitter
+                </button>
+                <button className="text-blue-600 hover:text-blue-800 transition-colors text-sm">
+                  Facebook
+                </button>
               </div>
+              <Link
+                href="/insights"
+                className="text-blue-600 hover:text-blue-800 font-medium transition-colors text-sm"
+              >
+                ← Back to Insights
+              </Link>
             </div>
-          </article>
-        </div>
+          </div>
+        </article>
       </main>
-
-      <Footer />
     </div>
   );
 }

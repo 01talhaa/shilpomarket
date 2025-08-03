@@ -13,11 +13,6 @@ export default function Category({ categories }) {
 
         {/* Auto-scrolling Categories Container */}
         <div className="relative">
-          {/* Gradient Overlays - Hidden on mobile */}
-          <div className="hidden sm:block absolute left-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-r from-gray-50 via-gray-50 to-transparent z-10 pointer-events-none"></div>
-          <div className="hidden sm:block absolute right-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-l from-gray-50 via-gray-50 to-transparent z-10 pointer-events-none"></div>
-          
-        
           {/* Scrolling Track */}
           <div className="flex space-x-6 animate-scroll-x-mobile sm:animate-scroll-x-fast lg:animate-scroll-x hover:[animation-play-state:paused]">
             {/* First set of categories */}

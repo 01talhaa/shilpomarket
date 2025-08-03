@@ -6,12 +6,15 @@ import Hero from "../components/Homepage/Hero";
 import States from "../components/Homepage/States";
 import Category from "../components/Homepage/Category";
 import FeaturedProducts from "../components/Homepage/FeaturedProducts";
+// import FeaturedSuppliers from "../components/Homepage/FeaturedSuppliers";
 import FeaturedSuppliers from "../components/Homepage/FeaturedSuppliers";
 import Partners from "../components/Homepage/Partners";
 import Transactions from "../components/Homepage/Transactions";
 import Testimonial from "../components/Homepage/Testimonial";
 import Insights from "../components/Homepage/Insights";
 import Ctc from "../components/Homepage/Ctc";
+import TopSellingProducts from "../components/Homepage/TopSellingProducts";
+import TopCategories from "../components/Homepage/TopCategories";
 
 export default function HomePage() {
   // Data remains in the parent component to be passed as props
@@ -22,7 +25,7 @@ export default function HomePage() {
       supplier: "MetalCorp Industries",
       price: "$1,250/ton",
       originalPrice: "$1,470/ton",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop",
       category: "Metals",
       rating: 4.8,
       reviews: 234,
@@ -38,7 +41,7 @@ export default function HomePage() {
       supplier: "PolyTech Solutions",
       price: "$850/ton",
       originalPrice: "$950/ton",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop",
       category: "Plastics",
       rating: 4.9,
       reviews: 189,
@@ -54,7 +57,7 @@ export default function HomePage() {
       supplier: "EcoTextile Co.",
       price: "$2,100/ton",
       originalPrice: "$2,625/ton",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "https://images.unsplash.com/photo-1516110833967-0b5ee0d1c86c?w=300&h=300&fit=crop",
       category: "Textiles",
       rating: 4.7,
       reviews: 156,
@@ -70,7 +73,7 @@ export default function HomePage() {
       supplier: "AlumTech Industries",
       price: "$1,800/ton",
       originalPrice: "$2,000/ton",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "https://images.unsplash.com/photo-1565206329-ca5961c2d3e8?w=300&h=300&fit=crop",
       category: "Chemicals",
       rating: 4.6,
       reviews: 298,
@@ -137,7 +140,7 @@ export default function HomePage() {
     {
       id: 1,
       name: "MetalCorp Industries",
-      logo: "/placeholder.svg?height=100&width=100",
+      logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop",
       products: 245,
       rating: 4.8,
       location: "USA",
@@ -149,7 +152,7 @@ export default function HomePage() {
     {
       id: 2,
       name: "PolyTech Solutions",
-      logo: "/placeholder.svg?height=100&width=100",
+      logo: "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?w=100&h=100&fit=crop",
       products: 189,
       rating: 4.9,
       location: "Germany",
@@ -161,7 +164,7 @@ export default function HomePage() {
     {
       id: 3,
       name: "EcoTextile Co.",
-      logo: "/placeholder.svg?height=100&width=100",
+      logo: "https://images.unsplash.com/photo-1517677129300-07b130802f46?w=100&h=100&fit=crop",
       products: 156,
       rating: 4.7,
       location: "India",
@@ -173,7 +176,7 @@ export default function HomePage() {
     {
       id: 4,
       name: "ChemCore Ltd.",
-      logo: "/placeholder.svg?height=100&width=100",
+      logo: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=100&h=100&fit=crop",
       products: 298,
       rating: 4.6,
       location: "UK",
@@ -181,6 +184,30 @@ export default function HomePage() {
       specialization: "Industrial Chemicals",
       yearEstablished: "1988",
       employees: "1000+",
+    },
+    {
+      id: 5,
+      name: "BioTech Solutions",
+      logo: "https://images.unsplash.com/photo-1581093804475-577d72e38aa0?w=100&h=100&fit=crop",
+      products: 167,
+      rating: 4.8,
+      location: "Canada",
+      verified: true,
+      specialization: "Biotechnology Materials",
+      yearEstablished: "2015",
+      employees: "100-200",
+    },
+    {
+      id: 6,
+      name: "GreenEnergy Materials",
+      logo: "https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=100&h=100&fit=crop",
+      products: 203,
+      rating: 4.7,
+      location: "Netherlands",
+      verified: true,
+      specialization: "Renewable Energy Components",
+      yearEstablished: "2018",
+      employees: "200-500",
     },
   ];
 
@@ -234,7 +261,7 @@ export default function HomePage() {
       title: "Global Steel Prices Rise 15% in Q4 2024",
       excerpt:
         "Market analysis shows significant price increases across all steel categories due to increased demand from construction and automotive sectors...",
-      image: "/placeholder.svg?height=250&width=400",
+      image: "https://images.unsplash.com/photo-1544473244-f6895e69ad8b?w=400&h=250&fit=crop",
       date: "Dec 15, 2024",
       category: "Market News",
       readTime: "5 min read",
@@ -247,7 +274,7 @@ export default function HomePage() {
       title: "Sustainable Raw Materials: The Future of Manufacturing",
       excerpt:
         "How eco-friendly materials are reshaping industrial production and creating new opportunities for suppliers and manufacturers worldwide...",
-      image: "/placeholder.svg?height=250&width=400",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop",
       date: "Dec 12, 2024",
       category: "Industry Insights",
       readTime: "8 min read",
@@ -260,7 +287,7 @@ export default function HomePage() {
       title: "New Trade Regulations Impact Raw Material Imports",
       excerpt:
         "Latest government policies affecting international trade and what suppliers need to know about compliance and documentation requirements...",
-      image: "/placeholder.svg?height=250&width=400",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop",
       date: "Dec 10, 2024",
       category: "Regulations",
       readTime: "6 min read",
@@ -273,7 +300,7 @@ export default function HomePage() {
       title: "AI-Powered Supply Chain Optimization",
       excerpt:
         "Artificial intelligence is transforming how companies manage their supply chains, reducing costs and improving efficiency across industries...",
-      image: "/placeholder.svg?height=250&width=400",
+      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=250&fit=crop",
       date: "Dec 8, 2024",
       category: "Technology",
       readTime: "7 min read",
@@ -286,7 +313,7 @@ export default function HomePage() {
       title: "Raw Material Shortage: Impact on Global Markets",
       excerpt:
         "Current supply chain disruptions are causing material shortages worldwide, affecting prices and availability across multiple sectors...",
-      image: "/placeholder.svg?height=250&width=400",
+      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=250&fit=crop",
       date: "Dec 5, 2024",
       category: "Market Analysis",
       readTime: "6 min read",
@@ -299,7 +326,7 @@ export default function HomePage() {
       title: "Green Chemistry Revolution in Industrial Production",
       excerpt:
         "Environmental regulations are driving innovation in chemical processes, creating opportunities for sustainable material suppliers...",
-      image: "/placeholder.svg?height=250&width=400",
+      image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=250&fit=crop",
       date: "Dec 3, 2024",
       category: "Sustainability",
       readTime: "9 min read",
@@ -312,7 +339,7 @@ export default function HomePage() {
       title: "Blockchain Technology in Supply Chain Management",
       excerpt:
         "How blockchain is revolutionizing transparency and traceability in raw material sourcing and distribution networks...",
-      image: "/placeholder.svg?height=250&width=400",
+      image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=400&h=250&fit=crop",
       date: "Dec 1, 2024",
       category: "Technology",
       readTime: "5 min read",
@@ -325,7 +352,7 @@ export default function HomePage() {
       title: "Electric Vehicle Boom Drives Metal Demand",
       excerpt:
         "The rapid growth of electric vehicles is creating unprecedented demand for lithium, cobalt, and other essential metals...",
-      image: "/placeholder.svg?height=250&width=400",
+      image: "https://images.unsplash.com/photo-1593941707882-a5bac6861d75?w=400&h=250&fit=crop",
       date: "Nov 28, 2024",
       category: "Industry Trends",
       readTime: "7 min read",
@@ -343,7 +370,7 @@ export default function HomePage() {
       content:
         "RawMart has revolutionized our sourcing process. We've reduced costs by 25% and improved supplier relationships significantly.",
       rating: 5,
-      image: "/placeholder.svg?height=80&width=80",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop",
     },
     {
       id: 2,
@@ -353,7 +380,7 @@ export default function HomePage() {
       content:
         "The platform's verification system gives us confidence in our suppliers. Quality has never been better.",
       rating: 5,
-      image: "/placeholder.svg?height=80&width=80",
+      image: "https://images.unsplash.com/photo-1494790108755-2616b9c90c2d?w=80&h=80&fit=crop",
     },
     {
       id: 3,
@@ -363,7 +390,7 @@ export default function HomePage() {
       content:
         "As a supplier, RawMart has opened doors to global markets we never thought possible. Excellent platform!",
       rating: 5,
-      image: "/placeholder.svg?height=80&width=80",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop",
     },
   ];
 
@@ -418,19 +445,161 @@ export default function HomePage() {
     },
   ];
 
+  const topSellingProducts = [
+    {
+      id: 5,
+      name: "High-Grade Copper Wire",
+      supplier: "ElectroMetal Corp",
+      price: "$3,200/ton",
+      originalPrice: "$3,800/ton",
+      image: "https://images.unsplash.com/photo-1624796274829-1b2b2a3e6d7c?w=300&h=300&fit=crop",
+      category: "Metals",
+      rating: 4.9,
+      reviews: 567,
+      minOrder: "2 tons",
+      discount: "16% OFF",
+      trending: true,
+      inStock: true,
+      fastDelivery: true,
+      salesVolume: "12,450 tons sold",
+      bestSeller: true,
+    },
+    {
+      id: 6,
+      name: "Food Grade Stainless Steel",
+      supplier: "FoodTech Materials",
+      price: "$2,850/ton",
+      originalPrice: "$3,200/ton",
+      image: "https://images.unsplash.com/photo-1565206329-ca5961c2d3e8?w=300&h=300&fit=crop",
+      category: "Metals",
+      rating: 4.8,
+      reviews: 892,
+      minOrder: "3 tons",
+      discount: "11% OFF",
+      trending: false,
+      inStock: true,
+      fastDelivery: true,
+      salesVolume: "8,750 tons sold",
+      bestSeller: true,
+    },
+    {
+      id: 7,
+      name: "Premium Polyethylene Resin",
+      supplier: "PolyMax Industries",
+      price: "$1,150/ton",
+      originalPrice: "$1,350/ton",
+      image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=300&fit=crop",
+      category: "Plastics",
+      rating: 4.7,
+      reviews: 445,
+      minOrder: "5 tons",
+      discount: "15% OFF",
+      trending: true,
+      inStock: true,
+      fastDelivery: false,
+      salesVolume: "15,200 tons sold",
+      bestSeller: true,
+    },
+    {
+      id: 8,
+      name: "Pharmaceutical Grade Titanium",
+      supplier: "MedTech Alloys",
+      price: "$8,900/ton",
+      originalPrice: "$9,800/ton",
+      image: "https://images.unsplash.com/photo-1601972599114-9de5e9771e15?w=300&h=300&fit=crop",
+      category: "Metals",
+      rating: 4.9,
+      reviews: 234,
+      minOrder: "1 ton",
+      discount: "9% OFF",
+      trending: false,
+      inStock: true,
+      fastDelivery: true,
+      salesVolume: "3,450 tons sold",
+      bestSeller: true,
+    },
+  ];
+
+  const topCategories = [
+    {
+      id: 1,
+      name: "Electronics & Components",
+      image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=300&h=300&fit=crop",
+      description: "Semiconductors, circuits, and electronic components for modern technology",
+      rating: 4.8,
+      suppliers: 245,
+      productCount: 2847,
+      subCategories: 15,
+      priceRange: "$50-$5,000",
+      trending: true,
+      featured: true,
+      verified: true,
+      slug: "electronics-components",
+    },
+    {
+      id: 2,
+      name: "Chemicals & Materials",
+      image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=300&h=300&fit=crop",
+      description: "Industrial chemicals, polymers, and advanced materials for manufacturing",
+      rating: 4.7,
+      suppliers: 298,
+      productCount: 3156,
+      subCategories: 22,
+      priceRange: "$100-$8,000",
+      trending: true,
+      featured: false,
+      verified: true,
+      slug: "chemicals-materials",
+    },
+    {
+      id: 3,
+      name: "Metals & Alloys",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=300&fit=crop",
+      description: "Steel, aluminum, copper, and specialty metals for construction and manufacturing",
+      rating: 4.9,
+      suppliers: 189,
+      productCount: 1634,
+      subCategories: 12,
+      priceRange: "$500-$15,000",
+      trending: false,
+      featured: true,
+      verified: true,
+      slug: "metals-alloys",
+    },
+    {
+      id: 4,
+      name: "Textiles & Fabrics",
+      image: "https://images.unsplash.com/photo-1516110833967-0b5ee0d1c86c?w=300&h=300&fit=crop",
+      description: "Cotton, silk, synthetic fabrics, and textile materials for fashion and industry",
+      rating: 4.6,
+      suppliers: 167,
+      productCount: 1923,
+      subCategories: 18,
+      priceRange: "$200-$3,500",
+      trending: false,
+      featured: false,
+      verified: true,
+      slug: "textiles-fabrics",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <Header />
       <Hero />
       <States />
       <Category categories={categories} />
-      <FeaturedProducts featuredProducts={featuredProducts} />
-      <FeaturedSuppliers topCompanies={topCompanies} />
+      <div className="flex flex-col lg:flex-row justify-center gap-8 max-w-auto mx-auto px-4 sm:px-6 lg:px-8 my-16">
+        <FeaturedProducts featuredProducts={featuredProducts} />
+        <FeaturedSuppliers topCompanies={topCompanies} />
+        <TopSellingProducts topSellingProducts={topSellingProducts} />
+        <TopCategories topCategories={topCategories} />
+      </div>
       <Partners partners={partners} />
       <Transactions recentTransactions={recentTransactions} />
       <Testimonial testimonials={testimonials} />
       <Insights newsBlogs={newsBlogs} />
-      <Ctc/>
+      <Ctc />
       <WhatsAppWidget />
     </div>
   );

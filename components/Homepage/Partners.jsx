@@ -15,10 +15,6 @@ const Partners = ({ partners }) => {
 
         {/* Auto-scrolling Partners Container */}
         <div className="relative">
-          {/* Gradient Overlays - Hidden on mobile */}
-          <div className="hidden sm:block absolute left-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-r from-white via-white to-transparent z-10"></div>
-          <div className="hidden sm:block absolute right-0 top-0 w-16 md:w-24 lg:w-32 h-full bg-gradient-to-l from-white via-white to-transparent z-10"></div>
-          
           {/* Scrolling Track */}
           <div className="flex space-x-8 animate-scroll-x-mobile sm:animate-scroll-x-fast lg:animate-scroll-x">
             {/* First set of partners */}

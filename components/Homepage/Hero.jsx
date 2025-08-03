@@ -71,7 +71,7 @@ export default function Hero() {
                 className="group bg-white text-slate-900 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-slate-100 transition-all duration-500 transform hover:scale-105 hover:shadow-xl border border-white/20"
               >
                 <span className="flex items-center justify-center">
-                  � Explore Materials
+                  🔍 Explore Materials
                   <span className="ml-2 group-hover:translate-x-2 transition-transform duration-300">→</span>
                 </span>
               </Link>
@@ -80,8 +80,32 @@ export default function Hero() {
                 className="group glass-effect text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white/10 transition-all duration-500 transform hover:scale-105 hover:shadow-xl border-2 border-white/30"
               >
                 <span className="flex items-center justify-center">
-                  � Find Suppliers
+                  🏪 Find Suppliers
                   <span className="ml-2 group-hover:translate-x-2 transition-transform duration-300">→</span>
+                </span>
+              </Link>
+            </div>
+
+            {/* Join as Seller/Supplier - Sleek Design */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Link
+                href="/auth/signup"
+                className="group relative bg-gradient-to-r from-emerald-500/20 to-green-600/20 backdrop-blur-sm text-white px-6 py-3 rounded-lg font-medium text-sm hover:from-emerald-500/30 hover:to-green-600/30 transition-all duration-500 transform hover:scale-105 border border-emerald-400/30 hover:border-emerald-400/50 hover:shadow-lg hover:shadow-emerald-500/25"
+              >
+                <span className="flex items-center justify-center">
+                  <span className="w-2 h-2 bg-emerald-400 rounded-full mr-2 animate-pulse"></span>
+                  Join as Buyer
+                  <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300 text-emerald-300">↗</span>
+                </span>
+              </Link>
+              <Link
+                href="/auth/signup"
+                className="group relative bg-gradient-to-r from-blue-500/20 to-indigo-600/20 backdrop-blur-sm text-white px-6 py-3 rounded-lg font-medium text-sm hover:from-blue-500/30 hover:to-indigo-600/30 transition-all duration-500 transform hover:scale-105 border border-blue-400/30 hover:border-blue-400/50 hover:shadow-lg hover:shadow-blue-500/25"
+              >
+                <span className="flex items-center justify-center">
+                  <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+                  Join as Supplier
+                  <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300 text-blue-300">↗</span>
                 </span>
               </Link>
             </div>

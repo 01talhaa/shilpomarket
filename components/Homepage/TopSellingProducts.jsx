@@ -2,10 +2,10 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-export default function FeaturedProducts({ featuredProducts }) {
+export default function TopSellingProducts({ topSellingProducts }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 2;
-  const totalPages = Math.ceil(featuredProducts.length / itemsPerPage);
+  const totalPages = Math.ceil(topSellingProducts.length / itemsPerPage);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,29 +17,30 @@ export default function FeaturedProducts({ featuredProducts }) {
     return () => clearInterval(interval);
   }, [totalPages]);
 
-  const currentProducts = featuredProducts.slice(
+  const currentProducts = topSellingProducts.slice(
     currentIndex * itemsPerPage,
     (currentIndex + 1) * itemsPerPage
   );
+  
   return (
     <section className="py-10 bg-white flex-1 rounded-xl shadow-sm border border-gray-100">
       <div className="max-w-lg mx-auto px-6">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-3">
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-              <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center mr-3">
+              <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Featured Products</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Top Selling Products</h2>
           </div>
-          <p className="text-gray-600 text-sm max-w-md mx-auto">Discover premium raw materials from verified suppliers worldwide</p>
-          <div className="mt-4 flex justify-center">
+          <p className="text-gray-600 text-sm max-w-md mx-auto">Most popular products with highest sales volumes</p>
+          <div className="mt-2 flex justify-center">
             <Link
-              href="/products"
+              href="/products?sort=bestselling"
               className="inline-flex items-center px-4 py-2 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 transition-colors text-sm font-medium"
             >
-              View All Products
+              View All Best Sellers
               <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
@@ -48,7 +49,7 @@ export default function FeaturedProducts({ featuredProducts }) {
         </div>
 
         <div className="relative">
-          <div className="space-y-3 h-[580px] ">
+          <div className="space-y-3 h-[580px]">
             {currentProducts.map((product) => (
             <Link key={product.id} href={`/products/${product.id}`}>
             <div className="bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer mb-6">
@@ -59,14 +60,14 @@ export default function FeaturedProducts({ featuredProducts }) {
                   className="w-full h-32 object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                {product.discount && (
-                  <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
-                    {product.discount}
+                {product.bestSeller && (
+                  <div className="absolute top-2 left-2 bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
+                    🏆 Best Seller
                   </div>
                 )}
-                {product.trending && (
-                  <div className="absolute top-2 right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
-                    🔥 Trending
+                {product.discount && (
+                  <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
+                    {product.discount}
                   </div>
                 )}
               </div>
@@ -121,7 +122,7 @@ export default function FeaturedProducts({ featuredProducts }) {
                 onClick={() => setCurrentIndex(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   index === currentIndex 
-                    ? 'bg-blue-600 shadow-lg' 
+                    ? 'bg-slate-600 shadow-lg' 
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
               />
