@@ -2,12 +2,14 @@
 import { useState } from "react"
 import Link from "next/link"
 import Header from "../../../components/Header"
+import { API_ENDPOINTS } from "../../../lib/api"
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
+    accountType: "supplier" // Add account type selection
   })
   const [showPassword, setShowPassword] = useState(false)
 
@@ -18,10 +20,50 @@ export default function LoginPage() {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Handle login logic here
-    console.log("Login attempt:", formData)
+    
+    try {
+      // Determine API endpoint based on account type
+      const apiUrl = formData.accountType === "supplier" 
+        ? API_ENDPOINTS.SUPPLIER_LOGIN()
+        : API_ENDPOINTS.BUYER_LOGIN()
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        alert("Login successful! " + JSON.stringify(result, null, 2))
+        
+        // Store token if provided
+        if (result.token) {
+          localStorage.setItem('token', result.token)
+          localStorage.setItem('userType', formData.accountType)
+        }
+
+        // Redirect based on account type
+        if (formData.accountType === "supplier") {
+          window.location.href = "/seller/dashboard"
+        } else {
+          window.location.href = "/buyer/dashboard"
+        }
+      } else {
+        alert("Login failed: " + (result.message || JSON.stringify(result, null, 2)))
+      }
+    } catch (error) {
+      console.error("Login error:", error)
+      alert("Login failed: " + error.message)
+    }
   }
 
   return (
@@ -40,6 +82,34 @@ export default function LoginPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Account Type Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">Account Type</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <div
+                    onClick={() => handleInputChange("accountType", "supplier")}
+                    className={`border-2 rounded-lg p-3 cursor-pointer transition-colors text-center ${
+                      formData.accountType === "supplier" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <div className="text-2xl mb-1">🏭</div>
+                    <h3 className="font-semibold text-gray-800 text-sm">Supplier</h3>
+                  </div>
+
+                  <div
+                    onClick={() => handleInputChange("accountType", "buyer")}
+                    className={`border-2 rounded-lg p-3 cursor-pointer transition-colors text-center ${
+                      formData.accountType === "buyer"
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <div className="text-2xl mb-1">🛒</div>
+                    <h3 className="font-semibold text-gray-800 text-sm">Buyer</h3>
+                  </div>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                 <input

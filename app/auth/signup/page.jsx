@@ -2,6 +2,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Header from "../../../components/Header"
+import { API_ENDPOINTS } from "../../../lib/api"
 
 export default function SignupPage() {
   const [step, setStep] = useState(1)
@@ -17,6 +18,7 @@ export default function SignupPage() {
 
     // Company Info
     companyName: "",
+    tradeLicense: "",
     companyType: "",
     industry: "",
     website: "",
@@ -55,10 +57,74 @@ export default function SignupPage() {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Handle signup logic here
-    console.log("Signup attempt:", { accountType, ...formData })
+    
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords don't match!")
+      return
+    }
+
+    // Basic form validation
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
+      alert("Please fill in all required fields!")
+      return
+    }
+
+    try {
+      // Determine API endpoint based on account type
+      const apiUrl = accountType === "supplier" 
+        ? API_ENDPOINTS.SUPPLIER_SIGNUP()
+        : API_ENDPOINTS.BUYER_SIGNUP() 
+        ? `${apiBaseUrl}/api/suppliers/signup`
+        : `${apiBaseUrl}/api/buyers/signup`
+
+      // Prepare data according to API structure
+      const apiData = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        companyName: formData.companyName,
+        tradeLicense: formData.tradeLicense,
+        companyType: formData.companyType,
+        industry: formData.industry,
+        website: formData.website,
+        employeeCount: formData.employeeCount,
+        address: formData.address,
+      }
+
+      // Add account-specific fields
+      if (accountType === "supplier") {
+        apiData.interestedCategories = formData.interestedCategories
+      } else {
+        apiData.annualRevenueRange = formData.annualRevenue
+      }
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(apiData)
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        alert("Signup successful! " + JSON.stringify(result, null, 2))
+        // Redirect to login or dashboard
+        window.location.href = "/auth/login"
+      } else {
+        alert("Signup failed: " + (result.message || JSON.stringify(result, null, 2)))
+      }
+    } catch (error) {
+      console.error("Signup error:", error)
+      alert("Signup failed: " + error.message)
+    }
   }
 
   const categories = [
@@ -72,7 +138,7 @@ export default function SignupPage() {
     "Energy & Fuel",
   ]
 
-  const companyTypes = ["Manufacturer", "Distributor", "Retailer", "Trading Company", "Service Provider", "Other"]
+  const companyTypes = ["private_limited", "public_limited", "partnership", "sole_proprietorship", "cooperative", "other"]
 
   const industries = [
     "Automotive",
@@ -264,6 +330,18 @@ export default function SignupPage() {
                       value={formData.companyName}
                       onChange={(e) => handleInputChange("companyName", e.target.value)}
                       className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Trade License</label>
+                    <input
+                      type="text"
+                      value={formData.tradeLicense}
+                      onChange={(e) => handleInputChange("tradeLicense", e.target.value)}
+                      className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="TL-2025-XXXXXX"
                       required
                     />
                   </div>

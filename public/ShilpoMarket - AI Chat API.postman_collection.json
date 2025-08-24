@@ -1,0 +1,513 @@
+{
+	"info": {
+		"_postman_id": "d2f88824-eb0b-486a-b5bb-af3895159859",
+		"name": "ShilpoMarket - AI Chat API",
+		"description": "Comprehensive testing collection for ShilpoMarket AI Chat system with intelligent B2B marketplace assistant",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32552694"
+	},
+	"item": [
+		{
+			"name": "1. AI Chat Conversations",
+			"item": [
+				{
+					"name": "Send Message - General Inquiry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Hello! What is ShilpoMarket and how can it help my business?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": null\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message - Supplier Inquiry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"I'm looking for textile suppliers in Bangladesh. Can you help me find reliable manufacturers?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1,\n  \"user_type\": \"buyer\"\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message - Product Categories",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"What product categories are available on ShilpoMarket? I need electronic components.\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message - Order Process",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"How does the ordering process work? What are the payment options?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message - Market Insights",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Can you provide market insights for the electronics industry in Bangladesh?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message - Supplier Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"I want to register as a supplier. What documents do I need and what's the verification process?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 2,\n  \"user_type\": \"supplier\"\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Product & Supplier Inquiries",
+			"item": [
+				{
+					"name": "Ask About Specific Products",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Show me suppliers who sell smartphones and mobile accessories. I need bulk quantities.\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Ask About Construction Materials",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"I need construction materials - cement, steel, bricks. Which suppliers can provide these?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Ask About Food & Beverage",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Looking for food and beverage suppliers for my restaurant chain. What options are available?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Business Operations",
+			"item": [
+				{
+					"name": "Ask About Transaction History",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"How can I track my order history and transaction records on ShilpoMarket?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Ask About Platform Statistics",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Can you show me platform statistics? How many suppliers and buyers are registered?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Ask About Company Verification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"What is the company verification process? How do I know if a supplier is verified?\",\n  \"session_id\": \"{{sessionId}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Session Management",
+			"item": [
+				{
+					"name": "Get Chat History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/ai_chat/session/{{sessionId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat History with Pagination",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ai_chat/session/{{sessionId}}?limit=10&offset=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ai_chat",
+								"session",
+								"{{sessionId}}"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clear Chat History",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseUrl}}/api/ai_chat/session/{{sessionId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Industry-Specific Inquiries",
+			"item": [
+				{
+					"name": "Textile Industry Inquiry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"I'm interested in the textile industry. What types of garment manufacturers are on your platform?\",\n  \"session_id\": \"textile_inquiry_{{$randomInt}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Automotive Parts Inquiry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Looking for automotive parts suppliers - engine components, brakes, electrical parts. Who can I contact?\",\n  \"session_id\": \"automotive_inquiry_{{$randomInt}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Electronics Wholesale Inquiry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"I want to buy electronics in bulk - laptops, tablets, home appliances. What are the minimum order quantities?\",\n  \"session_id\": \"electronics_inquiry_{{$randomInt}}\",\n  \"user_id\": 1\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Error Handling Tests",
+			"item": [
+				{
+					"name": "Send Empty Message (Should Fail)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"\",\n  \"session_id\": \"{{sessionId}}\"\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Send Message Without Session ID (Should Fail)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"This should fail\"\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Get History for Invalid Session",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/ai_chat/session/invalid_session_id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7. Multi-Session Testing",
+			"item": [
+				{
+					"name": "New Session - Buyer Inquiry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Hi, I'm a new buyer looking to source products for my retail business. How do I get started?\",\n  \"session_id\": \"buyer_session_{{$randomInt}}\",\n  \"user_id\": 10,\n  \"user_type\": \"buyer\"\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "New Session - Supplier Inquiry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"I'm a manufacturer wanting to list my products on ShilpoMarket. What's the onboarding process?\",\n  \"session_id\": \"supplier_session_{{$randomInt}}\",\n  \"user_id\": 20,\n  \"user_type\": \"supplier\"\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				},
+				{
+					"name": "Anonymous Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"I'm just browsing. Can you tell me about ShilpoMarket without me signing up?\",\n  \"session_id\": \"anonymous_session_{{$randomInt}}\"\n}"
+						},
+						"url": "{{baseUrl}}/api/ai_chat"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Generate a unique session ID for testing",
+					"if (!pm.globals.get('testSessionId')) {",
+					"    pm.globals.set('testSessionId', 'test_session_' + Date.now());",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test('Response has success field', function () {",
+					"    const jsonData = pm.response.json();",
+					"    pm.expect(jsonData).to.have.property('success');",
+					"});",
+					"",
+					"pm.test('Response time is acceptable', function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(10000);",
+					"});",
+					"",
+					"if (pm.response.json().success) {",
+					"    pm.test('Successful response structure', function () {",
+					"        const jsonData = pm.response.json();",
+					"        if (jsonData.data && jsonData.data.ai_text) {",
+					"            pm.expect(jsonData.data.ai_text).to.be.a('string');",
+					"            pm.expect(jsonData.data.ai_text.length).to.be.above(0);",
+					"        }",
+					"    });",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "sessionId",
+			"value": "session_{{$randomUUID}}"
+		}
+	]
+}

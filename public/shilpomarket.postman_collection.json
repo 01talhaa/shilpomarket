@@ -1,0 +1,1973 @@
+{
+	"info": {
+		"_postman_id": "0aec8e62-49b1-4cb9-a650-7de42a771985",
+		"name": "shilpomarket",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32552694"
+	},
+	"item": [
+		{
+			"name": "suppliers",
+			"item": [
+				{
+					"name": "supplier signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"John\",\r\n  \"lastName\": \"Doe\",\r\n  \"email\": \"john.doe1@company.com\",\r\n  \"phone\": \"01712345678\",\r\n  \"password\": \"securePassword123\",\r\n  \"confirmPassword\": \"securePassword123\",\r\n  \"companyName\": \"Tech Solutions Ltd\",\r\n  \"tradeLicense\": \"TL-2025-001235\",\r\n  \"companyType\": \"private_limited\",\r\n  \"industry\": \"Technology\",\r\n  \"website\": \"https://techsolutions.com\",\r\n  \"employeeCount\": \"11-50\",\r\n  \"address\": \"123 Main Street, Dhaka, Bangladesh\",\r\n  \"interestedCategories\": [1, 2]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/suppliers/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "supplier login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john.doe1@company.com\",\r\n  \"password\": \"securePassword123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/suppliers/login"
+					},
+					"response": []
+				},
+				{
+					"name": "get all suppliers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/suppliers"
+					},
+					"response": []
+				},
+				{
+					"name": "get supplier by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3001/api/suppliers/2"
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5ODI3NzcsImV4cCI6MTc1NTA2OTE3N30.vSEhm-1sxH0Y5o74_rEJEKhAYUNizgWpNX7A0SZsQmI"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:3000/api/suppliers/me"
+					},
+					"response": []
+				},
+				{
+					"name": "upload image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5ODI3NzcsImV4cCI6MTc1NTA2OTE3N30.vSEhm-1sxH0Y5o74_rEJEKhAYUNizgWpNX7A0SZsQmI"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profileImage",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 151702.png"
+								}
+							]
+						},
+						"url": "http://localhost:3000/api/suppliers/upload-profile-image"
+					},
+					"response": []
+				},
+				{
+					"name": "get image",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5ODI3NzcsImV4cCI6MTc1NTA2OTE3N30.vSEhm-1sxH0Y5o74_rEJEKhAYUNizgWpNX7A0SZsQmI"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profileImage",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 151702.png"
+								}
+							]
+						},
+						"url": "http://localhost:3000/api/suppliers/profile-image"
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJqb2huLmRvZTMzMUBjb21wYW55LmNvbSIsInR5cGUiOiJzdXBwbGllciIsImlhdCI6MTc1NDk4MzUyNywiZXhwIjoxNzU1MDY5OTI3fQ.FgXqO0R1_Q85gtJsPRyT-H_zJx4DczLCzv8IlCRr2oA"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"currentPassword\": \"securePassword123\",\r\n  \"newPassword\": \"newSecurePassword456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/suppliers/change-password"
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJqb2huLmRvZTMzMUBjb21wYW55LmNvbSIsInR5cGUiOiJzdXBwbGllciIsImlhdCI6MTc1NDk4MzUyNywiZXhwIjoxNzU1MDY5OTI3fQ.FgXqO0R1_Q85gtJsPRyT-H_zJx4DczLCzv8IlCRr2oA"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john.doe331@company.com\",\r\n  \"resetToken\": \"849253\",\r\n  \"newPassword\": \"newSecurePassword789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/suppliers/reset-password"
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john.doe331@company.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/suppliers/forgot-password"
+					},
+					"response": []
+				},
+				{
+					"name": "delete supplier",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3001/api/suppliers/2"
+					},
+					"response": []
+				},
+				{
+					"name": "edit supplier",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"John Doe Updated\",\r\n  \"phone\": \"01712345679\",\r\n  \"companyName\": \"Tech Solutions Ltd Updated\",\r\n  \"companyType\": \"public_limited\",\r\n  \"address\": \"123 Updated Street, Dhaka, Bangladesh\",\r\n  \"website\": \"https://techsolutions-updated.com\",\r\n  \"employeeCount\": \"201-500\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3001/api/suppliers/2"
+					},
+					"response": []
+				},
+				{
+					"name": "get categories for signup",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3001/api/suppliers/categories"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "buyers",
+			"item": [
+				{
+					"name": "buyer signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Jane\",\r\n  \"lastName\": \"Smith\", \r\n  \"email\": \"jane.smith@buyercompany.com\",\r\n  \"phone\": \"01787654321\",\r\n  \"password\": \"securePassword123\",\r\n  \"confirmPassword\": \"securePassword123\",\r\n  \"companyName\": \"Global Trading Ltd\",\r\n  \"tradeLicense\": \"TL-2025-005678\",\r\n  \"companyType\": \"private_limited\",\r\n  \"industry\": \"Import/Export\",\r\n  \"website\": \"https://globaltrading.com\",\r\n  \"employeeCount\": \"51-200\", \r\n  \"address\": \"456 Business Avenue, Dhaka, Bangladesh\",\r\n  \"annualRevenueRange\": \"1M-5M\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3001/api/buyers/signup"
+					},
+					"response": []
+				},
+				{
+					"name": "buyer login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"jane.smith@buyercompany.com\",\r\n  \"password\": \"securePassword123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3001/api/buyers/login"
+					},
+					"response": []
+				},
+				{
+					"name": "get all buyers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3001/api/buyers"
+					},
+					"response": []
+				},
+				{
+					"name": "get buyer by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3001/api/buyers/1"
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqYW5lLnNtaXRoMzJAYnV5ZXJjb21wYW55LmNvbSIsInR5cGUiOiJidXllciIsImlhdCI6MTc1NDk4MzA5MCwiZXhwIjoxNzU1MDY5NDkwfQ.Owp0ZqQotXx0uIlWfWsiRKqKg09rS-pzH8_7JGOWaT8"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:3000/api/buyers/me"
+					},
+					"response": []
+				},
+				{
+					"name": "upload image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqYW5lLnNtaXRoMzJAYnV5ZXJjb21wYW55LmNvbSIsInR5cGUiOiJidXllciIsImlhdCI6MTc1NDk4MzA5MCwiZXhwIjoxNzU1MDY5NDkwfQ.Owp0ZqQotXx0uIlWfWsiRKqKg09rS-pzH8_7JGOWaT8"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profileImage",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-04 165811.png"
+								}
+							]
+						},
+						"url": "http://localhost:3000/api/buyers/upload-profile-image"
+					},
+					"response": []
+				},
+				{
+					"name": "get image",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqYW5lLnNtaXRoMzJAYnV5ZXJjb21wYW55LmNvbSIsInR5cGUiOiJidXllciIsImlhdCI6MTc1NDk4MzA5MCwiZXhwIjoxNzU1MDY5NDkwfQ.Owp0ZqQotXx0uIlWfWsiRKqKg09rS-pzH8_7JGOWaT8"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profileImage",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-04 165811.png"
+								}
+							]
+						},
+						"url": "http://localhost:3000/api/buyers/profile-image"
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqYW5lLnNtaXRoMzJAYnV5ZXJjb21wYW55LmNvbSIsInR5cGUiOiJidXllciIsImlhdCI6MTc1NDk4MzA5MCwiZXhwIjoxNzU1MDY5NDkwfQ.Owp0ZqQotXx0uIlWfWsiRKqKg09rS-pzH8_7JGOWaT8"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"currentPassword\": \"securePassword123\",\r\n  \"newPassword\": \"newSecurePassword456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/buyers/change-password"
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqYW5lLnNtaXRoMzJAYnV5ZXJjb21wYW55LmNvbSIsInR5cGUiOiJidXllciIsImlhdCI6MTc1NDk4MzA5MCwiZXhwIjoxNzU1MDY5NDkwfQ.Owp0ZqQotXx0uIlWfWsiRKqKg09rS-pzH8_7JGOWaT8"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"jane.smith32@buyercompany.com\",\r\n  \"resetToken\": \"274314\",\r\n  \"newPassword\": \"newSecurePassword789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/buyers/reset-password"
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqYW5lLnNtaXRoMzJAYnV5ZXJjb21wYW55LmNvbSIsInR5cGUiOiJidXllciIsImlhdCI6MTc1NDk4MzA5MCwiZXhwIjoxNzU1MDY5NDkwfQ.Owp0ZqQotXx0uIlWfWsiRKqKg09rS-pzH8_7JGOWaT8"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {token}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"jane.smith32@buyercompany.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/buyers/forgot-password"
+					},
+					"response": []
+				},
+				{
+					"name": "delete buyer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3001/api/buyers/1"
+					},
+					"response": []
+				},
+				{
+					"name": "edit buyer",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Jane Smith Updated2\",\r\n  \"phone\": \"01787654322\",\r\n  \"companyName\": \"Global Trading Ltd Updated\",\r\n  \"companyType\": \"public_limited\",\r\n  \"address\": \"456 Updated Business Avenue, Dhaka, Bangladesh\",\r\n  \"website\": \"https://globaltrading-updated.com\",\r\n  \"employeeCount\": \"501-1000\",\r\n  \"annualRevenueRange\": \"5M-10M\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3001/api/buyers/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "upload products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5OTE2OTMsImV4cCI6MTc1NTA3ODA5M30.zf9MN4EVX2JtVn9Q4HvZavxB6tSSGHoNfgZTdFSgOqQ"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{supplierToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "test name",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "test description",
+									"type": "text"
+								},
+								{
+									"key": "supplier_id",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "child_category_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "minimal_order_amount",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "price_per_unit",
+									"value": "200",
+									"type": "text"
+								},
+								{
+									"key": "discount_percentage",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "estimated_delivery_time",
+									"value": "2 days",
+									"type": "text"
+								},
+								{
+									"key": "refund_policy",
+									"value": "30 days",
+									"type": "text"
+								},
+								{
+									"key": "after_sale_support",
+									"value": "30 days",
+									"type": "text"
+								},
+								{
+									"key": "specifications",
+									"value": "{\"processor\": \"A17 Pro chip\", \"ram\": \"8GB\", \"storage\": \"256GB\", \"display\": \"6.7-inch Super Retina XDR\", \"camera\": \"48MP Main + 12MP Ultra Wide + 12MP Telephoto\", \"battery\": \"Up to 29 hours video playback\", \"connectivity\": \"5G, Wi-Fi 6E, Bluetooth 5.3\", \"os\": \"iOS 17\", \"materials\": \"Titanium frame, Ceramic Shield front\", \"colors\": \"Natural, Blue, White, Black\", \"water_resistance\": \"IP68\", \"charging\": \"USB-C, MagSafe, Qi wireless\"}",
+									"type": "text"
+								},
+								{
+									"key": "delivery_options",
+									"value": "{\"standard\": \"5-7 days\", \"express\": \"2-3 days\"}",
+									"type": "text"
+								},
+								{
+									"key": "display_image",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 123103.png"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": [
+										"/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 151712.png",
+										"/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 151702.png",
+										"/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 151641.png",
+										"/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 123103.png"
+									]
+								}
+							]
+						},
+						"url": "{{baseUrl}}/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "upload products Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5OTE2OTMsImV4cCI6MTc1NTA3ODA5M30.zf9MN4EVX2JtVn9Q4HvZavxB6tSSGHoNfgZTdFSgOqQ"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{supplierToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "test name 420",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "test description",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "supplier_id",
+									"value": "7",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "child_category_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "quantity",
+									"value": "100",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "minimal_order_amount",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "price_per_unit",
+									"value": "200",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "discount_percentage",
+									"value": "10",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "estimated_delivery_time",
+									"value": "2 days",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "refund_policy",
+									"value": "30 days",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "after_sale_support",
+									"value": "30 days",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "specifications",
+									"value": "{\"processor\": \"A17 Pro chip\", \"ram\": \"8GB\", \"storage\": \"256GB\", \"display\": \"6.7-inch Super Retina XDR\", \"camera\": \"48MP Main + 12MP Ultra Wide + 12MP Telephoto\", \"battery\": \"Up to 29 hours video playback\", \"connectivity\": \"5G, Wi-Fi 6E, Bluetooth 5.3\", \"os\": \"iOS 17\", \"materials\": \"Titanium frame, Ceramic Shield front\", \"colors\": \"Natural, Blue, White, Black\", \"water_resistance\": \"IP68\", \"charging\": \"USB-C, MagSafe, Qi wireless\"}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "delivery_options",
+									"value": "{\"standard\": \"5-7 days\", \"express\": \"2-3 days\"}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "display_image",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 123103.png",
+									"disabled": true
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": [
+										"/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 151712.png",
+										"/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 151702.png",
+										"/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 151641.png",
+										"/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-08-12 123103.png"
+									],
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{baseUrl}}/api/products/13"
+					},
+					"response": []
+				},
+				{
+					"name": "get products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products?limit=5&category_id=1&sort_by=created_at&sort_order=DESC",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "category_id",
+									"value": "1"
+								},
+								{
+									"key": "sort_by",
+									"value": "created_at"
+								},
+								{
+									"key": "sort_order",
+									"value": "DESC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "featured products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/products/featured"
+					},
+					"response": []
+				},
+				{
+					"name": "trending products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/products/trending"
+					},
+					"response": []
+				},
+				{
+					"name": "search products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products/search?q=smartphone&limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "smartphone"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/products/13"
+					},
+					"response": []
+				},
+				{
+					"name": "get my product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5OTE2OTMsImV4cCI6MTc1NTA3ODA5M30.zf9MN4EVX2JtVn9Q4HvZavxB6tSSGHoNfgZTdFSgOqQ"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{supplierToken}}",
+								"type": "text"
+							},
+							{
+								"key": "limit",
+								"value": "10",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "is_featured",
+								"value": "true",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "{{baseUrl}}/api/products/my/products"
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5OTE2OTMsImV4cCI6MTc1NTA3ODA5M30.zf9MN4EVX2JtVn9Q4HvZavxB6tSSGHoNfgZTdFSgOqQ"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{supplierToken}}",
+								"type": "text"
+							}
+						],
+						"url": "{{baseUrl}}/api/products/13"
+					},
+					"response": []
+				},
+				{
+					"name": "delete product images",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5OTE2OTMsImV4cCI6MTc1NTA3ODA5M30.zf9MN4EVX2JtVn9Q4HvZavxB6tSSGHoNfgZTdFSgOqQ"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{supplierToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"image_url\": \"https://res.cloudinary.com/dmhwqfotb/image/upload/v1754998932/shilpomarket/products/12/gallery/fn1d1eoqueia7xqcmzez.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/products/12/images"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "include_inactive",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get categories by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/categories/5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"5"
+							],
+							"query": [
+								{
+									"key": "include_inactive",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/categories/search?q=electronics",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"search"
+							],
+							"query": [
+								{
+									"key": "include_inactive",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "q",
+									"value": "electronics"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all children categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/categories/5/children",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"5",
+								"children"
+							],
+							"query": [
+								{
+									"key": "include_inactive",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get category tree",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/categories/tree",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"tree"
+							],
+							"query": [
+								{
+									"key": "include_inactive",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get root categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/categories/roots",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"roots"
+							],
+							"query": [
+								{
+									"key": "include_inactive",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5OTE2OTMsImV4cCI6MTc1NTA3ODA5M30.zf9MN4EVX2JtVn9Q4HvZavxB6tSSGHoNfgZTdFSgOqQ"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "car horn",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Electronic devices and gadgets",
+									"type": "text"
+								},
+								{
+									"key": "display_image",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-07-15 190159.png"
+								},
+								{
+									"key": "sort_order",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "parent_category_id",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{baseUrl}}/api/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "edit categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5OTE2OTMsImV4cCI6MTc1NTA3ODA5M30.zf9MN4EVX2JtVn9Q4HvZavxB6tSSGHoNfgZTdFSgOqQ"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "car horn2",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Electronic devices and gadgets",
+									"type": "text"
+								},
+								{
+									"key": "display_image",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-07-15 190159.png"
+								},
+								{
+									"key": "sort_order",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "parent_category_id",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "is_active",
+									"value": "false",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{baseUrl}}/api/categories/7"
+					},
+					"response": []
+				},
+				{
+					"name": "edit categories Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJqb2huLmRvZTFAY29tcGFueS5jb20iLCJ0eXBlIjoic3VwcGxpZXIiLCJpYXQiOjE3NTQ5OTE2OTMsImV4cCI6MTc1NTA3ODA5M30.zf9MN4EVX2JtVn9Q4HvZavxB6tSSGHoNfgZTdFSgOqQ"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "car horn2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "Electronic devices and gadgets",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "display_image",
+									"type": "file",
+									"src": "/C:/Users/User/OneDrive/Pictures/Screenshots 1/Screenshot 2025-07-15 190159.png",
+									"disabled": true
+								},
+								{
+									"key": "sort_order",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "parent_category_id",
+									"value": "5",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "is_active",
+									"value": "false",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{baseUrl}}/api/categories/7"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "insights",
+			"item": [
+				{
+					"name": "1. Insight Management",
+					"item": [
+						{
+							"name": "Create Insight",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "The Future of E-commerce in Bangladesh",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "E-commerce in Bangladesh is experiencing unprecedented growth, driven by increased internet penetration and mobile adoption...",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "Market Analysis",
+											"type": "text"
+										},
+										{
+											"key": "tags",
+											"value": "[\"ecommerce\", \"bangladesh\", \"market\", \"growth\"]",
+											"type": "text"
+										},
+										{
+											"key": "is_featured",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "is_published",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "display_image",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": "{{baseUrl}}/api/insights"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Technology Insight",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "AI Revolution in Supply Chain Management",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "Artificial Intelligence is transforming how businesses manage their supply chains, offering unprecedented visibility and optimization opportunities...",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "Technology",
+											"type": "text"
+										},
+										{
+											"key": "tags",
+											"value": "[\"AI\", \"supply-chain\", \"automation\", \"efficiency\"]",
+											"type": "text"
+										},
+										{
+											"key": "author",
+											"value": "Dr. Sarah Ahmed",
+											"type": "text"
+										},
+										{
+											"key": "is_featured",
+											"value": "false",
+											"type": "text"
+										},
+										{
+											"key": "display_image",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": "{{baseUrl}}/api/insights"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "2. Public Insight Retrieval",
+					"item": [
+						{
+							"name": "Get All Insights",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseUrl}}/api/insights"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Insights with Filters",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/insights?category=Market Analysis&limit=10&sort_by=date&sort_order=DESC",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"insights"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "Market Analysis"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "sort_by",
+											"value": "date"
+										},
+										{
+											"key": "sort_order",
+											"value": "DESC"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Insights with Search",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/insights?search=ecommerce&limit=5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"insights"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "ecommerce"
+										},
+										{
+											"key": "limit",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Insights with Pagination",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/insights?limit=10&offset=20",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"insights"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "offset",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Insight by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseUrl}}/api/insights/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "3. Featured & Recent Insights",
+					"item": [
+						{
+							"name": "Get Featured Insights",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseUrl}}/api/insights/featured"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Featured Insights Limited",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/insights/featured?limit=3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"insights",
+										"featured"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Recent Insights",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseUrl}}/api/insights/recent"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Recent Insights Limited",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/insights/recent?limit=5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"insights",
+										"recent"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "4. Category & Search",
+					"item": [
+						{
+							"name": "Get Insights by Category",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseUrl}}/api/insights/category/Market Analysis"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Insights by Category Limited",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/insights/category/Technology?limit=5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"insights",
+										"category",
+										"Technology"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search Insights",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/insights/search?q=market",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"insights",
+										"search"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "market"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search Insights with Limit",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/insights/search?q=digital transformation&limit=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"insights",
+										"search"
+									],
+									"query": [
+										{
+											"key": "q",
+											"value": "digital transformation"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "5. Statistics & Categories",
+					"item": [
+						{
+							"name": "Get Insights Statistics",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseUrl}}/api/insights/stats"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Insight Categories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{baseUrl}}/api/insights/categories"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "6. Admin Operations",
+					"item": [
+						{
+							"name": "Get All Insights (Admin)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": "{{baseUrl}}/api/insights/admin/all"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Admin Insights with Filters",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/insights/admin/all?is_published=false&category=Market Analysis",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"insights",
+										"admin",
+										"all"
+									],
+									"query": [
+										{
+											"key": "is_published",
+											"value": "false"
+										},
+										{
+											"key": "category",
+											"value": "Market Analysis"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "7. Insight Updates",
+					"item": [
+						{
+							"name": "Update Insight",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "Updated: The Future of E-commerce in Bangladesh",
+											"type": "text"
+										},
+										{
+											"key": "content",
+											"value": "Updated content with new information about the evolving e-commerce landscape...",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "Market Analysis",
+											"type": "text"
+										},
+										{
+											"key": "tags",
+											"value": "[\"ecommerce\", \"bangladesh\", \"market\", \"growth\", \"2025\"]",
+											"type": "text"
+										},
+										{
+											"key": "is_featured",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "display_image",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": "{{baseUrl}}/api/insights/1"
+							},
+							"response": []
+						},
+						{
+							"name": "Toggle Featured Status",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": "{{baseUrl}}/api/insights/1/featured"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "8. Insight Deletion",
+					"item": [
+						{
+							"name": "Soft Delete (Unpublish)",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": "{{baseUrl}}/api/insights/2/unpublish"
+							},
+							"response": []
+						},
+						{
+							"name": "Hard Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": "{{baseUrl}}/api/insights/2"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
