@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import Link from "next/link"
+import ProductHeader from "../../../components/ProductHeader"
 
 export default function ProductDetailPage({ params }) {
   const [selectedImage, setSelectedImage] = useState(0)
@@ -88,50 +89,25 @@ export default function ProductDetailPage({ params }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 py-2">
-          <div className="flex items-center justify-between">
-                          <Link href="/" className="flex items-center space-x-3 group">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <span className="text-white font-bold text-sm">🏭</span>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                </div>
-                <div className="text-gray-800">
-                  <div className="text-lg font-bold tracking-tight">ShilpoMarket</div>
-                  <div className="text-xs text-gray-600 -mt-1">Raw Materials Marketplace</div>
-                </div>
+      <ProductHeader />
+      
+      <div className="pt-20">
+        {/* Breadcrumb */}
+        <div className="bg-white border-b">
+          <div className="max-w-7xl mx-auto px-4 py-2">
+            <nav className="text-xs text-gray-600">
+              <Link href="/" className="hover:text-blue-600">
+                Home
               </Link>
-            <div className="flex items-center space-x-6 text-xs">
-              <span className="text-gray-500">Electronics</span>
-              <span className="text-gray-500">Fashion</span>
-              <span className="text-gray-500">Machinery</span>
-              <span className="text-gray-500">Textiles</span>
-              <span className="text-gray-500">Chemicals</span>
-              <span className="text-gray-500">Agriculture</span>
-            </div>
+              <span className="mx-2">›</span>
+              <Link href="/products" className="hover:text-blue-600">
+                Products
+              </Link>
+              <span className="mx-2">›</span>
+              <span className="text-gray-800">{product.name}</span>
+            </nav>
           </div>
         </div>
-      </div>
-
-      {/* Breadcrumb */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 py-2">
-          <nav className="text-xs text-gray-600">
-            <Link href="/" className="hover:text-blue-600">
-              Home
-            </Link>
-            <span className="mx-2">›</span>
-            <Link href="/products" className="hover:text-blue-600">
-              Products
-            </Link>
-            <span className="mx-2">›</span>
-            <span className="text-gray-800">{product.name}</span>
-          </nav>
-        </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -400,6 +376,7 @@ export default function ProductDetailPage({ params }) {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </div>
   )

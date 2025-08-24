@@ -1,5 +1,6 @@
 
 import "./globals.css"
+import Chatbot from "../components/Chatbot"
 
 const SEO = {
   title: "ShilpoMarket - B2B Raw Materials Trading Platform | Shilpo Market | Suppliers, Buyers, Manufacturers, Exporters, Importers, Distributors, Wholesalers, Retailers, Agents, Brokers, Sourcing, Procurement, Bulk, OEM, Supplier Directory, Verified Sellers, Secure Payments, Fast Delivery, Best Prices, Quality Assurance, Sustainable, Eco-friendly, Textile, Chemicals, Metals, Plastics, Agriculture, Construction, Electronics, Machinery, Packaging, Logistics, Supply Chain, Business, Commerce, Trade, Procurement, Distribution, Retail, Global, International, Professional, Trusted, Reliable, Modern, 2025, Latest, Advanced, Updated, Trending, Top, Popular, Search, Find, Discover, Connect, Network, Platform, Portal, Solutions, Services, Opportunities, Deals, Offers, Discounts, B2B Platform, Raw Materials Trading, ShilpoMarket, Shilpo Market, Marketplace, Industrial, Manufacturing, Export, Import, Sourcing, Bulk, OEM, Supplier Directory, Verified Sellers, Secure Payments, Fast Delivery, Best Prices, Quality Assurance, Sustainable, Eco-friendly, Textile, Chemicals, Metals, Plastics, Agriculture, Construction, Electronics, Machinery, Packaging, Logistics, Supply Chain, Business, Commerce, Trade, Procurement, Distribution, Retail, Global, International, Professional, Trusted, Reliable, Modern, 2025, Latest, Advanced, Updated, Trending, Top, Popular, Search, Find, Discover, Connect, Network, Platform, Portal, Solutions, Services, Opportunities, Deals, Offers, Discounts, B2B Platform, Raw Materials Trading, ShilpoMarket, MSME, SME, Enterprise, Startup, E-commerce, Digital Marketplace, Online Trading, B2B E-commerce, B2B Portal, B2B Network, B2B Directory, B2B Suppliers, B2B Buyers, B2B Products, B2B Services, B2B Solutions, B2B Opportunities, B2B Deals, B2B Offers, B2B Discounts, B2B Wholesale, B2B Retail, B2B Export, B2B Import, B2B Sourcing, B2B Procurement, B2B Distribution, B2B Manufacturing, B2B Industrial, B2B Construction, B2B Electronics, B2B Machinery, B2B Packaging, B2B Logistics, B2B Supply Chain, B2B Agriculture, B2B Chemicals, B2B Metals, B2B Plastics, B2B Textile, B2B Eco-friendly, B2B Sustainable, B2B Quality Assurance, B2B Secure Payments, B2B Fast Delivery, B2B Best Prices, B2B Verified Sellers, B2B Trusted, B2B Reliable, B2B Professional, B2B Modern, B2B Latest, B2B Advanced, B2B Updated, B2B Trending, B2B Top, B2B Popular, B2B Search, B2B Find, B2B Discover, B2B Connect, B2B Network, B2B Platform, B2B Portal, B2B Solutions, B2B Services, B2B Opportunities, B2B Deals, B2B Offers, B2B Discounts, B2B Platform, Raw Materials Trading, ShilpoMarket",
@@ -132,7 +133,10 @@ export default function RootLayout({ children }) {
           ]
         }) }} />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        {/* <Chatbot /> */}
+      </body>
     </html>
   );
 }

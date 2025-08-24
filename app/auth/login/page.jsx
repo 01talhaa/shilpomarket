@@ -28,7 +28,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 mt-40">
         <div className="max-w-md mx-auto">
           <div className="bg-white rounded-xl shadow-lg p-8">
             <div className="text-center mb-8">
@@ -128,28 +128,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Benefits */}
-          <div className="mt-8 bg-blue-50 rounded-xl p-6">
-            <h3 className="font-semibold text-gray-800 mb-4">Why choose RawMart?</h3>
-            <div className="space-y-3 text-sm text-gray-600">
-              <div className="flex items-center space-x-2">
-                <span className="text-green-500">✓</span>
-                <span>Access to 10,000+ verified suppliers</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-500">✓</span>
-                <span>Secure payment and trade assurance</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-500">✓</span>
-                <span>24/7 customer support</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <span className="text-green-500">✓</span>
-                <span>Global shipping and logistics</span>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
 

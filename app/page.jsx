@@ -1,5 +1,6 @@
 import Header from "../components/Header";
 import WhatsAppWidget from "../components/WhatsAppWidget";
+import Chatbot from "../components/Chatbot";
 
 // Import the new modular components
 import Hero from "../components/Homepage/Hero";
@@ -600,6 +601,7 @@ export default function HomePage() {
       <Testimonial testimonials={testimonials} />
       <Insights newsBlogs={newsBlogs} />
       <Ctc />
+      <Chatbot />
       <WhatsAppWidget />
     </div>
   );

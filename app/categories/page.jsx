@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import CategoriesHeader from "@/components/CategoriesHeader";
 import Link from "next/link";
 
 export default function CategoriesPage() {
@@ -127,44 +128,34 @@ export default function CategoriesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Product Categories Header */}
-      <section className="bg-white py-3 border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-                                      <Link href="/" className="flex items-center space-x-3 group mt-2">
-            <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                <span className="text-white font-bold text-xl">🏭</span>
+      <CategoriesHeader />
+      
+      <div className="pt-20">
+        {/* Product Categories Header */}
+        <section className="bg-white py-3 border-b">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <h1 className="text-lg font-semibold text-gray-800">All Categories</h1>
               </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+              <div className="flex items-center space-x-4 text-xs text-gray-600">
+                <span>{categories.length} Categories</span>
+                <span>•</span>
+                <span>{categories.reduce((sum, cat) => sum + cat.productCount, 0).toLocaleString()} Products</span>
+              </div>
             </div>
-            <div className="text-gray-800">
-              <div className="text-2xl font-bold tracking-tight">ShilpoMarket</div>
-              <div className="text-xs text-gray-600 -mt-1">Raw Materials Marketplace</div>
-            </div>
-          </Link>
-              <div className="h-10 w-px bg-gray-300"></div>
-              <h1 className="text-lg font-semibold text-gray-800">Categories</h1>
-            </div>
-            <div className="flex items-center space-x-4 text-xs text-gray-600">
-              <span>{categories.length} Categories</span>
-              <span>•</span>
-              <span>{categories.reduce((sum, cat) => sum + cat.productCount, 0).toLocaleString()} Products</span>
+            <div className="mt-2 flex flex-wrap gap-2 text-xs">
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Most Popular</span>
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Electronics</span>
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Textiles</span>
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Chemicals</span>
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Agriculture</span>
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Construction</span>
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Automotive</span>
+              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Healthcare</span>
             </div>
           </div>
-          <div className="mt-2 ml-60 flex flex-wrap gap-2 text-xs">
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Most Popular</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Electronics</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Textiles</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Chemicals</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Agriculture</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Construction</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Automotive</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Healthcare</span>
-          </div>
-        </div>
-      </section>
+        </section>
 
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-col lg:flex-row gap-4">
@@ -283,6 +274,7 @@ export default function CategoriesPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

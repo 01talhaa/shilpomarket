@@ -1,4 +1,5 @@
 import Link from "next/link";
+import InsightsHeader from "../../components/InsightsHeader";
 
 export default function InsightsPage() {
   const allInsights = [
@@ -111,45 +112,12 @@ export default function InsightsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Insights Header */}
-      <section className="bg-white py-3 border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-3 group">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                    <span className="text-white font-bold text-sm">🏭</span>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                </div>
-                <div className="text-gray-800">
-                  <div className="text-lg font-bold tracking-tight">ShilpoMarket</div>
-                  <div className="text-xs text-gray-600 -mt-1">Raw Materials Marketplace</div>
-                </div>
-              </Link>
-              <div className="h-10 w-px bg-gray-300"></div>
-              <h1 className="text-lg font-semibold text-gray-800">Industry Insights</h1>
-            </div>
-            <div className="flex items-center space-x-4 text-xs text-gray-600">
-              <span>{allInsights.length} Articles</span>
-              <span>•</span>
-              <span>Latest News</span>
-            </div>
-          </div>
-          <div className="mt-2 ml-52 flex flex-wrap gap-2 text-xs">
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Trending</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Market Analysis</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Technology</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Sustainability</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Regulations</span>
-            <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Industry Trends</span>
-          </div>
-        </div>
-      </section>
-
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex flex-col lg:flex-row gap-4">
+      <InsightsHeader />
+      
+      {/* Main Content with Top Margin */}
+      <div className="pt-24">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex flex-col lg:flex-row gap-4">
           {/* Filters Sidebar */}
           <div className="lg:w-1/5">
             <div className="bg-white rounded-lg shadow p-4 sticky top-20">
@@ -293,6 +261,7 @@ export default function InsightsPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       {/* <Footer /> */}

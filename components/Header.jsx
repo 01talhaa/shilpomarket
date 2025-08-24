@@ -114,13 +114,13 @@ export default function Header() {
           <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-6 text-gray-600 text-xs sm:text-sm">
             <span className="flex items-center">
               <span className="mr-1 sm:mr-2">📧</span>
-              <span className="hidden sm:inline">support@rawmart.com</span>
-              <span className="sm:hidden text-xs">support@rawmart.com</span>
+              <span className="hidden sm:inline">shilpomarket@gmail.com</span>
+              <span className="sm:hidden text-xs">shilpomarket@gmail.com</span>
             </span>
             <span className="flex items-center">
               <span className="mr-1 sm:mr-2">📞</span>
               {/* <span className="hidden sm:inline">+1 (555) 123-4567</span> */}
-              <span className=" sm:inline text-2xs">+1 (555) 123-4567</span>
+              <span className=" sm:inline text-2xs">+8801346-616109</span>
             </span>
           </div>
           
@@ -337,13 +337,13 @@ export default function Header() {
               ) : (
                 <>
                   <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium px-4 py-2 rounded-lg hover:bg-gray-50"
-                    onClick={() => router.push("/login")}
+                    onClick={() => router.push("/auth/login")}
                   >
                     Login
                   </button>
                   <button
                     className="bg-blue-600 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-800 transition-colors duration-200"
-                    onClick={() => router.push("/signup")}
+                    onClick={() => router.push("/auth/signup")}
                   >
                     Sign Up
                   </button>
@@ -455,7 +455,7 @@ export default function Header() {
                       <button className="w-full text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-gray-50 border border-gray-300"
                         onClick={() => {
                           setIsMobileMenuOpen(false);
-                          router.push("/login");
+                          router.push("/auth/login");
                         }}>
                         Login
                       </button>
@@ -463,7 +463,7 @@ export default function Header() {
                         className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-800 transition-colors duration-200"
                         onClick={() => {
                           setIsMobileMenuOpen(false);
-                          router.push("/signup");
+                          router.push("/auth/signup");
                         }}
                       >
                         Sign Up

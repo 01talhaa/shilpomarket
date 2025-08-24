@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import CategoriesHeader from "../../../components/CategoriesHeader";
 
 export default function CategoryPage({ params }) {
   const { slug } = params;
@@ -256,46 +257,36 @@ export default function CategoryPage({ params }) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Category Header */}
-      <section className="bg-white py-3 border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-                                      <Link href="/" className="flex items-center space-x-3 group mt-2">
-            <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-                <span className="text-white font-bold text-xl">🏭</span>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-cyan-400 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            </div>
-            <div className="text-gray-800">
-              <div className="text-2xl font-bold tracking-tight">ShilpoMarket</div>
-              <div className="text-xs text-gray-600 -mt-1">Raw Materials Marketplace</div>
-            </div>
-          </Link>
-              <div className="h-10 w-px bg-gray-300"></div>
-              <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center">
-                  <span className="text-sm">{category.icon}</span>
+      <CategoriesHeader />
+      
+      <div className="pt-20">
+        {/* Category Header */}
+        <section className="bg-white py-3 border-b">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center">
+                    <span className="text-sm">{category.icon}</span>
+                  </div>
+                  <h1 className="text-lg font-semibold text-gray-800">{category.name}</h1>
                 </div>
-                <h1 className="text-lg font-semibold text-gray-800">{category.name}</h1>
+              </div>
+              <div className="flex items-center space-x-4 text-xs text-gray-600">
+                <span>{category.products.length} Products</span>
+                <span>•</span>
+                <span>Verified Suppliers</span>
               </div>
             </div>
-            <div className="flex items-center space-x-4 text-xs text-gray-600">
-              <span>{category.products.length} Products</span>
-              <span>•</span>
-              <span>Verified Suppliers</span>
+            <div className="mt-2 flex items-center space-x-4 text-xs text-gray-600">
+              <Link href="/" className="hover:text-gray-800">Home</Link>
+              <span>/</span>
+              <Link href="/categories" className="hover:text-gray-800">Categories</Link>
+              <span>/</span>
+              <span className="text-gray-800">{category.name}</span>
             </div>
           </div>
-          <div className="mt-2 ml-60 flex items-center space-x-4 text-xs text-gray-600">
-            <Link href="/" className="hover:text-gray-800">Home</Link>
-            <span>/</span>
-            <Link href="/categories" className="hover:text-gray-800">Categories</Link>
-            <span>/</span>
-            <span className="text-gray-800">{category.name}</span>
-          </div>
-        </div>
-      </section>
+        </section>
 
       <div className="container mx-auto px-4 py-4">
         <div className="flex flex-col lg:flex-row gap-4">
@@ -452,6 +443,7 @@ export default function CategoryPage({ params }) {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
