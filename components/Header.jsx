@@ -2,18 +2,45 @@
 import { useState, useEffect } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
+import { useAuth } from "../contexts/AuthContext"
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isShrinked, setIsShrinked] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [user, setUser] = useState(null);
+  const { user, logout, isAuthenticated } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
   const [isSearchFocused, setIsSearchFocused] = useState(false)
   const [searchValue, setSearchValue] = useState("")
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false)
   const [categoriesTimeout, setCategoriesTimeout] = useState(null)
+
+  // Helper function to get user display info
+  const getUserDisplayInfo = () => {
+    if (!user) return { initial: "U", name: "User", email: "", isVerified: false }
+    
+    let initial = "U"
+    let name = "User"
+    let email = user.email || ""
+    let isVerified = user.isVerified || user.is_verified || false
+
+    if (user.company_name || user.companyName) {
+      const companyName = user.company_name || user.companyName
+      initial = companyName[0].toUpperCase()
+      name = companyName
+    } else if (user.first_name || user.firstName) {
+      const firstName = user.first_name || user.firstName
+      const lastName = user.last_name || user.lastName || ""
+      initial = firstName[0].toUpperCase()
+      name = `${firstName} ${lastName}`.trim()
+    } else if (user.name) {
+      initial = user.name[0].toUpperCase()
+      name = user.name
+    }
+
+    return { initial, name, email, isVerified }
+  }
 
   const handleCategoriesMouseEnter = () => {
     if (categoriesTimeout) {
@@ -133,8 +160,8 @@ export default function Header() {
               Contact
             </Link>
             <div className="flex items-center space-x-1 sm:space-x-2">
-              <span className="text-xs hidden sm:inline">Follow us:</span>
-              <span className="text-xs xs:hidden">Follow:</span>
+              {/* <span className="text-xs hidden sm:inline">Follow us:</span>
+              <span className="text-xs xs:hidden">Follow:</span> */}
               <div className="flex space-x-1">
                 {/* Facebook */}
                 <a
@@ -341,11 +368,22 @@ export default function Header() {
                     tabIndex={0}
                   >
                     <div className="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">
-                      {user.name ? user.name[0].toUpperCase() : (user.email || user.identifier || "U")[0].toUpperCase()}
+                      {getUserDisplayInfo().initial}
                     </div>
                     <div className="flex flex-col text-left">
-                      <span className="font-semibold text-gray-800 dark:text-white text-base truncate max-w-[120px]">{user.name || "User"}</span>
-                      <span className="text-xs text-gray-500 dark:text-gray-300 truncate max-w-[120px]">{user.email || user.identifier}</span>
+                      <div className="flex items-center space-x-1">
+                        <span className="font-semibold text-gray-800 dark:text-white text-base truncate max-w-[120px]">
+                          {getUserDisplayInfo().name}
+                        </span>
+                        {getUserDisplayInfo().isVerified && (
+                          <span title="Verified User" className="text-blue-500">
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                            </svg>
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-xs text-gray-500 dark:text-gray-300 truncate max-w-[120px]">{getUserDisplayInfo().email}</span>
                     </div>
                     <svg className="ml-2 w-4 h-4 text-gray-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                   </button>
@@ -355,24 +393,21 @@ export default function Header() {
                   >
                     <button
                       className="block w-full text-left px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-t-xl"
+                      onClick={() => router.push((user.company_name || user.companyName) ? "/seller/dashboard" : "/buyer/dashboard")}
+                    >
+                      Dashboard
+                    </button>
+                    <button
+                      className="block w-full text-left px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800"
                       onClick={() => router.push("/profile")}
                     >
                       Profile
                     </button>
                     <button
-                      className="block w-full text-left px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800"
-                      onClick={() => router.push("/#services")}
-                    >
-                      Services
-                    </button>
-                    <button
                       className="block w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 dark:hover:bg-gray-800 rounded-b-xl"
                       onClick={() => {
-                        setUser(null);
-                        localStorage.removeItem("pixelprimp_user");
-                        localStorage.removeItem("pixelprimp_refresh_token");
-                        window.dispatchEvent(new Event("storage"));
-                        router.push("/");
+                        logout()
+                        router.push("/")
                       }}
                     >
                       Logout
@@ -450,11 +485,22 @@ export default function Header() {
                         tabIndex={0}
                       >
                         <div className="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">
-                          {user.name ? user.name[0].toUpperCase() : (user.email || user.identifier || "U")[0].toUpperCase()}
+                          {getUserDisplayInfo().initial}
                         </div>
                         <div className="flex flex-col text-left">
-                          <span className="font-semibold text-gray-800 dark:text-white text-base truncate max-w-[120px]">{user.name || "User"}</span>
-                          <span className="text-xs text-gray-500 dark:text-gray-300 truncate max-w-[120px]">{user.email || user.identifier}</span>
+                          <div className="flex items-center space-x-1">
+                            <span className="font-semibold text-gray-800 dark:text-white text-base truncate max-w-[120px]">
+                              {getUserDisplayInfo().name}
+                            </span>
+                            {getUserDisplayInfo().isVerified && (
+                              <span title="Verified User" className="text-blue-500">
+                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                                </svg>
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-xs text-gray-500 dark:text-gray-300 truncate max-w-[120px]">{getUserDisplayInfo().email}</span>
                         </div>
                         <svg className="ml-2 w-4 h-4 text-gray-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                       </button>
@@ -466,28 +512,25 @@ export default function Header() {
                           className="block w-full text-left px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800 rounded-t-xl"
                           onClick={() => {
                             setIsMobileMenuOpen(false);
+                            router.push((user.company_name || user.companyName) ? "/seller/dashboard" : "/buyer/dashboard");
+                          }}
+                        >
+                          Dashboard
+                        </button>
+                        <button
+                          className="block w-full text-left px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
                             router.push("/profile");
                           }}
                         >
                           Profile
                         </button>
                         <button
-                          className="block w-full text-left px-4 py-3 text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-800"
-                          onClick={() => {
-                            setIsMobileMenuOpen(false);
-                            router.push("/#services");
-                          }}
-                        >
-                          Services
-                        </button>
-                        <button
                           className="block w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 dark:hover:bg-gray-800 rounded-b-xl"
                           onClick={() => {
                             setIsMobileMenuOpen(false);
-                            setUser(null);
-                            localStorage.removeItem("pixelprimp_user");
-                            localStorage.removeItem("pixelprimp_refresh_token");
-                            window.dispatchEvent(new Event("storage"));
+                            logout();
                             router.push("/");
                           }}
                         >

@@ -2,13 +2,41 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useAuth } from "../contexts/AuthContext"
 
 export default function InsightsHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchValue, setSearchValue] = useState("")
   const [isSearchFocused, setIsSearchFocused] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { user, logout } = useAuth()
   const router = useRouter()
+
+  // Helper function to get user display info
+  const getUserDisplayInfo = () => {
+    if (!user) return { initial: "U", name: "User", email: "", isVerified: false }
+    
+    let initial = "U"
+    let name = "User"
+    let email = user.email || ""
+    let isVerified = user.isVerified || user.is_verified || false
+
+    if (user.company_name || user.companyName) {
+      const companyName = user.company_name || user.companyName
+      initial = companyName[0].toUpperCase()
+      name = companyName
+    } else if (user.first_name || user.firstName) {
+      const firstName = user.first_name || user.firstName
+      const lastName = user.last_name || user.lastName || ""
+      initial = firstName[0].toUpperCase()
+      name = `${firstName} ${lastName}`.trim()
+    } else if (user.name) {
+      initial = user.name[0].toUpperCase()
+      name = user.name
+    }
+
+    return { initial, name, email, isVerified }
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -160,9 +188,58 @@ export default function InsightsHeader() {
               <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">7</span>
             </button>
             
-            <Link href="/auth/login" className="text-sm text-gray-600 hover:text-blue-600 transition-colors font-medium">
-              Sign In
-            </Link>
+            {user ? (
+              <div className="relative group">
+                <button className="flex items-center space-x-2 bg-gray-100 px-3 py-2 rounded-lg">
+                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                    {getUserDisplayInfo().initial}
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-sm font-medium text-gray-700 hidden md:block">
+                      {getUserDisplayInfo().name}
+                    </span>
+                    {getUserDisplayInfo().isVerified && (
+                      <span title="Verified User" className="text-blue-500 hidden md:block">
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                        </svg>
+                      </span>
+                    )}
+                  </div>
+                  <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {/* Dropdown */}
+                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-200">
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg"
+                    onClick={() => router.push((user.company_name || user.companyName) ? "/seller/dashboard" : "/buyer/dashboard")}
+                  >
+                    Dashboard
+                  </button>
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    onClick={() => router.push("/profile")}
+                  >
+                    Profile
+                  </button>
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-b-lg"
+                    onClick={() => {
+                      logout()
+                      router.push("/")
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Link href="/auth/login" className="text-sm text-gray-600 hover:text-blue-600 transition-colors font-medium">
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
 

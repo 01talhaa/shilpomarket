@@ -126,6 +126,24 @@ export default function TestApiPage() {
     setLoading(false)
   }
 
+  const testCategories = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch(API_ENDPOINTS.SUPPLIER_CATEGORIES(), {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+
+      const result = await response.json()
+      setResponse("Categories Response:\n" + JSON.stringify(result, null, 2))
+    } catch (error) {
+      setResponse("Error: " + error.message)
+    }
+    setLoading(false)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto">
@@ -162,6 +180,14 @@ export default function TestApiPage() {
             className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 disabled:opacity-50"
           >
             Test Buyer Login
+          </button>
+
+          <button
+            onClick={testCategories}
+            disabled={loading}
+            className="bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 disabled:opacity-50 md:col-span-2"
+          >
+            Test Categories API
           </button>
         </div>
 

@@ -1,8 +1,10 @@
 "use client"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Header from "../../../components/Header"
-import { API_ENDPOINTS } from "../../../lib/api"
+import { useAuth } from "../../../contexts/AuthContext"
+import { toast } from "sonner"
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -12,6 +14,9 @@ export default function LoginPage() {
     accountType: "supplier" // Add account type selection
   })
   const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const { login } = useAuth()
+  const router = useRouter()
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
@@ -22,47 +27,33 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
     
     try {
-      // Determine API endpoint based on account type
-      const apiUrl = formData.accountType === "supplier" 
-        ? API_ENDPOINTS.SUPPLIER_LOGIN()
-        : API_ENDPOINTS.BUYER_LOGIN()
+      const credentials = {
+        email: formData.email,
+        password: formData.password
+      }
 
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        })
-      })
+      const result = await login(credentials, formData.accountType)
 
-      const result = await response.json()
-
-      if (response.ok) {
-        alert("Login successful! " + JSON.stringify(result, null, 2))
+      if (result.success) {
+        toast.success("Login successful!")
         
-        // Store token if provided
-        if (result.token) {
-          localStorage.setItem('token', result.token)
-          localStorage.setItem('userType', formData.accountType)
-        }
-
         // Redirect based on account type
         if (formData.accountType === "supplier") {
-          window.location.href = "/seller/dashboard"
+          router.push("/seller/dashboard")
         } else {
-          window.location.href = "/buyer/dashboard"
+          router.push("/buyer/dashboard")
         }
       } else {
-        alert("Login failed: " + (result.message || JSON.stringify(result, null, 2)))
+        toast.error(result.message || "Login failed")
       }
     } catch (error) {
       console.error("Login error:", error)
-      alert("Login failed: " + error.message)
+      toast.error("Login failed: " + error.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -160,9 +151,10 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                disabled={isLoading}
+                className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
               >
-                Sign In
+                {isLoading ? "Signing In..." : "Sign In"}
               </button>
             </form>
 

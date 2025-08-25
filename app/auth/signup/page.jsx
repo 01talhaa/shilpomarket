@@ -1,12 +1,15 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Header from "../../../components/Header"
 import { API_ENDPOINTS } from "../../../lib/api"
+import { toast } from "sonner"
 
 export default function SignupPage() {
   const [step, setStep] = useState(1)
   const [accountType, setAccountType] = useState("buyer")
+  const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     // Personal Info
     firstName: "",
@@ -23,14 +26,10 @@ export default function SignupPage() {
     industry: "",
     website: "",
     employeeCount: "",
-    annualRevenue: "",
+  annualRevenueRange: "",
 
     // Address
     address: "",
-    city: "",
-    state: "",
-    country: "",
-    postalCode: "",
 
     // Preferences
     interestedCategories: [],
@@ -41,6 +40,30 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
+  // Fetch categories from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(API_ENDPOINTS.SUPPLIER_CATEGORIES())
+        const result = await response.json()
+        
+        if (response.ok && result.success) {
+          setCategories(result.data)
+        } else {
+          console.error('Failed to fetch categories:', result)
+          // Fallback to empty array
+          setCategories([])
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+        // Fallback to empty array
+        setCategories([])
+      }
+    }
+
+    fetchCategories()
+  }, [])
+
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -48,12 +71,12 @@ export default function SignupPage() {
     }))
   }
 
-  const handleCategoryToggle = (category) => {
+  const handleCategoryToggle = (categoryId) => {
     setFormData((prev) => ({
       ...prev,
-      interestedCategories: prev.interestedCategories.includes(category)
-        ? prev.interestedCategories.filter((c) => c !== category)
-        : [...prev.interestedCategories, category],
+      interestedCategories: prev.interestedCategories.includes(categoryId)
+        ? prev.interestedCategories.filter((id) => id !== categoryId)
+        : [...prev.interestedCategories, categoryId],
     }))
   }
 
@@ -62,23 +85,23 @@ export default function SignupPage() {
     
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords don't match!")
+      toast.error("Passwords don't match!")
       return
     }
 
     // Basic form validation
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
-      alert("Please fill in all required fields!")
+      toast.error("Please fill in all required fields!")
       return
     }
+
+    setLoading(true)
 
     try {
       // Determine API endpoint based on account type
       const apiUrl = accountType === "supplier" 
         ? API_ENDPOINTS.SUPPLIER_SIGNUP()
-        : API_ENDPOINTS.BUYER_SIGNUP() 
-        ? `${apiBaseUrl}/api/suppliers/signup`
-        : `${apiBaseUrl}/api/buyers/signup`
+        : API_ENDPOINTS.BUYER_SIGNUP()
 
       // Prepare data according to API structure
       const apiData = {
@@ -101,7 +124,7 @@ export default function SignupPage() {
       if (accountType === "supplier") {
         apiData.interestedCategories = formData.interestedCategories
       } else {
-        apiData.annualRevenueRange = formData.annualRevenue
+        apiData.annualRevenueRange = formData.annualRevenueRange
       }
 
       const response = await fetch(apiUrl, {
@@ -115,30 +138,43 @@ export default function SignupPage() {
       const result = await response.json()
 
       if (response.ok) {
-        alert("Signup successful! " + JSON.stringify(result, null, 2))
-        // Redirect to login or dashboard
-        window.location.href = "/auth/login"
+        toast.success("Signup successful! Welcome to ShilpoMarket!")
+        
+        // Store tokens if provided
+        if (result.data?.token) {
+          localStorage.setItem('token', result.data.token)
+        }
+        if (result.data?.refreshToken) {
+          localStorage.setItem('refreshToken', result.data.refreshToken)
+        }
+        
+        // Extract user data from the correct nested structure
+        const userData = result.data?.supplier || result.data?.buyer || result.data || result
+        
+        // Add account type to user data for easier dashboard routing
+        const userWithType = {
+          ...userData,
+          accountType: accountType
+        }
+        
+        localStorage.setItem('user', JSON.stringify(userWithType))
+        
+        // Redirect to dashboard based on account type
+        setTimeout(() => {
+          window.location.href = accountType === "supplier" ? "/seller/dashboard" : "/buyer/dashboard"
+        }, 1500)
       } else {
-        alert("Signup failed: " + (result.message || JSON.stringify(result, null, 2)))
+        toast.error(result.message || "Signup failed. Please try again.")
       }
     } catch (error) {
       console.error("Signup error:", error)
-      alert("Signup failed: " + error.message)
+      toast.error("Signup failed: " + error.message)
+    } finally {
+      setLoading(false)
     }
   }
 
-  const categories = [
-    "Metals & Alloys",
-    "Plastics & Polymers",
-    "Chemicals",
-    "Textiles",
-    "Electronic Materials",
-    "Construction Materials",
-    "Food & Agriculture",
-    "Energy & Fuel",
-  ]
-
-  const companyTypes = ["private_limited", "public_limited", "partnership", "sole_proprietorship", "cooperative", "other"]
+  const companyTypes = ["pvt_ltd", "pub_ltd", "partner", "sole_prop", "coop", "other"]
 
   const industries = [
     "Automotive",
@@ -149,6 +185,7 @@ export default function SignupPage() {
     "Pharmaceuticals",
     "Energy",
     "Aerospace",
+    "Import/Export",
     "Other",
   ]
 
@@ -169,7 +206,20 @@ export default function SignupPage() {
 
             {/* Progress Bar */}
             <div className="flex items-center justify-center space-x-4 mb-8">
-              {[1, 2, 3, 4].map((stepNumber) => (
+              {accountType === "buyer" ? [1, 2, 3].map((stepNumber) => (
+                <div key={stepNumber} className="flex items-center">
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
+                      step >= stepNumber ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-600"
+                    }`}
+                  >
+                    {stepNumber}
+                  </div>
+                  {stepNumber < 3 && (
+                    <div className={`w-12 h-0.5 ml-2 ${step > stepNumber ? "bg-blue-600" : "bg-gray-200"}`}></div>
+                  )}
+                </div>
+              )) : [1, 2, 3, 4].map((stepNumber) => (
                 <div key={stepNumber} className="flex items-center">
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
@@ -356,11 +406,12 @@ export default function SignupPage() {
                         required
                       >
                         <option value="">Select type</option>
-                        {companyTypes.map((type) => (
-                          <option key={type} value={type}>
-                            {type}
-                          </option>
-                        ))}
+                        <option value="private_limited">Private Limited</option>
+                        <option value="public_limited">Public Limited</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="sole_proprietorship">Sole Proprietorship</option>
+                        <option value="cooperative">Cooperative</option>
+                        <option value="other">Other</option>
                       </select>
                     </div>
                     <div>
@@ -372,11 +423,16 @@ export default function SignupPage() {
                         required
                       >
                         <option value="">Select industry</option>
-                        {industries.map((industry) => (
-                          <option key={industry} value={industry}>
-                            {industry}
-                          </option>
-                        ))}
+                        <option value="Automotive">Automotive</option>
+                        <option value="Construction">Construction</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Textiles">Textiles</option>
+                        <option value="Food & Beverage">Food & Beverage</option>
+                        <option value="Pharmaceuticals">Pharmaceuticals</option>
+                        <option value="Energy">Energy</option>
+                        <option value="Aerospace">Aerospace</option>
+                        <option value="Import/Export">Import/Export</option>
+                        <option value="Other">Other</option>
                       </select>
                     </div>
                   </div>
@@ -399,6 +455,7 @@ export default function SignupPage() {
                         value={formData.employeeCount}
                         onChange={(e) => handleInputChange("employeeCount", e.target.value)}
                         className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
                       >
                         <option value="">Select range</option>
                         <option value="1-10">1-10</option>
@@ -409,18 +466,19 @@ export default function SignupPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Annual Revenue</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Annual Revenue Range</label>
                       <select
-                        value={formData.annualRevenue}
-                        onChange={(e) => handleInputChange("annualRevenue", e.target.value)}
+                        value={formData.annualRevenueRange}
+                        onChange={(e) => handleInputChange("annualRevenueRange", e.target.value)}
                         className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
                       >
                         <option value="">Select range</option>
-                        <option value="<$1M">Less than $1M</option>
-                        <option value="$1M-$10M">$1M - $10M</option>
-                        <option value="$10M-$50M">$10M - $50M</option>
-                        <option value="$50M-$100M">$50M - $100M</option>
-                        <option value="$100M+">$100M+</option>
+                        <option value="<1M">Less than $1M</option>
+                        <option value="1M-5M">$1M - $5M</option>
+                        <option value="5M-10M">$5M - $10M</option>
+                        <option value="10M-50M">$10M - $50M</option>
+                        <option value="50M+">More than $50M</option>
                       </select>
                     </div>
                   </div>
@@ -437,43 +495,34 @@ export default function SignupPage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
-                      <input
-                        type="text"
-                        value={formData.city}
-                        onChange={(e) => handleInputChange("city", e.target.value)}
-                        className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                      />
+                  {accountType === "buyer" && (
+                    <div className="space-y-3 mt-6 pt-6 border-t border-gray-200">
+                      <label className="flex items-start space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={formData.terms}
+                          onChange={(e) => handleInputChange("terms", e.target.checked)}
+                          className="rounded mt-1"
+                          required
+                        />
+                        <span className="text-sm text-gray-700">
+                          I agree to the{" "}
+                          <Link href="/terms" className="text-blue-600 hover:text-blue-800">
+                            Terms of Service
+                          </Link>{" "}
+                          and{" "}
+                          <Link href="/privacy" className="text-blue-600 hover:text-blue-800">
+                            Privacy Policy
+                          </Link>
+                        </span>
+                      </label>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">State/Province</label>
-                      <input
-                        type="text"
-                        value={formData.state}
-                        onChange={(e) => handleInputChange("state", e.target.value)}
-                        className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
-                      <input
-                        type="text"
-                        value={formData.country}
-                        onChange={(e) => handleInputChange("country", e.target.value)}
-                        className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                      />
-                    </div>
-                  </div>
+                  )}
                 </div>
               )}
 
-              {/* Step 4: Preferences */}
-              {step === 4 && (
+              {/* Step 4: Preferences (Suppliers only) */}
+              {step === 4 && accountType === "supplier" && (
                 <div className="space-y-6">
                   <h2 className="text-xl font-semibold text-gray-800">Preferences</h2>
 
@@ -481,34 +530,26 @@ export default function SignupPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-3">
                       Interested Categories (Select all that apply)
                     </label>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {categories.map((category) => (
-                        <label key={category} className="flex items-center space-x-2">
-                          <input
-                            type="checkbox"
-                            checked={formData.interestedCategories.includes(category)}
-                            onChange={() => handleCategoryToggle(category)}
-                            className="rounded"
-                          />
-                          <span className="text-sm text-gray-700">{category}</span>
-                        </label>
-                      ))}
-                    </div>
+                    {loading ? (
+                      <div className="text-gray-500">Loading categories...</div>
+                    ) : (
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {categories.map((category) => (
+                          <label key={category.id} className="flex items-center space-x-2">
+                            <input
+                              type="checkbox"
+                              checked={formData.interestedCategories.includes(category.id)}
+                              onChange={() => handleCategoryToggle(category.id)}
+                              className="rounded"
+                            />
+                            <span className="text-sm text-gray-700">{category.name}</span>
+                          </label>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        checked={formData.newsletter}
-                        onChange={(e) => handleInputChange("newsletter", e.target.checked)}
-                        className="rounded"
-                      />
-                      <span className="text-sm text-gray-700">
-                        Subscribe to newsletter for market updates and special offers
-                      </span>
-                    </label>
-
+                  <div className="space-y-3 mt-6 pt-6 border-t border-gray-200">
                     <label className="flex items-start space-x-2">
                       <input
                         type="checkbox"
@@ -547,10 +588,10 @@ export default function SignupPage() {
                   Previous
                 </button>
 
-                {step < 4 ? (
+                {(accountType === "buyer" && step < 3) || (accountType === "supplier" && step < 4) ? (
                   <button
                     type="button"
-                    onClick={() => setStep(Math.min(4, step + 1))}
+                    onClick={() => setStep(Math.min(accountType === "buyer" ? 3 : 4, step + 1))}
                     className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
                   >
                     Continue
