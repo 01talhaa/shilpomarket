@@ -51,10 +51,15 @@ const AboutPage = () => {
               </svg>
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Mission</h2>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              To create a revolutionary B2B marketplace that bridges the gap between traditional manufacturing and modern digital commerce, 
+              empowering suppliers, manufacturers, and buyers across textile, chemical, construction, pharmaceutical, and technology sectors 
+              with transparent, efficient, and sustainable trade solutions.
+            </p>
             <p className="text-gray-600 leading-relaxed">
-              To revolutionize global trade by creating a comprehensive B2B ecosystem that connects manufacturers, suppliers, and buyers 
-              across diverse industries including textile, chemical, construction, and pharmaceutical sectors, ensuring transparent transactions, 
-              competitive pricing, and sustainable business growth.
+              We are committed to eliminating intermediaries, reducing operational costs, and providing direct access to global markets 
+              while ensuring quality assurance, competitive pricing, and fostering long-term business relationships that drive 
+              economic growth and innovation in industrial commerce.
             </p>
           </div>
 
@@ -66,10 +71,15 @@ const AboutPage = () => {
               </svg>
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Vision</h2>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              To become the world's most trusted and comprehensive B2B marketplace, transforming how industrial products and services 
+              are sourced, traded, and delivered globally. We envision a future where every manufacturer, supplier, and buyer can 
+              access fair market opportunities, cutting-edge technology, and sustainable business practices.
+            </p>
             <p className="text-gray-600 leading-relaxed">
-              To establish ShilpoMarket as the world's leading B2B marketplace for industrial products and services, 
-              where cutting-edge technology meets efficient supply chain management, fostering a sustainable 
-              global economy that drives innovation across manufacturing, textile, construction, and healthcare industries.
+              By 2030, we aim to facilitate over $1 billion in annual transactions, onboard 50,000+ verified suppliers across 100+ countries, 
+              and become the go-to platform for industrial commerce, setting new standards for quality, transparency, and innovation 
+              in B2B marketplace operations.
             </p>
           </div>
 
@@ -79,12 +89,30 @@ const AboutPage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Commitment</h2>
-            <p className="text-gray-600 leading-relaxed">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Values & Commitment</h2>
+            <p className="text-gray-600 leading-relaxed mb-4">
               We are dedicated to building transparent, efficient business relationships that prioritize supplier welfare, 
-              environmental sustainability, and industrial innovation. Every transaction on our platform contributes to 
-              strengthening global supply chains while driving technological advancement across key industry sectors.
+              environmental sustainability, and industrial innovation. Our platform operates on core principles of trust, 
+              quality assurance, and fair trade practices that benefit all stakeholders.
             </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+              <div className="flex items-start">
+                <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                Transparent pricing and payment systems
+              </div>
+              <div className="flex items-start">
+                <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                Quality verification and compliance tracking
+              </div>
+              <div className="flex items-start">
+                <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                Sustainable business practices
+              </div>
+              <div className="flex items-start">
+                <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                Global market accessibility
+              </div>
+            </div>
           </div>
         </div>
 
@@ -202,6 +230,206 @@ const AboutPage = () => {
           </div>
         </div>
 
+        {/* Business Model & Platform Overview */}
+        <div className="mb-24">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Business Model</h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              ShilpoMarket operates as a comprehensive B2B marketplace platform, connecting verified suppliers and manufacturers 
+              with businesses across multiple industrial sectors. Our revenue model is designed to be sustainable while ensuring 
+              value creation for all stakeholders in the supply chain ecosystem.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+            {/* Platform Features */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Platform Features</h3>
+              <ul className="space-y-3 text-gray-600">
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Supplier verification and quality assurance systems
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Integrated payment processing and trade finance solutions
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Global logistics and supply chain management tools
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Real-time market intelligence and pricing analytics
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Compliance tracking and regulatory documentation
+                </li>
+              </ul>
+            </div>
+
+            {/* Revenue Streams */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Revenue Model</h3>
+              <ul className="space-y-3 text-gray-600">
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Transaction-based commission on successful deals
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Premium subscription plans for enhanced supplier visibility
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Value-added services including logistics and insurance
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Market intelligence and analytics dashboard subscriptions
+                </li>
+                <li className="flex items-start">
+                  <span className="w-2 h-2 bg-blue-700 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  Trade finance facilitation and payment processing fees
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Competitive Advantages */}
+          <div className="bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 rounded-3xl text-white p-8 md:p-12">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold mb-4">Competitive Advantages</h3>
+              <p className="text-blue-200 max-w-3xl mx-auto">
+                What sets ShilpoMarket apart in the competitive B2B marketplace landscape
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <h4 className="text-lg font-semibold mb-2">Verified Network</h4>
+                <p className="text-sm text-blue-200">Rigorous supplier verification ensuring quality and reliability</p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"/>
+                  </svg>
+                </div>
+                <h4 className="text-lg font-semibold mb-2">Global Reach</h4>
+                <p className="text-sm text-blue-200">Connecting markets across continents with localized support</p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                </div>
+                <h4 className="text-lg font-semibold mb-2">Technology Edge</h4>
+                <p className="text-sm text-blue-200">Advanced AI-powered matching and supply chain optimization</p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                  </svg>
+                </div>
+                <h4 className="text-lg font-semibold mb-2">Relationship Focus</h4>
+                <p className="text-sm text-blue-200">Long-term partnerships over transactional relationships</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Founders Introduction Section */}
+        <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 rounded-3xl p-8 md:p-12 mb-24 border border-blue-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet Our Founders</h2>
+              <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Three visionary graduates from North South University, Bangladesh, who recognized the transformative potential 
+                of digital commerce in revolutionizing traditional industrial supply chains. Each bringing unique expertise 
+                in technology, marketing, and finance to create a comprehensive B2B marketplace solution.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div className="text-center">
+                <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Strategic Leadership</h3>
+                <p className="text-gray-600 text-sm">Driving company vision, technology innovation, and global expansion strategies</p>
+              </div>
+              
+              <div className="text-center">
+                <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Market Intelligence</h3>
+                <p className="text-gray-600 text-sm">B2B marketing expertise and digital strategy development for industrial sectors</p>
+              </div>
+
+              <div className="text-center">
+                <div className="w-24 h-24 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Financial Architecture</h3>
+                <p className="text-gray-600 text-sm">Sustainable growth planning and transparent financial management systems</p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-lg border border-blue-200">
+              <div className="text-center">
+                <h4 className="text-xl font-semibold text-gray-800 mb-4">Shared Educational Foundation</h4>
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 bg-blue-700 rounded-xl flex items-center justify-center mr-4">
+                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h5 className="text-lg font-semibold text-gray-800">North South University</h5>
+                    <p className="text-sm text-gray-600">Computer Science & Engineering • Class of 2025</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 leading-relaxed max-w-3xl mx-auto">
+                  Our shared academic journey at North South University fostered the collaborative spirit and innovative mindset 
+                  that drives ShilpoMarket's success. Through rigorous coursework in technology, business analysis, and systems 
+                  design, we developed the technical expertise and strategic thinking necessary to bridge traditional manufacturing 
+                  with modern digital commerce solutions.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Leadership Team Section */}
         <div className="mb-24">
           <div className="text-center mb-12">
@@ -216,14 +444,14 @@ const AboutPage = () => {
             {/* CEO */}
             <div className="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300 group">
               <div className="relative mb-6">
-                <div className="w-32 h-32 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-                  <span className="text-white font-bold text-4xl">AT</span>
-                </div>
-                {/* <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center shadow-lg">
+                <div class="w-32 h-32 rounded-full mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 overflow-hidden border-4 border-blue-100">
+  <img src="/abs.jpeg" alt="A B S Talha - CEO" class="w-full h-full object-cover -translate-x-2"/>
+</div>
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center shadow-lg">
                   <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812z" clipRule="evenodd"/>
                   </svg>
-                </div> */}
+                </div>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">A B S Talha</h3>
               <div className="text-blue-700 font-semibold text-lg mb-2">Chief Executive Officer</div>
@@ -270,14 +498,14 @@ const AboutPage = () => {
             {/* CMO */}
             <div className="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300 group">
               <div className="relative mb-6">
-                <div className="w-32 h-32 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-                  <span className="text-white font-bold text-4xl">SA</span>
+                <div className="w-32 h-32 rounded-full mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 overflow-hidden border-4 border-blue-100">
+                  <img src="/shihab.jpg" alt="Shihab Ahmed - CMO" className="w-full h-full object-cover"/>
                 </div>
-                {/* <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center shadow-lg">
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center shadow-lg">
                   <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd"/>
                   </svg>
-                </div> */}
+                </div>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Shihab Ahmed</h3>
               <div className="text-blue-700 font-semibold text-lg mb-2">Chief Marketing Officer</div>
@@ -324,14 +552,14 @@ const AboutPage = () => {
             {/* CFO */}
             <div className="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300 group">
               <div className="relative mb-6">
-                <div className="w-32 h-32 bg-gradient-to-br from-blue-700 to-blue-900 rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-                  <span className="text-white font-bold text-4xl">AM</span>
+                <div className="w-32 h-32 rounded-full mx-auto shadow-lg group-hover:shadow-xl transition-shadow duration-300 overflow-hidden border-4 border-blue-100">
+                  <img src="/miladun.jpg" alt="Ali Miladun - CFO" className="w-full h-full object-cover"/>
                 </div>
-                {/* <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center shadow-lg">
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center shadow-lg">
                   <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
                   </svg>
-                </div> */}
+                </div>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Ali Miladun</h3>
               <div className="text-blue-700 font-semibold text-lg mb-2">Chief Financial Officer</div>

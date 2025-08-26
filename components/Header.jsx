@@ -153,10 +153,10 @@ export default function Header() {
           
           {/* Mobile: Compact right section */}
           <div className="flex items-center space-x-1 sm:space-x-4 text-gray-600 text-xs sm:text-sm">
-            <Link href="#contact" className="hover:text-blue-600 transition-colors hidden sm:inline">
+            <Link href="/contact" className="hover:text-blue-600 transition-colors hidden sm:inline">
               Help
             </Link>
-            <Link href="#contact" className="hover:text-blue-600 transition-colors hidden xs:inline sm:inline text-xs">
+            <Link href="/contact" className="hover:text-blue-600 transition-colors hidden xs:inline sm:inline text-xs">
               Contact
             </Link>
             <div className="flex items-center space-x-1 sm:space-x-2">
