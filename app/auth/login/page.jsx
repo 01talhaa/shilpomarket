@@ -40,12 +40,15 @@ export default function LoginPage() {
       if (result.success) {
         toast.success("Login successful!")
         
-        // Redirect based on account type
-        if (formData.accountType === "supplier") {
-          router.push("/seller/dashboard")
-        } else {
-          router.push("/buyer/dashboard")
-        }
+        // Add a small delay to ensure user state is set
+        setTimeout(() => {
+          // Redirect based on account type
+          if (formData.accountType === "supplier") {
+            router.push("/seller/dashboard")
+          } else {
+            router.push("/buyer/dashboard")
+          }
+        }, 100)
       } else {
         toast.error(result.message || "Login failed")
       }

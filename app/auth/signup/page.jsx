@@ -1,11 +1,13 @@
 "use client"
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import Header from "../../../components/Header"
 import { API_ENDPOINTS } from "../../../lib/api"
 import { toast } from "sonner"
 
 export default function SignupPage() {
+  const router = useRouter()
   const [step, setStep] = useState(1)
   const [accountType, setAccountType] = useState("buyer")
   const [categories, setCategories] = useState([])
@@ -161,7 +163,11 @@ export default function SignupPage() {
         
         // Redirect to dashboard based on account type
         setTimeout(() => {
-          window.location.href = accountType === "supplier" ? "/seller/dashboard" : "/buyer/dashboard"
+          if (accountType === "supplier") {
+            router.push("/seller/dashboard")
+          } else {
+            router.push("/buyer/dashboard")
+          }
         }, 1500)
       } else {
         toast.error(result.message || "Signup failed. Please try again.")

@@ -63,13 +63,33 @@ export const AuthProvider = ({ children }) => {
         return
       }
 
-      // For now, if token exists but no user data in localStorage, 
-      // we'll clear the token since we don't have a working profile endpoint
+      // Get user type to determine correct endpoint
       const storedUser = localStorage.getItem('user')
-      if (storedUser) {
-        setUser(JSON.parse(storedUser))
+      const userType = storedUser ? JSON.parse(storedUser).accountType : 'supplier'
+      const endpoint = userType === 'supplier' ? API_ENDPOINTS.SUPPLIER_ME() : API_ENDPOINTS.BUYER_ME()
+
+      const response = await fetch(endpoint, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        const userData = result.user || result.data || result
+        const userWithType = { ...userData, accountType: userType }
+        
+        setUser(userWithType)
+        localStorage.setItem('user', JSON.stringify(userWithType))
+      } else if (response.status === 401) {
+        // Token expired, try to refresh
+        const newToken = await refreshToken()
+        if (newToken) {
+          // Retry with new token
+          fetchUserProfile()
+        }
       } else {
-        // If no user data but token exists, clear everything
         logout()
       }
     } catch (error) {
@@ -141,6 +161,187 @@ export const AuthProvider = ({ children }) => {
     return !!user && !!localStorage.getItem('token')
   }
 
+  // API call helper with automatic token handling
+  const apiCall = async (endpoint, options = {}) => {
+    let token = localStorage.getItem('token')
+    
+    if (!token) {
+      throw new Error('No authentication token available')
+    }
+
+    const defaultHeaders = {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+
+    // Don't set Content-Type for FormData
+    if (options.body instanceof FormData) {
+      delete defaultHeaders['Content-Type']
+    }
+
+    const config = {
+      ...options,
+      headers: {
+        ...defaultHeaders,
+        ...options.headers
+      }
+    }
+
+    try {
+      const response = await fetch(endpoint, config)
+      
+      if (response.status === 401) {
+        // Token might be expired, try to refresh
+        const newToken = await refreshToken()
+        if (newToken) {
+          // Retry with new token
+          config.headers['Authorization'] = `Bearer ${newToken}`
+          return await fetch(endpoint, config)
+        } else {
+          throw new Error('Authentication failed')
+        }
+      }
+
+      return response
+    } catch (error) {
+      console.error('API call error:', error)
+      throw error
+    }
+  }
+
+  // Change password
+  const changePassword = async (currentPassword, newPassword) => {
+    try {
+      const userType = user?.accountType || 'supplier'
+      const endpoint = userType === 'supplier' ? API_ENDPOINTS.SUPPLIER_CHANGE_PASSWORD() : API_ENDPOINTS.BUYER_CHANGE_PASSWORD()
+      
+      const response = await apiCall(endpoint, {
+        method: 'POST',
+        body: JSON.stringify({ currentPassword, newPassword })
+      })
+
+      const data = await response.json()
+      return { success: response.ok, message: data.message }
+    } catch (error) {
+      return { success: false, message: error.message }
+    }
+  }
+
+  // Upload profile image
+  const uploadProfileImage = async (imageFile) => {
+    try {
+      const userType = user?.accountType || 'supplier'
+      const endpoint = userType === 'supplier' ? API_ENDPOINTS.SUPPLIER_UPLOAD_IMAGE() : API_ENDPOINTS.BUYER_UPLOAD_IMAGE()
+      
+      const formData = new FormData()
+      formData.append('image', imageFile)
+
+      const response = await apiCall(endpoint, {
+        method: 'POST',
+        body: formData
+      })
+
+      const data = await response.json()
+      
+      if (response.ok) {
+        // Update user data with new image URL
+        const updatedUser = { ...user, profileImage: data.imageUrl }
+        setUser(updatedUser)
+        localStorage.setItem('user', JSON.stringify(updatedUser))
+      }
+      
+      return { success: response.ok, data, message: data.message }
+    } catch (error) {
+      return { success: false, message: error.message }
+    }
+  }
+
+  // Get profile image
+  const getProfileImage = async () => {
+    try {
+      const userType = user?.accountType || 'supplier'
+      const endpoint = userType === 'supplier' ? API_ENDPOINTS.SUPPLIER_GET_IMAGE() : API_ENDPOINTS.BUYER_GET_IMAGE()
+      
+      const response = await apiCall(endpoint)
+      
+      if (response.ok) {
+        const data = await response.json()
+        return { success: true, imageUrl: data.imageUrl }
+      }
+      
+      return { success: false, message: 'Failed to fetch profile image' }
+    } catch (error) {
+      return { success: false, message: error.message }
+    }
+  }
+
+  // Update profile
+  const updateProfile = async (profileData) => {
+    try {
+      const userType = user?.accountType || 'supplier'
+      const endpoint = userType === 'supplier' ? API_ENDPOINTS.SUPPLIER_EDIT(user.id) : API_ENDPOINTS.BUYER_EDIT(user.id)
+      
+      const response = await apiCall(endpoint, {
+        method: 'PUT',
+        body: JSON.stringify(profileData)
+      })
+
+      const data = await response.json()
+      
+      if (response.ok) {
+        const updatedUser = { ...user, ...profileData }
+        setUser(updatedUser)
+        localStorage.setItem('user', JSON.stringify(updatedUser))
+      }
+      
+      return { success: response.ok, data, message: data.message }
+    } catch (error) {
+      return { success: false, message: error.message }
+    }
+  }
+
+  // Forgot password
+  const forgotPassword = async (email) => {
+    try {
+      const userType = user?.accountType || 'supplier'
+      const endpoint = userType === 'supplier' ? API_ENDPOINTS.SUPPLIER_FORGOT_PASSWORD() : API_ENDPOINTS.BUYER_FORGOT_PASSWORD()
+      
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      })
+
+      const data = await response.json()
+      return { success: response.ok, message: data.message }
+    } catch (error) {
+      return { success: false, message: error.message }
+    }
+  }
+
+  // Reset password
+  const resetPassword = async (email, resetToken, newPassword) => {
+    try {
+      const userType = user?.accountType || 'supplier'
+      const endpoint = userType === 'supplier' ? API_ENDPOINTS.SUPPLIER_RESET_PASSWORD() : API_ENDPOINTS.BUYER_RESET_PASSWORD()
+      
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, resetToken, newPassword })
+      })
+
+      const data = await response.json()
+      return { success: response.ok, message: data.message }
+    } catch (error) {
+      return { success: false, message: error.message }
+    }
+  }
+
   // Set up automatic token refresh
   useEffect(() => {
     fetchUserProfile()
@@ -162,7 +363,14 @@ export const AuthProvider = ({ children }) => {
     logout,
     refreshToken,
     isAuthenticated,
-    fetchUserProfile
+    fetchUserProfile,
+    apiCall,
+    changePassword,
+    uploadProfileImage,
+    getProfileImage,
+    updateProfile,
+    forgotPassword,
+    resetPassword
   }
 
   return (
