@@ -64,7 +64,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <div className="container mx-auto px-4 mt-40">
+      <div className="container mx-auto px-4 mt-20">
         <div className="max-w-md mx-auto">
           <div className="bg-white rounded-xl shadow-lg p-8">
             <div className="text-center mb-8">

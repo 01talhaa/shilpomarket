@@ -86,56 +86,56 @@ export default function HomePage() {
     },
   ];
 
-  const categories = [
-    {
-      id: 1,
-      name: "Electronics & Components",
-      icon: "�",
-      count: "2,847+ Products",
-      color: "from-blue-500 to-purple-600",
-      description: "Semiconductors, circuits, and electronic components",
-    },
-    {
-      id: 2,
-      name: "Textiles & Fabrics",
-      icon: "�",
-      count: "1,923+ Products",
-      color: "from-green-500 to-teal-600",
-      description: "Cotton, silk, synthetic fabrics, and textile materials",
-    },
-    {
-      id: 3,
-      name: "Chemicals & Materials",
-      icon: "⚗️",
-      count: "3,156+ Products",
-      color: "from-orange-500 to-red-600",
-      description: "Industrial chemicals, polymers, and raw materials",
-    },
-    {
-      id: 4,
-      name: "Metals & Alloys",
-      icon: "🔩",
-      count: "1,634+ Products",
-      color: "from-gray-500 to-blue-600",
-      description: "Steel, aluminum, copper, and specialty metals",
-    },
-    {
-      id: 5,
-      name: "Agriculture & Food",
-      icon: "🌾",
-      count: "2,245+ Products",
-      color: "from-yellow-500 to-orange-600",
-      description: "Grains, spices, processed foods, and agricultural products",
-    },
-    {
-      id: 6,
-      name: "Construction & Building",
-      icon: "🏗️",
-      count: "1,789+ Products",
-      color: "from-amber-500 to-yellow-600",
-      description: "Cement, tiles, hardware, and building materials",
-    },
-  ];
+  // const categories = [
+  //   {
+  //     id: 1,
+  //     name: "Electronics & Components",
+  //     icon: "�",
+  //     count: "2,847+ Products",
+  //     color: "from-blue-500 to-purple-600",
+  //     description: "Semiconductors, circuits, and electronic components",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Textiles & Fabrics",
+  //     icon: "�",
+  //     count: "1,923+ Products",
+  //     color: "from-green-500 to-teal-600",
+  //     description: "Cotton, silk, synthetic fabrics, and textile materials",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Chemicals & Materials",
+  //     icon: "⚗️",
+  //     count: "3,156+ Products",
+  //     color: "from-orange-500 to-red-600",
+  //     description: "Industrial chemicals, polymers, and raw materials",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Metals & Alloys",
+  //     icon: "🔩",
+  //     count: "1,634+ Products",
+  //     color: "from-gray-500 to-blue-600",
+  //     description: "Steel, aluminum, copper, and specialty metals",
+  //   },
+  //   {
+  //     id: 5,
+  //     name: "Agriculture & Food",
+  //     icon: "🌾",
+  //     count: "2,245+ Products",
+  //     color: "from-yellow-500 to-orange-600",
+  //     description: "Grains, spices, processed foods, and agricultural products",
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Construction & Building",
+  //     icon: "🏗️",
+  //     count: "1,789+ Products",
+  //     color: "from-amber-500 to-yellow-600",
+  //     description: "Cement, tiles, hardware, and building materials",
+  //   },
+  // ];
 
   const topCompanies = [
     {
@@ -589,8 +589,8 @@ export default function HomePage() {
       <Header />
       <Hero />
       {/* <States /> */}
-      <Category categories={categories} />
-      <div className="flex flex-col lg:flex-row justify-center gap-8 max-w-auto mx-auto px-4 sm:px-6 lg:px-8 my-16">
+      <Category />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
         <FeaturedProducts featuredProducts={featuredProducts} />
         <FeaturedSuppliers topCompanies={topCompanies} />
         <TopSellingProducts topSellingProducts={topSellingProducts} />

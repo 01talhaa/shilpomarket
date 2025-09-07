@@ -56,68 +56,68 @@ export default function TopCategories({ topCategories = [] }) {
         </div>
 
         <div className="relative">
-          <div className="space-y-3 h-[580px]">
+          <div className="space-y-3 h-[580px] md:h-[580px] lg:h-[580px] xl:h-[580px] 2xl:h-[580px] min-h-[580px] max-h-[580px] overflow-hidden">
             {currentCategories.map((category) => (
-            <Link key={category.id} href={`/categories/${category.slug}`}>
-            <div className="bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer mb-6">
-              <div className="relative">
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  className="w-full h-32 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                {category.featured && (
-                  <div className="absolute top-2 left-2 bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
-                    ⭐ Featured
-                  </div>
-                )}
-                {category.trending && (
-                  <div className="absolute top-2 right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
-                    🔥 Trending
-                  </div>
-                )}
-              </div>
-
-              <div className="p-3">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <h3 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-1">
-                      {category.name}
-                    </h3>
-                    <p className="text-xs text-gray-600 font-medium">{category.description}</p>
-                  </div>
-                  {category.verified && (
-                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800 font-medium">
-                      <div className="w-2 h-2 bg-green-400 rounded-full mr-1"></div>
-                      Verified
-                    </span>
-                  )}
-                </div>
-                
-                <div className="flex items-center mb-2">
-                  <div className="flex items-center mr-4">
-                    <span className="text-yellow-400 text-xs">★</span>
-                    <span className="text-xs font-medium text-gray-700 ml-1">{category.rating}</span>
-                    <span className="text-xs text-gray-500 ml-1">({category.suppliers} suppliers)</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-sm font-bold text-gray-900">{category.productCount} Products</span>
-                    {category.subCategories && (
-                      <span className="text-xs text-gray-500 ml-2">{category.subCategories} subcategories</span>
+              <Link key={category.id} href={`/categories/${category.slug}`}>
+                <div className="bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer mb-6 h-[270px] flex flex-col">
+                  <div className="relative">
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      className="w-full h-32 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    {category.featured && (
+                      <div className="absolute top-2 left-2 bg-gradient-to-r from-slate-600 to-slate-700 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
+                        ⭐ Featured
+                      </div>
+                    )}
+                    {category.trending && (
+                      <div className="absolute top-2 right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
+                        🔥 Trending
+                      </div>
                     )}
                   </div>
-                  <div className="text-right">
-                    <span className="text-xs text-gray-500 block">Starting from</span>
-                    <span className="text-xs font-medium text-gray-700">{category.priceRange}</span>
+
+                  <div className="p-3 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex-1">
+                          <h3 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-1">
+                            {category.name}
+                          </h3>
+                          <p className="text-xs text-gray-600 font-medium">{category.description}</p>
+                        </div>
+                        {category.verified && (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800 font-medium">
+                            <div className="w-2 h-2 bg-green-400 rounded-full mr-1"></div>
+                            Verified
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center mb-2">
+                        <div className="flex items-center mr-4">
+                          <span className="text-yellow-400 text-xs">★</span>
+                          <span className="text-xs font-medium text-gray-700 ml-1">{category.rating}</span>
+                          <span className="text-xs text-gray-500 ml-1">({category.suppliers} suppliers)</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mt-auto">
+                      <div>
+                        <span className="text-sm font-bold text-gray-900">{category.productCount} Products</span>
+                        {category.subCategories && (
+                          <span className="text-xs text-gray-500 ml-2">{category.subCategories} subcategories</span>
+                        )}
+                      </div>
+                      <div className="text-right">
+                        <span className="text-xs text-gray-500 block">Starting from</span>
+                        <span className="text-xs font-medium text-gray-700">{category.priceRange}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            </Link>
+              </Link>
             ))}
           </div>
           
