@@ -52,43 +52,21 @@ export default function States() {
   return (
     <section className="py-12 bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Trusted by businesses worldwide</h2>
+        {/* <div className="text-center mb-8">
+          <h2 className="text-4xl font-bold text-blue-600 mb-2">Trusted by businesses worldwide</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">Join thousands of companies that choose our platform for their sourcing needs</p>
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-8">
           {stats.map((stat, index) => (
             <div key={index} className="text-center p-4 lg:p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-sm transition-shadow">
-              <div className="text-orange-600 flex justify-center mb-3">
+              <div className="text-blue-700 flex justify-center mb-3">
                 {stat.icon}
               </div>
               <div className="text-2xl lg:text-3xl font-bold text-gray-900 mb-1">{stat.number}</div>
               <div className="text-sm text-gray-600">{stat.label}</div>
             </div>
           ))}
-        </div>
-
-        {/* Trust badges */}
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-sm font-medium text-gray-900 mb-1">ISO 9001</div>
-              <div className="text-xs text-gray-600">Certified Quality</div>
-            </div>
-            <div>
-              <div className="text-sm font-medium text-gray-900 mb-1">SSL Secured</div>
-              <div className="text-xs text-gray-600">Safe Transactions</div>
-            </div>
-            <div>
-              <div className="text-sm font-medium text-gray-900 mb-1">24/7 Support</div>
-              <div className="text-xs text-gray-600">Always Available</div>
-            </div>
-            <div>
-              <div className="text-sm font-medium text-gray-900 mb-1">Global Reach</div>
-              <div className="text-xs text-gray-600">Worldwide Shipping</div>
-            </div>
-          </div>
         </div>
       </div>
     </section>

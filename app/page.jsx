@@ -588,7 +588,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <Header />
       <Hero />
-      <States />
+      {/* <States /> */}
       <Category categories={categories} />
       <div className="flex flex-col lg:flex-row justify-center gap-8 max-w-auto mx-auto px-4 sm:px-6 lg:px-8 my-16">
         <FeaturedProducts featuredProducts={featuredProducts} />
