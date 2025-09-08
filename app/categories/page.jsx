@@ -1,8 +1,12 @@
+"use client" // Add this line at the very top for client-side functionality
 import Header from "@/components/Header";
 import CategoriesHeader from "@/components/CategoriesHeader";
 import Link from "next/link";
+import { useState } from "react"; // Import useState
 
 export default function CategoriesPage() {
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false); // State for filter sidebar visibility
+
   const categories = [
     {
       id: 1,
@@ -131,37 +135,45 @@ export default function CategoriesPage() {
       <CategoriesHeader />
       
       <div className="pt-20">
-        {/* Product Categories Header */}
-        <section className="bg-white py-3 border-b">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <h1 className="text-lg font-semibold text-gray-800">All Categories</h1>
-              </div>
-              <div className="flex items-center space-x-4 text-xs text-gray-600">
-                <span>{categories.length} Categories</span>
-                <span>•</span>
-                <span>{categories.reduce((sum, cat) => sum + cat.productCount, 0).toLocaleString()} Products</span>
-              </div>
-            </div>
-            <div className="mt-2 flex flex-wrap gap-2 text-xs">
-              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Most Popular</span>
-              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Electronics</span>
-              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Textiles</span>
-              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Chemicals</span>
-              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Agriculture</span>
-              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Construction</span>
-              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Automotive</span>
-              <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200 transition-colors cursor-pointer">Healthcare</span>
-            </div>
-          </div>
-        </section>
-
       <div className="container mx-auto px-4 py-4">
+        {/* Filter Button for Mobile/Tablet */}
+        <div className="lg:hidden mb-4">
+            <button
+              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-blue-700 transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span>{isFiltersOpen ? "Hide Filters" : "Show Filters"}</span>
+            </button>
+          </div>
+
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Filters Sidebar */}
-          <div className="lg:w-1/5">
-            <div className="bg-white rounded-lg shadow p-4 sticky top-20">
+          <div
+            className={`${
+              isFiltersOpen ? "block" : "hidden"
+            } lg:block lg:w-1/5 absolute lg:relative z-10 w-full`} // Position fixed for mobile overlay
+          >
+            {/* Overlay for mobile when filters are open */}
+            {isFiltersOpen && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-50 z-0"
+                    onClick={() => setIsFiltersOpen(false)}
+                ></div>
+            )}
+            {/* Actual Sidebar Content */}
+            <div className="bg-white rounded-lg shadow p-4 sticky top-20 z-10 w-11/12 mx-auto lg:w-auto">
               <h3 className="text-sm font-semibold text-gray-800 mb-4">Filters</h3>
 
               {/* Sort By */}
@@ -224,7 +236,7 @@ export default function CategoriesPage() {
           </div>
 
           {/* Categories Grid */}
-          <div className="lg:w-4/5">
+          <div className="lg:w-4/5 flex-grow">
             {/* Sort and View Options */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-3 bg-white rounded-lg p-2 shadow-sm">
               <div className="flex items-center space-x-4 mb-2 sm:mb-0">

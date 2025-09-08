@@ -8,7 +8,8 @@ export default function SellersHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchValue, setSearchValue] = useState("")
   const [isSearchFocused, setIsSearchFocused] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false) // State for mobile hamburger menu
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false) // State for user dropdown menu
   const { user, logout } = useAuth()
   const router = useRouter()
 
@@ -45,6 +46,18 @@ export default function SellersHeader() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  // Close mobile menu when screen size changes to lg or wider
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) { // Tailwind's 'lg' breakpoint
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
 
   const supplierCategories = [
     { name: "Metals & Alloys", icon: "🔩", href: "/sellers?category=metals" },
@@ -104,8 +117,8 @@ export default function SellersHeader() {
             </div>
           </div>
 
-          {/* Advanced Supplier Search */}
-          <div className="flex-1 max-w-2xl mx-8 relative">
+          {/* Advanced Supplier Search (Hidden on md and sm screens, visible on lg) */}
+          <div className="hidden lg:flex flex-1 max-w-2xl mx-8 relative">
             <div className={`relative transition-all duration-300 ${
               isSearchFocused ? "transform scale-105" : ""
             }`}>
@@ -157,8 +170,8 @@ export default function SellersHeader() {
             </div>
           </div>
 
-          {/* User Actions */}
-          <div className="flex items-center space-x-4">
+          {/* User Actions (Hidden on md and sm screens, visible on lg) */}
+          <div className="hidden lg:flex items-center space-x-4">
             <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
               <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -167,8 +180,11 @@ export default function SellersHeader() {
             </button>
             
             {user ? (
-              <div className="relative group">
-                <button className="flex items-center space-x-2 bg-gray-100 px-3 py-2 rounded-lg">
+              <div className="relative">
+                <button 
+                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  className="flex items-center space-x-2 bg-gray-100 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
                   <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
                     {getUserDisplayInfo().initial}
                   </div>
@@ -189,29 +205,32 @@ export default function SellersHeader() {
                   </svg>
                 </button>
                 {/* Dropdown */}
-                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-200">
-                  <button
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg"
-                    onClick={() => router.push((user.company_name || user.companyName) ? "/seller/dashboard" : "/buyer/dashboard")}
-                  >
-                    Dashboard
-                  </button>
-                  <button
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    onClick={() => router.push("/profile")}
-                  >
-                    Profile
-                  </button>
-                  <button
-                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-b-lg"
-                    onClick={() => {
-                      logout()
-                      router.push("/")
-                    }}
-                  >
-                    Logout
-                  </button>
-                </div>
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg"
+                      onClick={() => { router.push((user.company_name || user.companyName) ? "/seller/dashboard" : "/buyer/dashboard"); setIsUserMenuOpen(false); }}
+                    >
+                      Dashboard
+                    </button>
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      onClick={() => { router.push("/profile"); setIsUserMenuOpen(false); }}
+                    >
+                      Profile
+                    </button>
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-b-lg"
+                      onClick={() => {
+                        logout()
+                        router.push("/")
+                        setIsUserMenuOpen(false)
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <>
@@ -225,13 +244,102 @@ export default function SellersHeader() {
               </>
             )}
           </div>
+
+          {/* Hamburger Menu Icon for Mobile/Tablet */}
+          <div className="lg:hidden flex items-center">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+              </svg>
+            </button>
+          </div>
         </div>
 
 
-        {/* Mobile Menu */}
+        {/* Mobile/Tablet Menu Content */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-200">
+          <div className="lg:hidden bg-white border-t border-gray-200 shadow-lg pb-4">
             <div className="px-4 py-3 space-y-3">
+              {/* Mobile Search Bar */}
+              <div className="relative mb-4">
+                <input
+                  type="text"
+                  placeholder="Search suppliers..."
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  className="w-full h-10 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 bg-gray-50"
+                />
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Mobile User Actions */}
+              <div className="flex flex-col space-y-2 mb-4">
+                <button className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 font-medium">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                  <span>Favorites <span className="text-red-500">(3)</span></span>
+                </button>
+
+                {user ? (
+                  <>
+                    <button
+                      className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 font-medium"
+                      onClick={() => { router.push((user.company_name || user.companyName) ? "/seller/dashboard" : "/buyer/dashboard"); setIsMobileMenuOpen(false); }}
+                    >
+                      <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xs">
+                        {getUserDisplayInfo().initial}
+                      </div>
+                      <span>Dashboard</span>
+                    </button>
+                    <button
+                      className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 font-medium"
+                      onClick={() => { router.push("/profile"); setIsMobileMenuOpen(false); }}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      <span>Profile</span>
+                    </button>
+                    <button
+                      className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-red-50 text-red-600 font-medium transition-colors"
+                      onClick={() => {
+                        logout()
+                        router.push("/")
+                        setIsMobileMenuOpen(false)
+                      }}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
+                      <span>Logout</span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/auth/login" className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors text-gray-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
+                      <span>Sign In</span>
+                    </Link>
+                    <Link href="/auth/signup" className="flex items-center justify-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium" onClick={() => setIsMobileMenuOpen(false)}>
+                      <span>Join as Supplier</span>
+                    </Link>
+                  </>
+                )}
+              </div>
+              
+              <div className="border-t border-gray-100 my-4"></div>
+
+              <h4 className="text-sm font-semibold text-gray-700 mb-2">Categories</h4>
               {supplierCategories.map((category, index) => (
                 <Link
                   key={index}
@@ -246,16 +354,6 @@ export default function SellersHeader() {
             </div>
           </div>
         )}
-
-        {/* Mobile Menu Toggle */}
-        <button
-          className="lg:hidden fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
       </div>
     </header>
   )

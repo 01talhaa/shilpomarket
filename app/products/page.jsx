@@ -1,12 +1,13 @@
 "use client"
 import { useState } from "react"
 import Link from "next/link"
-import ProductHeader from "../../components/ProductHeader"
+import ProductHeader from "../../components/ProductHeader" // Assuming this path is correct
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortBy, setSortBy] = useState("featured")
   const [priceRange, setPriceRange] = useState([0, 10000])
+  const [showFilters, setShowFilters] = useState(false) // New state for filter visibility
 
   const categories = [
     { id: "all", name: "All Categories", count: 1250 },
@@ -107,16 +108,26 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Use the ProductHeader component */}
       <ProductHeader />
 
-      {/* Main Content with proper spacing */}
-      <div className="pt-32">{/* Adjusted for header height */}
+      <div className="pt-20">
         <div className="container mx-auto px-4 py-4">
+          {/* Filter Button for Mobile */}
+          <div className="lg:hidden mb-4">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 shadow-md hover:bg-blue-700 transition-colors"
+            >
+              <FilterIcon className="w-5 h-5" />
+              <span>{showFilters ? "Hide Filters" : "Show Filters"}</span>
+            </button>
+          </div>
+
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Filters Sidebar */}
-            <div className="lg:w-1/5">
-              <div className="bg-white rounded-lg shadow p-4 sticky top-20">
+            {/* Added conditional rendering based on showFilters state and Tailwind's responsive classes */}
+            <div className={`lg:w-1/5 ${showFilters ? "block" : "hidden"} lg:block`}>
+              <div className="bg-white rounded-lg shadow p-4 sticky lg:top-20">
                 <h3 className="text-sm font-semibold text-gray-800 mb-4">Filters</h3>
 
                 {/* Categories */}
@@ -186,7 +197,7 @@ export default function ProductsPage() {
             </div>
 
             {/* Products Grid */}
-            <div className="lg:w-4/5">
+            <div className="lg:w-4/5 flex-grow">
               {/* Sort and View Options */}
               <div className="flex flex-col sm:flex-row justify-between items-center mb-3 bg-white rounded-lg p-2 shadow-sm">
                 <div className="flex items-center space-x-4 mb-2 sm:mb-0">
@@ -292,6 +303,25 @@ export default function ProductsPage() {
           </div>
         </div>
       </div>
-    </div> // <-- This closing div was missing. It closes the main container.
+    </div>
+  )
+}
+
+function FilterIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    </svg>
   )
 }

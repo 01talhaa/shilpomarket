@@ -105,7 +105,7 @@ export default function InsightsHeader() {
           </div>
 
           {/* Advanced Insights Search */}
-          <div className="flex-1 max-w-2xl mx-8 relative">
+          <div className="flex-1 max-w-2xl mx-8 relative hidden md:block"> {/* Hide search on small screens */}
             <div className={`relative transition-all duration-300 ${
               isSearchFocused ? "transform scale-105" : ""
             }`}>
@@ -172,8 +172,8 @@ export default function InsightsHeader() {
             </div>
           </div>
 
-          {/* User Actions */}
-          <div className="flex items-center space-x-4">
+          {/* User Actions - Hidden on small/medium screens, shown on large screens */}
+          <div className="hidden lg:flex items-center space-x-4">
             <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
               <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-5 5-5-5h5zm0 0V3" />
@@ -214,13 +214,19 @@ export default function InsightsHeader() {
                 <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-200">
                   <button
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg"
-                    onClick={() => router.push((user.company_name || user.companyName) ? "/seller/dashboard" : "/buyer/dashboard")}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false); // Close menu on click
+                      router.push((user.company_name || user.companyName) ? "/seller/dashboard" : "/buyer/dashboard");
+                    }}
                   >
                     Dashboard
                   </button>
                   <button
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    onClick={() => router.push("/profile")}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false); // Close menu on click
+                      router.push("/profile");
+                    }}
                   >
                     Profile
                   </button>
@@ -228,6 +234,7 @@ export default function InsightsHeader() {
                     className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-b-lg"
                     onClick={() => {
                       logout()
+                      setIsMobileMenuOpen(false); // Close menu on click
                       router.push("/")
                     }}
                   >
@@ -241,12 +248,109 @@ export default function InsightsHeader() {
               </Link>
             )}
           </div>
+
+          {/* Hamburger Menu Icon - Visible on small/medium screens */}
+          <button
+            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </svg>
+          </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Content */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-200">
+          <div className="lg:hidden bg-white border-t border-gray-200 shadow-md pb-4">
             <div className="px-4 py-3 space-y-3">
+              {/* Search Bar in Mobile Menu */}
+              <div className="relative md:hidden mb-4">
+                <input
+                  type="text"
+                  placeholder="Search articles, trends..."
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  className="w-full h-10 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 bg-gray-50"
+                />
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                  <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* User Actions in Mobile Menu */}
+              {user ? (
+                <>
+                  <Link
+                    href={(user.company_name || user.companyName) ? "/seller/dashboard" : "/buyer/dashboard"}
+                    className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                      {getUserDisplayInfo().initial}
+                    </div>
+                    <div className="text-gray-700 font-medium">{getUserDisplayInfo().name}</div>
+                  </Link>
+                  <Link
+                    href="/profile"
+                    className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span className="text-gray-700 font-medium">Profile</span>
+                  </Link>
+                  <button
+                    className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors w-full text-left"
+                    onClick={() => {
+                      logout()
+                      setIsMobileMenuOpen(false)
+                      router.push("/")
+                    }}
+                  >
+                    <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    <span className="text-red-600 font-medium">Logout</span>
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/auth/login"
+                  className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                  <span className="text-gray-700 font-medium">Sign In</span>
+                </Link>
+              )}
+
+              <hr className="my-2 border-gray-100" />
+
+              {/* Additional Buttons in Mobile Menu */}
+              <button
+                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors w-full text-left"
+                onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
+              >
+                <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-5 5-5-5h5zm0 0V3" />
+                </svg>
+                <span className="text-gray-700 font-medium">Subscribe</span>
+              </button>
+              
+              <button
+                className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors w-full text-left relative"
+                onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
+              >
+                <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                </svg>
+                <span className="text-gray-700 font-medium">Saved Articles</span>
+                <span className="absolute right-3 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">7</span>
+              </button>
+
+              <hr className="my-2 border-gray-100" />
+
+              {/* Categories in Mobile Menu */}
               {insightCategories.map((category, index) => (
                 <Link
                   key={index}
@@ -264,16 +368,6 @@ export default function InsightsHeader() {
             </div>
           </div>
         )}
-
-        {/* Mobile Menu Toggle */}
-        <button
-          className="lg:hidden fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
       </div>
     </header>
   )

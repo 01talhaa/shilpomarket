@@ -7,6 +7,7 @@ export default function SellersPage() {
   const [selectedCountry, setSelectedCountry] = useState("all")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortBy, setSortBy] = useState("rating")
+  const [showFilters, setShowFilters] = useState(false) // New state for mobile filter visibility
 
   const countries = [
     { id: "all", name: "All Countries", count: 1250 },
@@ -141,183 +142,229 @@ export default function SellersPage() {
       <div className="pt-20">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col lg:flex-row gap-4">
-          {/* Filters Sidebar */}
-          <div className="lg:w-1/5">
-            <div className="bg-white rounded-lg shadow p-4 sticky top-20">
-              <h3 className="text-sm font-semibold text-gray-800 mb-4">Filters</h3>
-
-              {/* Countries */}
-              <div className="mb-4">
-                <h4 className="text-xs font-medium text-gray-700 mb-2">Countries</h4>
-                <div className="space-y-1">
-                  {countries.map((country) => (
-                    <button
-                      key={country.id}
-                      onClick={() => setSelectedCountry(country.id)}
-                      className={`w-full text-left px-2 py-1 rounded text-xs transition-colors ${
-                        selectedCountry === country.id ? "bg-blue-100 text-blue-800" : "hover:bg-gray-100 text-gray-600"
-                      }`}
+            {/* Filter Button for Mobile */}
+            <div className="lg:hidden mb-4">
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2"
+              >
+                {showFilters ? (
+                  <>
+                    <span>Hide Filters</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
                     >
-                      <div className="flex justify-between items-center">
-                        <span>{country.name}</span>
-                        <span className="text-xs">({country.count})</span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Categories */}
-              <div className="mb-4">
-                <h4 className="text-xs font-medium text-gray-700 mb-2">Specialization</h4>
-                <div className="space-y-1">
-                  {categories.map((category) => (
-                    <button
-                      key={category.id}
-                      onClick={() => setSelectedCategory(category.id)}
-                      className={`w-full text-left px-2 py-1 rounded text-xs transition-colors ${
-                        selectedCategory === category.id
-                          ? "bg-blue-100 text-blue-800"
-                          : "hover:bg-gray-100 text-gray-600"
-                      }`}
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </>
+                ) : (
+                  <>
+                    <span>Show Filters</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
                     >
-                      {category.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Additional Filters */}
-              <div className="space-y-2">
-                <div>
-                  <label className="flex items-center space-x-2">
-                    <input type="checkbox" className="rounded" />
-                    <span className="text-xs text-gray-700">Verified Only</span>
-                  </label>
-                </div>
-                <div>
-                  <label className="flex items-center space-x-2">
-                    <input type="checkbox" className="rounded" />
-                    <span className="text-xs text-gray-700">Fast Response</span>
-                  </label>
-                </div>
-                <div>
-                  <label className="flex items-center space-x-2">
-                    <input type="checkbox" className="rounded" />
-                    <span className="text-xs text-gray-700">ISO Certified</span>
-                  </label>
-                </div>
-              </div>
+                      <path
+                        fillRule="evenodd"
+                        d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </>
+                )}
+              </button>
             </div>
-          </div>
 
-          {/* Suppliers Grid */}
-          <div className="lg:w-4/5">
-            {/* Sort and View Options */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-3 bg-white rounded-lg p-2 shadow-sm">
-              <div className="flex items-center space-x-4 mb-2 sm:mb-0">
-                <span className="text-sm text-gray-600">{filteredSuppliers.length} suppliers</span>
-              </div>
-              <div className="flex items-center space-x-4">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
-                >
-                  <option value="rating">Highest Rated</option>
-                  <option value="reviews">Most Reviews</option>
-                  <option value="products">Most Products</option>
-                  <option value="established">Oldest First</option>
-                  <option value="newest">Newest First</option>
-                </select>
+            {/* Filters Sidebar */}
+            <div
+              className={`${
+                showFilters ? "block" : "hidden"
+              } lg:block lg:w-1/5`}
+            >
+              <div className="bg-white rounded-lg shadow p-4 sticky top-20">
+                <h3 className="text-sm font-semibold text-gray-800 mb-4">Filters</h3>
+
+                {/* Countries */}
+                <div className="mb-4">
+                  <h4 className="text-xs font-medium text-gray-700 mb-2">Countries</h4>
+                  <div className="space-y-1">
+                    {countries.map((country) => (
+                      <button
+                        key={country.id}
+                        onClick={() => setSelectedCountry(country.id)}
+                        className={`w-full text-left px-2 py-1 rounded text-xs transition-colors ${
+                          selectedCountry === country.id ? "bg-blue-100 text-blue-800" : "hover:bg-gray-100 text-gray-600"
+                        }`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span>{country.name}</span>
+                          <span className="text-xs">({country.count})</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Categories */}
+                <div className="mb-4">
+                  <h4 className="text-xs font-medium text-gray-700 mb-2">Specialization</h4>
+                  <div className="space-y-1">
+                    {categories.map((category) => (
+                      <button
+                        key={category.id}
+                        onClick={() => setSelectedCategory(category.id)}
+                        className={`w-full text-left px-2 py-1 rounded text-xs transition-colors ${
+                          selectedCategory === category.id
+                            ? "bg-blue-100 text-blue-800"
+                            : "hover:bg-gray-100 text-gray-600"
+                        }`}
+                      >
+                        {category.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Additional Filters */}
+                <div className="space-y-2">
+                  <div>
+                    <label className="flex items-center space-x-2">
+                      <input type="checkbox" className="rounded" />
+                      <span className="text-xs text-gray-700">Verified Only</span>
+                    </label>
+                  </div>
+                  <div>
+                    <label className="flex items-center space-x-2">
+                      <input type="checkbox" className="rounded" />
+                      <span className="text-xs text-gray-700">Fast Response</span>
+                    </label>
+                  </div>
+                  <div>
+                    <label className="flex items-center space-x-2">
+                      <input type="checkbox" className="rounded" />
+                      <span className="text-xs text-gray-700">ISO Certified</span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Suppliers Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-              {filteredSuppliers.map((supplier) => (
-                <Link key={supplier.id} href={`/sellers/${supplier.id}`}>
-                  <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
-                    <div className="p-4">
-                      <div className="flex items-center space-x-3 mb-3">
-                        <img
-                          src={supplier.logo || "/placeholder.svg"}
-                          alt={supplier.name}
-                          className="w-10 h-10 rounded-full border border-gray-100"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-1 mb-1">
-                            <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">{supplier.name}</h3>
-                            {supplier.verified && (
-                              <span className="bg-green-100 text-green-800 text-xs px-1 py-0.5 rounded-full">
-                                ✓
-                              </span>
-                            )}
+            <div className="lg:w-4/5">
+              {/* Sort and View Options */}
+              <div className="flex flex-col sm:flex-row justify-between items-center mb-3 bg-white rounded-lg p-2 shadow-sm">
+                <div className="flex items-center space-x-4 mb-2 sm:mb-0">
+                  <span className="text-sm text-gray-600">{filteredSuppliers.length} suppliers</span>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
+                  >
+                    <option value="rating">Highest Rated</option>
+                    <option value="reviews">Most Reviews</option>
+                    <option value="products">Most Products</option>
+                    <option value="established">Oldest First</option>
+                    <option value="newest">Newest First</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Suppliers Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                {filteredSuppliers.map((supplier) => (
+                  <Link key={supplier.id} href={`/sellers/${supplier.id}`}>
+                    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
+                      <div className="p-4">
+                        <div className="flex items-center space-x-3 mb-3">
+                          <img
+                            src={supplier.logo || "/placeholder.svg"}
+                            alt={supplier.name}
+                            className="w-10 h-10 rounded-full border border-gray-100"
+                          />
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-1 mb-1">
+                              <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">{supplier.name}</h3>
+                              {supplier.verified && (
+                                <span className="bg-green-100 text-green-800 text-xs px-1 py-0.5 rounded-full">
+                                  ✓
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-gray-600">📍 {supplier.location}</p>
                           </div>
-                          <p className="text-xs text-gray-600">📍 {supplier.location}</p>
                         </div>
-                      </div>
 
-                      <p className="text-xs text-gray-600 mb-3 line-clamp-2">{supplier.description}</p>
+                        <p className="text-xs text-gray-600 mb-3 line-clamp-2">{supplier.description}</p>
 
-                      <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
-                        <div className="bg-gray-50 rounded p-2">
-                          <div className="text-gray-500 text-xs">Rating</div>
-                          <div className="flex items-center">
-                            <span className="text-yellow-400 mr-1">★</span>
-                            <span className="font-semibold">{supplier.rating}</span>
+                        <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
+                          <div className="bg-gray-50 rounded p-2">
+                            <div className="text-gray-500 text-xs">Rating</div>
+                            <div className="flex items-center">
+                              <span className="text-yellow-400 mr-1">★</span>
+                              <span className="font-semibold">{supplier.rating}</span>
+                            </div>
+                          </div>
+                          <div className="bg-gray-50 rounded p-2">
+                            <div className="text-gray-500 text-xs">Products</div>
+                            <div className="font-semibold">{supplier.products}</div>
                           </div>
                         </div>
-                        <div className="bg-gray-50 rounded p-2">
-                          <div className="text-gray-500 text-xs">Products</div>
-                          <div className="font-semibold">{supplier.products}</div>
-                        </div>
-                      </div>
 
-                      <div className="flex flex-wrap gap-1 mb-3">
-                        {supplier.categories.slice(0, 2).map((category) => (
-                          <span
-                            key={category}
-                            className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded capitalize"
-                          >
-                            {category}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <div className="text-xs text-gray-500">
-                          <span className="text-green-600 font-medium">{supplier.responseTime}</span>
+                        <div className="flex flex-wrap gap-1 mb-3">
+                          {supplier.categories.slice(0, 2).map((category) => (
+                            <span
+                              key={category}
+                              className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded capitalize"
+                            >
+                              {category}
+                            </span>
+                          ))}
                         </div>
-                        <div className="text-xs text-gray-500">{supplier.totalOrders}</div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs text-gray-500">
+                            <span className="text-green-600 font-medium">{supplier.responseTime}</span>
+                          </div>
+                          <div className="text-xs text-gray-500">{supplier.totalOrders}</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+                  </Link>
+                ))}
+              </div>
 
-            {/* Pagination */}
-            <div className="flex justify-center mt-6">
-              <div className="flex space-x-1">
-                <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 transition-colors">
-                  Previous
-                </button>
-                <button className="px-3 py-1 bg-blue-600 text-white rounded text-sm">1</button>
-                <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 transition-colors">
-                  2
-                </button>
-                <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 transition-colors">
-                  3
-                </button>
-                <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 transition-colors">
-                  Next
-                </button>
+              {/* Pagination */}
+              <div className="flex justify-center mt-6">
+                <div className="flex space-x-1">
+                  <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 transition-colors">
+                    Previous
+                  </button>
+                  <button className="px-3 py-1 bg-blue-600 text-white rounded text-sm">1</button>
+                  <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 transition-colors">
+                    2
+                  </button>
+                  <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 transition-colors">
+                    3
+                  </button>
+                  <button className="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100 transition-colors">
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
 
       {/* <Footer /> */}
