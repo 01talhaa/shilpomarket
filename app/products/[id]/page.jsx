@@ -1,91 +1,113 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect, use } from "react"
+import { useParams } from "next/navigation"
 import Link from "next/link"
 import ProductHeader from "../../../components/ProductHeader"
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+
 export default function ProductDetailPage({ params }) {
+  const unwrappedParams = use(params);
+  const routeParams = useParams();
+  const productId = unwrappedParams?.id || routeParams?.id;
+  
+  const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(5)
   const [activeTab, setActiveTab] = useState("description")
 
-  const product = {
-    id: 1,
-    name: "Premium Steel Rods",
-    supplier: "MetalCorp Industries",
-    price: 1250,
-    images: [
-      "https://images.unsplash.com/photo-1565728744382-61accd4aa148?w=400&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop",
-      "https://images.unsplash.com/photo-1565728744382-61accd4aa148?w=400&h=400&fit=crop",
-    ],
-    category: "Metals & Alloys",
-    rating: 4.8,
-    reviews: 156,
-    minOrder: 5,
-    maxOrder: 1000,
-    unit: "tons",
-    location: "Pittsburgh, USA",
-    verified: true,
-    inStock: true,
-    stockQuantity: 500,
-    description:
-      "High-quality premium steel rods manufactured using advanced metallurgical processes. These steel rods are perfect for construction, manufacturing, and industrial applications. Our steel meets international quality standards and comes with full certification.",
-    specifications: {
-      "Material Grade": "ASTM A615 Grade 60",
-      "Diameter Range": "8mm - 32mm",
-      Length: "6m - 12m",
-      "Tensile Strength": "620 MPa minimum",
-      "Yield Strength": "420 MPa minimum",
-      "Carbon Content": "0.30% maximum",
-      Certification: "ISO 9001:2015, ASTM",
-    },
-    shipping: {
-      "Delivery Time": "7-14 business days",
-      "Shipping Cost": "Calculated at checkout",
-      "Free Shipping": "Orders above $50,000",
-      International: "Available to 50+ countries",
-    },
+  useEffect(() => {
+    if (productId) {
+      fetchProduct();
+    }
+  }, [productId]);
+
+  const fetchProduct = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API_BASE_URL}/api/products/${productId}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        const fetchedProduct = data.product;
+        setProduct(fetchedProduct);
+        setQuantity(fetchedProduct.minOrder || 5);
+        
+        // Fetch related products from same category
+        if (fetchedProduct.category) {
+          fetchRelatedProducts(fetchedProduct.category, productId);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching product:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchRelatedProducts = async (category, excludeId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/products?category=${category}&limit=4`);
+      if (response.ok) {
+        const data = await response.json();
+        setRelatedProducts((data.products || []).filter(p => p._id !== excludeId).slice(0, 3));
+      }
+    } catch (error) {
+      console.error('Error fetching related products:', error);
+    }
+  };
+
+  if (loading) {
+    return (
+      <>
+        <ProductHeader />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+      </>
+    );
   }
 
+  if (!product) {
+    return (
+      <>
+        <ProductHeader />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h1>
+            <Link href="/products" className="text-blue-600 hover:underline">
+              Back to Products
+            </Link>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  const totalPrice = quantity * product.price;
+  const images = product.images?.length > 0 
+    ? product.images.map(img => img.url) 
+    : ['/placeholder.svg'];
+  
+  // Convert Map to object for specifications
+  const specifications = product.specifications instanceof Map 
+    ? Object.fromEntries(product.specifications)
+    : product.specifications || {};
+  
   const supplier = {
-    name: "MetalCorp Industries",
-    logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=80&h=80&fit=crop",
-    rating: 4.8,
-    reviews: 1250,
-    established: "1995",
-    location: "Pittsburgh, USA",
-    verified: true,
-    responseTime: "< 2 hours",
-    products: 245,
-    totalOrders: "10,000+",
+    name: product.supplierName || 'Unknown Supplier',
+    logo: product.supplier?.profileImage?.url || '/placeholder.svg',
+    rating: product.supplier?.rating || 4.5,
+    email: product.supplier?.email || '',
+    phone: product.supplier?.phone || '',
+    location: product.location || product.supplier?.address || 'N/A',
+    verified: product.supplier?.isApproved || false,
+    companyName: product.supplier?.companyName || product.supplierName,
   }
 
-  const relatedProducts = [
-    {
-      id: 2,
-      name: "Stainless Steel Sheets",
-      price: 1850,
-      image: "https://images.unsplash.com/photo-1567271636807-51a10568e5ca?w=200&h=200&fit=crop",
-      rating: 4.7,
-    },
-    {
-      id: 3,
-      name: "Aluminum Rods",
-      price: 980,
-      image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=200&h=200&fit=crop",
-      rating: 4.6,
-    },
-    {
-      id: 4,
-      name: "Copper Wire",
-      price: 3200,
-      image: "https://images.unsplash.com/photo-1565728744382-61accd4aa148?w=200&h=200&fit=crop",
-      rating: 4.9,
-    },
-  ]
-
-  const totalPrice = quantity * product.price
+  const relatedProductsData = relatedProducts.length > 0 ? relatedProducts : [];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -115,13 +137,13 @@ export default function ProductDetailPage({ params }) {
           <div className="space-y-2">
             <div className="aspect-square bg-white rounded-lg shadow-sm overflow-hidden max-w-md">
               <img
-                src={product.images[selectedImage] || "/placeholder.svg"}
+                src={images[selectedImage] || "/placeholder.svg"}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="grid grid-cols-4 gap-1 max-w-md">
-              {product.images.map((image, index) => (
+              {images.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -212,7 +234,7 @@ export default function ProductDetailPage({ params }) {
             {/* Action Buttons */}
             <div className="space-y-2">
               <Link
-                href={`/purchase/${product.id}?quantity=${quantity}`}
+                href={`/purchase/${product._id}?quantity=${quantity}`}
                 className="w-full bg-blue-600 text-white py-2 px-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-center block text-xs"
               >
                 Request Quote
@@ -283,23 +305,39 @@ export default function ProductDetailPage({ params }) {
 
             {activeTab === "specifications" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {Object.entries(product.specifications).map(([key, value]) => (
-                  <div key={key} className="flex justify-between py-1 border-b border-gray-100">
-                    <span className="font-medium text-gray-700 text-xs">{key}:</span>
-                    <span className="text-gray-600 text-xs">{value}</span>
-                  </div>
-                ))}
+                {Object.keys(specifications).length > 0 ? (
+                  Object.entries(specifications).map(([key, value]) => (
+                    <div key={key} className="flex justify-between py-1 border-b border-gray-100">
+                      <span className="font-medium text-gray-700 text-xs">{key}:</span>
+                      <span className="text-gray-600 text-xs">{value}</span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-xs">No specifications available</p>
+                )}
               </div>
             )}
 
             {activeTab === "shipping" && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {Object.entries(product.shipping).map(([key, value]) => (
-                  <div key={key} className="flex justify-between py-1 border-b border-gray-100">
-                    <span className="font-medium text-gray-700 text-xs">{key}:</span>
-                    <span className="text-gray-600 text-xs">{value}</span>
+                <div className="flex justify-between py-1 border-b border-gray-100">
+                  <span className="font-medium text-gray-700 text-xs">Delivery Time:</span>
+                  <span className="text-gray-600 text-xs">{product.shipping?.deliveryTime}</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-gray-100">
+                  <span className="font-medium text-gray-700 text-xs">Shipping Cost:</span>
+                  <span className="text-gray-600 text-xs">{product.shipping?.shippingCost}</span>
+                </div>
+                {product.shipping?.freeShippingThreshold > 0 && (
+                  <div className="flex justify-between py-1 border-b border-gray-100">
+                    <span className="font-medium text-gray-700 text-xs">Free Shipping Above:</span>
+                    <span className="text-gray-600 text-xs">${product.shipping.freeShippingThreshold}</span>
                   </div>
-                ))}
+                )}
+                <div className="flex justify-between py-1 border-b border-gray-100">
+                  <span className="font-medium text-gray-700 text-xs">International:</span>
+                  <span className="text-gray-600 text-xs">{product.shipping?.international ? 'Available' : 'Not Available'}</span>
+                </div>
               </div>
             )}
 
@@ -337,19 +375,20 @@ export default function ProductDetailPage({ params }) {
         </div>
 
         {/* Related Products */}
-        <div className="mb-4">
-          <h2 className="text-lg font-bold text-gray-800 mb-3">Related Products</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {relatedProducts.map((relatedProduct) => (
-              <Link
-                key={relatedProduct.id}
-                href={`/products/${relatedProduct.id}`}
-                className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-              >
-                <div className="relative">
-                  <img
-                    src={relatedProduct.image || "/placeholder.svg"}
-                    alt={relatedProduct.name}
+        {relatedProductsData.length > 0 && (
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-gray-800 mb-3">Related Products</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {relatedProductsData.map((relatedProduct) => (
+                <Link
+                  key={relatedProduct._id}
+                  href={`/products/${relatedProduct._id}`}
+                  className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+                >
+                  <div className="relative">
+                    <img
+                      src={relatedProduct.images?.[0]?.url || "/placeholder.svg"}
+                      alt={relatedProduct.name}
                     className="w-full h-32 object-cover"
                   />
                   <div className="absolute top-2 right-2 bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-medium">
@@ -359,23 +398,24 @@ export default function ProductDetailPage({ params }) {
                 <div className="p-3">
                   <h3 className="font-semibold text-gray-800 text-sm mb-1 line-clamp-2">{relatedProduct.name}</h3>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-lg font-bold text-green-600">${relatedProduct.price}</span>
+                    <span className="text-lg font-bold text-green-600">${relatedProduct.price}/{relatedProduct.unit}</span>
                     <div className="flex items-center text-xs text-gray-600">
                       <span className="text-yellow-500 mr-1">⭐</span>
-                      <span>{relatedProduct.rating}</span>
+                      <span>{relatedProduct.rating || 'New'}</span>
                     </div>
                   </div>
                   <div className="text-xs text-gray-600 mb-2">
-                    MOQ: 1 ton
+                    MOQ: {relatedProduct.minOrder} {relatedProduct.unit}
                   </div>
                   <div className="text-xs text-gray-500">
-                    MetalCorp Industries
+                    {relatedProduct.supplierName}
                   </div>
                 </div>
               </Link>
             ))}
           </div>
         </div>
+        )}
       </div>
       </div>
     </div>

@@ -1,377 +1,444 @@
-"use client"
-import { useState } from "react"
-import AdminLayout from "../../../components/AdminLayout"
-import Link from "next/link"
+'use client';
 
-export default function AdminSuppliers() {
-  const [selectedSuppliers, setSelectedSuppliers] = useState([])
-  const [filterStatus, setFilterStatus] = useState("all")
-  const [searchTerm, setSearchTerm] = useState("")
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import AdminLayout from '@/components/AdminLayout';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Search, CheckCircle, XCircle, Clock, Mail, Phone, Building, FileText, Calendar, Globe, Users } from 'lucide-react';
+import { toast } from 'sonner';
 
-  const suppliers = [
-    {
-      id: 1,
-      name: "MetalCorp Industries",
-      email: "contact@metalcorp.com",
-      phone: "+1-555-0123",
-      country: "USA",
-      city: "Pittsburgh",
-      status: "active",
-      verified: true,
-      rating: 4.8,
-      totalProducts: 245,
-      totalOrders: 1250,
-      totalRevenue: 2500000,
-      joinDate: "2020-03-15",
-      lastActive: "2024-01-20",
-      documents: {
-        businessLicense: "verified",
-        taxCertificate: "verified",
-        qualityCertification: "pending",
-      },
-      logo: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 2,
-      name: "PolyTech Solutions",
-      email: "info@polytech.de",
-      phone: "+49-30-12345678",
-      country: "Germany",
-      city: "Berlin",
-      status: "active",
-      verified: true,
-      rating: 4.9,
-      totalProducts: 189,
-      totalOrders: 980,
-      totalRevenue: 1800000,
-      joinDate: "2021-01-10",
-      lastActive: "2024-01-19",
-      documents: {
-        businessLicense: "verified",
-        taxCertificate: "verified",
-        qualityCertification: "verified",
-      },
-      logo: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 3,
-      name: "EcoTextile Co.",
-      email: "sales@ecotextile.in",
-      phone: "+91-11-98765432",
-      country: "India",
-      city: "Mumbai",
-      status: "pending",
-      verified: false,
-      rating: 4.7,
-      totalProducts: 156,
-      totalOrders: 0,
-      totalRevenue: 0,
-      joinDate: "2024-01-15",
-      lastActive: "2024-01-18",
-      documents: {
-        businessLicense: "pending",
-        taxCertificate: "pending",
-        qualityCertification: "not_submitted",
-      },
-      logo: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      id: 4,
-      name: "ChemCore Ltd.",
-      email: "contact@chemcore.co.uk",
-      phone: "+44-20-87654321",
-      country: "UK",
-      city: "London",
-      status: "suspended",
-      verified: true,
-      rating: 4.2,
-      totalProducts: 298,
-      totalOrders: 750,
-      totalRevenue: 1200000,
-      joinDate: "2019-08-22",
-      lastActive: "2024-01-10",
-      documents: {
-        businessLicense: "verified",
-        taxCertificate: "expired",
-        qualityCertification: "verified",
-      },
-      logo: "/placeholder.svg?height=60&width=60",
-    },
-  ]
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
-  const handleSelectSupplier = (supplierId) => {
-    setSelectedSuppliers((prev) =>
-      prev.includes(supplierId) ? prev.filter((id) => id !== supplierId) : [...prev, supplierId],
-    )
-  }
+export default function AdminSuppliersPage() {
+  const router = useRouter();
+  const [suppliers, setSuppliers] = useState([]);
+  const [filteredSuppliers, setFilteredSuppliers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all'); // all, pending, approved
+  const [loading, setLoading] = useState(true);
+  const [processingId, setProcessingId] = useState(null);
 
-  const handleBulkAction = (action) => {
-    console.log(`Bulk ${action} for suppliers:`, selectedSuppliers)
-  }
+  useEffect(() => {
+    // Check if admin is logged in
+    const adminData = localStorage.getItem('admin');
+    if (!adminData) {
+      router.push('/admin/login');
+      return;
+    }
+    
+    fetchSuppliers();
+  }, [router]);
 
-  const handleStatusChange = (supplierId, newStatus) => {
-    console.log(`Changing supplier ${supplierId} status to ${newStatus}`)
-  }
+  useEffect(() => {
+    filterSuppliers();
+  }, [searchTerm, filterStatus, suppliers]);
 
-  const filteredSuppliers = suppliers.filter((supplier) => {
-    const matchesStatus = filterStatus === "all" || supplier.status === filterStatus
-    const matchesSearch =
-      supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      supplier.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      supplier.country.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesStatus && matchesSearch
-  })
+  const fetchSuppliers = async () => {
+    try {
+      setLoading(true);
+      const adminToken = localStorage.getItem('adminToken');
+      console.log('Fetching suppliers from:', `${API_BASE_URL}/api/admin/users?type=suppliers`);
+      
+      const response = await fetch(`${API_BASE_URL}/api/admin/users?type=suppliers`, {
+        headers: {
+          'Authorization': `Bearer ${adminToken}`,
+        },
+      });
 
-  const totalSuppliers = suppliers.length
-  const activeSuppliers = suppliers.filter((s) => s.status === "active").length
-  const pendingSuppliers = suppliers.filter((s) => s.status === "pending").length
-  const totalRevenue = suppliers.reduce((sum, s) => sum + s.totalRevenue, 0)
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('API error:', response.status, errorData);
+        throw new Error(errorData.message || 'Failed to fetch suppliers');
+      }
+
+      const data = await response.json();
+      console.log('Received data:', data);
+      console.log('Suppliers count:', data.suppliers?.length || 0);
+      
+      setSuppliers(data.suppliers || []);
+    } catch (error) {
+      console.error('Error fetching suppliers:', error);
+      toast.error('Failed to load suppliers: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filterSuppliers = () => {
+    let filtered = [...suppliers];
+
+    // Filter by status
+    if (filterStatus === 'pending') {
+      filtered = filtered.filter(s => !s.isApproved);
+    } else if (filterStatus === 'approved') {
+      filtered = filtered.filter(s => s.isApproved);
+    }
+
+    // Filter by search term
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(s => 
+        s.firstName?.toLowerCase().includes(term) ||
+        s.lastName?.toLowerCase().includes(term) ||
+        s.email?.toLowerCase().includes(term) ||
+        s.companyName?.toLowerCase().includes(term) ||
+        s.tradeLicense?.toLowerCase().includes(term)
+      );
+    }
+
+    setFilteredSuppliers(filtered);
+  };
+
+  const handleApprove = async (supplierId) => {
+    try {
+      setProcessingId(supplierId);
+      const adminToken = localStorage.getItem('adminToken');
+      
+      const response = await fetch(`${API_BASE_URL}/api/admin/suppliers/approve`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({
+          supplierId,
+          action: 'approve',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to approve supplier');
+      }
+
+      toast.success('Supplier approved successfully');
+      fetchSuppliers(); // Refresh the list
+    } catch (error) {
+      console.error('Error approving supplier:', error);
+      toast.error('Failed to approve supplier');
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  const handleReject = async (supplierId) => {
+    const reason = prompt('Enter rejection reason (optional):');
+    
+    try {
+      setProcessingId(supplierId);
+      const adminToken = localStorage.getItem('adminToken');
+      
+      const response = await fetch(`${API_BASE_URL}/api/admin/suppliers/approve`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({
+          supplierId,
+          action: 'reject',
+          reason: reason || 'Application rejected by admin',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to reject supplier');
+      }
+
+      toast.success('Supplier rejected');
+      fetchSuppliers(); // Refresh the list
+    } catch (error) {
+      console.error('Error rejecting supplier:', error);
+      toast.error('Failed to reject supplier');
+    } finally {
+      setProcessingId(null);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+  };
+
+  const getStatusBadge = (supplier) => {
+    if (supplier.isApproved) {
+      return (
+        <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
+          <CheckCircle className="w-3 h-3 mr-1" />
+          Approved
+        </Badge>
+      );
+    } else {
+      return (
+        <Badge className="bg-yellow-100 text-yellow-700 hover:bg-yellow-100">
+          <Clock className="w-3 h-3 mr-1" />
+          Pending
+        </Badge>
+      );
+    }
+  };
+
+  const pendingCount = suppliers.filter(s => !s.isApproved).length;
+  const approvedCount = suppliers.filter(s => s.isApproved).length;
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
+      <div className="container mx-auto py-8 px-4">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-bold text-gray-800">Supplier Management</h2>
-            <p className="text-gray-600 mt-2">Manage and monitor your supplier network</p>
-          </div>
-          <div className="flex space-x-3">
-            <button className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">
-              📊 Export Data
-            </button>
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
-              ➕ Invite Supplier
-            </button>
-          </div>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Supplier Management</h1>
+          <p className="text-gray-600 mt-2">Review and approve supplier applications</p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm">Total Suppliers</p>
-                <p className="text-2xl font-bold text-gray-800">{totalSuppliers}</p>
-              </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <span className="text-blue-600 text-xl">🏢</span>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm">Active Suppliers</p>
-                <p className="text-2xl font-bold text-green-600">{activeSuppliers}</p>
-              </div>
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <span className="text-green-600 text-xl">✅</span>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm">Pending Approval</p>
-                <p className="text-2xl font-bold text-orange-600">{pendingSuppliers}</p>
-              </div>
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                <span className="text-orange-600 text-xl">⏳</span>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm">Total Revenue</p>
-                <p className="text-2xl font-bold text-purple-600">${(totalRevenue / 1000000).toFixed(1)}M</p>
-              </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <span className="text-purple-600 text-xl">💰</span>
-              </div>
-            </div>
-          </div>
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600">Total Suppliers</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold">{suppliers.length}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600">Pending Approval</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-yellow-600">{pendingCount}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-medium text-gray-600">Approved</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-green-600">{approvedCount}</div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status Filter</label>
-                <select
-                  value={filterStatus}
-                  onChange={(e) => setFilterStatus(e.target.value)}
-                  className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="pending">Pending</option>
-                  <option value="suspended">Suspended</option>
-                </select>
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              {/* Search */}
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <Input
+                    type="text"
+                    placeholder="Search by name, email, company, or license..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search suppliers..."
-                  className="border border-gray-300 rounded-lg px-3 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+
+              {/* Status Filter */}
+              <div className="flex gap-2">
+                <Button
+                  variant={filterStatus === 'all' ? 'default' : 'outline'}
+                  onClick={() => setFilterStatus('all')}
+                >
+                  All ({suppliers.length})
+                </Button>
+                <Button
+                  variant={filterStatus === 'pending' ? 'default' : 'outline'}
+                  onClick={() => setFilterStatus('pending')}
+                >
+                  Pending ({pendingCount})
+                </Button>
+                <Button
+                  variant={filterStatus === 'approved' ? 'default' : 'outline'}
+                  onClick={() => setFilterStatus('approved')}
+                >
+                  Approved ({approvedCount})
+                </Button>
               </div>
             </div>
+          </CardContent>
+        </Card>
 
-            {selectedSuppliers.length > 0 && (
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600">{selectedSuppliers.length} selected</span>
-                <button
-                  onClick={() => handleBulkAction("approve")}
-                  className="bg-green-600 text-white px-3 py-2 rounded text-sm hover:bg-green-700"
-                >
-                  Bulk Approve
-                </button>
-                <button
-                  onClick={() => handleBulkAction("suspend")}
-                  className="bg-red-600 text-white px-3 py-2 rounded text-sm hover:bg-red-700"
-                >
-                  Bulk Suspend
-                </button>
-              </div>
-            )}
+        {/* Suppliers List */}
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+            <p className="mt-4 text-gray-600">Loading suppliers...</p>
           </div>
-        </div>
+        ) : filteredSuppliers.length === 0 ? (
+          <Card>
+            <CardContent className="py-12 text-center">
+              <p className="text-gray-600">No suppliers found</p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 gap-6">
+            {filteredSuppliers.map((supplier) => (
+              <Card key={supplier._id} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <CardTitle className="text-xl">
+                        {supplier.firstName} {supplier.lastName}
+                      </CardTitle>
+                      <CardDescription className="mt-1">
+                        {supplier.companyName}
+                      </CardDescription>
+                    </div>
+                    {getStatusBadge(supplier)}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                    {/* Contact Information */}
+                    <div className="flex items-start gap-3">
+                      <Mail className="w-5 h-5 text-gray-400 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">Email</p>
+                        <p className="text-sm text-gray-600">{supplier.email}</p>
+                      </div>
+                    </div>
 
-        {/* Suppliers Table */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="px-6 py-4 text-left">
-                    <input
-                      type="checkbox"
-                      checked={selectedSuppliers.length === suppliers.length}
-                      onChange={() =>
-                        setSelectedSuppliers(
-                          selectedSuppliers.length === suppliers.length ? [] : suppliers.map((s) => s.id),
-                        )
-                      }
-                      className="rounded"
-                    />
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-700">Supplier</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-700">Location</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-700">Performance</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-700">Documents</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-700">Status</th>
-                  <th className="px-6 py-4 text-left text-sm font-medium text-gray-700">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {filteredSuppliers.map((supplier) => (
-                  <tr key={supplier.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">
-                      <input
-                        type="checkbox"
-                        checked={selectedSuppliers.includes(supplier.id)}
-                        onChange={() => handleSelectSupplier(supplier.id)}
-                        className="rounded"
-                      />
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center space-x-3">
-                        <img
-                          src={supplier.logo || "/placeholder.svg"}
-                          alt={supplier.name}
-                          className="w-12 h-12 rounded-lg object-cover"
-                        />
+                    <div className="flex items-start gap-3">
+                      <Phone className="w-5 h-5 text-gray-400 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">Phone</p>
+                        <p className="text-sm text-gray-600">{supplier.phone}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <FileText className="w-5 h-5 text-gray-400 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">Trade License</p>
+                        <p className="text-sm text-gray-600">{supplier.tradeLicense}</p>
+                      </div>
+                    </div>
+
+                    {/* Company Details */}
+                    <div className="flex items-start gap-3">
+                      <Building className="w-5 h-5 text-gray-400 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">Company Type</p>
+                        <p className="text-sm text-gray-600 capitalize">{supplier.companyType}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <Building className="w-5 h-5 text-gray-400 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">Industry</p>
+                        <p className="text-sm text-gray-600">{supplier.industry}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <Users className="w-5 h-5 text-gray-400 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">Employees</p>
+                        <p className="text-sm text-gray-600">{supplier.employeeCount}</p>
+                      </div>
+                    </div>
+
+                    {/* Website & Registration */}
+                    {supplier.website && (
+                      <div className="flex items-start gap-3">
+                        <Globe className="w-5 h-5 text-gray-400 mt-0.5" />
                         <div>
-                          <div className="font-medium text-gray-800 flex items-center">
-                            {supplier.name}
-                            {supplier.verified && <span className="ml-2 text-green-500">✓</span>}
-                          </div>
-                          <div className="text-sm text-gray-500">{supplier.email}</div>
-                          <div className="text-sm text-gray-500">{supplier.phone}</div>
+                          <p className="text-sm font-medium text-gray-700">Website</p>
+                          <a 
+                            href={supplier.website} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-sm text-blue-600 hover:underline"
+                          >
+                            {supplier.website}
+                          </a>
                         </div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm text-gray-700">
-                        {supplier.city}, {supplier.country}
+                    )}
+
+                    <div className="flex items-start gap-3">
+                      <Calendar className="w-5 h-5 text-gray-400 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-gray-700">Registered</p>
+                        <p className="text-sm text-gray-600">{formatDate(supplier.createdAt)}</p>
                       </div>
-                      <div className="text-xs text-gray-500">Joined: {supplier.joinDate}</div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="space-y-1">
-                        <div className="flex items-center">
-                          <span className="text-yellow-500">⭐</span>
-                          <span className="text-sm ml-1">{supplier.rating}</span>
+                    </div>
+
+                    {supplier.approvedAt && (
+                      <div className="flex items-start gap-3">
+                        <Calendar className="w-5 h-5 text-gray-400 mt-0.5" />
+                        <div>
+                          <p className="text-sm font-medium text-gray-700">Approved On</p>
+                          <p className="text-sm text-gray-600">{formatDate(supplier.approvedAt)}</p>
                         </div>
-                        <div className="text-sm text-gray-600">{supplier.totalProducts} products</div>
-                        <div className="text-sm text-gray-600">{supplier.totalOrders} orders</div>
-                        <div className="text-sm font-medium text-green-600">
-                          ${supplier.totalRevenue.toLocaleString()}
-                        </div>
                       </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="space-y-1">
-                        {Object.entries(supplier.documents).map(([doc, status]) => (
-                          <div key={doc} className="flex items-center space-x-2">
-                            <span
-                              className={`w-2 h-2 rounded-full ${
-                                status === "verified"
-                                  ? "bg-green-500"
-                                  : status === "pending"
-                                    ? "bg-yellow-500"
-                                    : "bg-red-500"
-                              }`}
-                            ></span>
-                            <span className="text-xs text-gray-600 capitalize">
-                              {doc.replace(/([A-Z])/g, " $1").trim()}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <select
-                        value={supplier.status}
-                        onChange={(e) => handleStatusChange(supplier.id, e.target.value)}
-                        className={`text-xs px-2 py-1 rounded-full border-0 font-medium ${
-                          supplier.status === "active"
-                            ? "bg-green-100 text-green-800"
-                            : supplier.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                        }`}
+                    )}
+                  </div>
+
+                  {/* Address */}
+                  {supplier.address && (
+                    <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                      <p className="text-sm font-medium text-gray-700 mb-1">Address</p>
+                      <p className="text-sm text-gray-600">{supplier.address}</p>
+                    </div>
+                  )}
+
+                  {/* Rejection Reason */}
+                  {supplier.rejectionReason && (
+                    <div className="mb-4 p-3 bg-red-50 rounded-lg border border-red-200">
+                      <p className="text-sm font-medium text-red-700 mb-1">Rejection Reason</p>
+                      <p className="text-sm text-red-600">{supplier.rejectionReason}</p>
+                    </div>
+                  )}
+
+                  {/* Action Buttons */}
+                  {!supplier.isApproved && (
+                    <div className="flex gap-3 pt-4 border-t">
+                      <Button
+                        onClick={() => handleApprove(supplier._id)}
+                        disabled={processingId === supplier._id}
+                        className="flex-1 bg-green-600 hover:bg-green-700"
                       >
-                        <option value="active">Active</option>
-                        <option value="pending">Pending</option>
-                        <option value="suspended">Suspended</option>
-                      </select>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center space-x-2">
-                        <Link
-                          href={`/admin/suppliers/${supplier.id}`}
-                          className="text-blue-600 hover:text-blue-800 text-sm"
-                        >
-                          View
-                        </Link>
-                        <button className="text-green-600 hover:text-green-800 text-sm">Approve</button>
-                        <button className="text-red-600 hover:text-red-800 text-sm">Suspend</button>
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        {processingId === supplier._id ? 'Processing...' : 'Approve'}
+                      </Button>
+                      <Button
+                        onClick={() => handleReject(supplier._id)}
+                        disabled={processingId === supplier._id}
+                        variant="destructive"
+                        className="flex-1"
+                      >
+                        <XCircle className="w-4 h-4 mr-2" />
+                        Reject
+                      </Button>
+                    </div>
+                  )}
+
+                  {supplier.isApproved && (
+                    <div className="pt-4 border-t">
+                      <div className="flex items-center gap-2 text-green-600">
+                        <CheckCircle className="w-5 h-5" />
+                        <span className="text-sm font-medium">This supplier has been approved and can now login</span>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </div>
+        )}
       </div>
     </AdminLayout>
-  )
+  );
 }

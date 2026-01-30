@@ -52,15 +52,39 @@ export const AuthProvider = ({ children }) => {
   // Function to get user profile
   const fetchUserProfile = async () => {
     try {
+      console.log('🔄 AuthContext: Starting fetchUserProfile...')
+      setLoading(true) // Ensure loading is true at start
       let token = localStorage.getItem('token')
+      
+      // If no access token, try to refresh using refresh token
       if (!token) {
-        // Try to get user data from localStorage first
-        const storedUser = localStorage.getItem('user')
-        if (storedUser) {
-          setUser(JSON.parse(storedUser))
+        const storedRefreshToken = localStorage.getItem('refreshToken')
+        if (storedRefreshToken) {
+          console.log('🔑 AuthContext: No access token, attempting to refresh...')
+          const newToken = await refreshToken()
+          if (newToken) {
+            token = newToken
+            console.log('✅ AuthContext: Token refreshed successfully')
+          } else {
+            console.log('❌ AuthContext: Token refresh failed, using cached user')
+            // Refresh failed, check if user data exists in localStorage
+            const storedUser = localStorage.getItem('user')
+            if (storedUser) {
+              setUser(JSON.parse(storedUser))
+            }
+            setLoading(false)
+            return
+          }
+        } else {
+          console.log('📦 AuthContext: No tokens found, checking localStorage for cached user')
+          // No token and no refresh token, just check localStorage
+          const storedUser = localStorage.getItem('user')
+          if (storedUser) {
+            setUser(JSON.parse(storedUser))
+          }
+          setLoading(false)
+          return
         }
-        setLoading(false)
-        return
       }
 
       // Get user type to determine correct endpoint
@@ -82,20 +106,35 @@ export const AuthProvider = ({ children }) => {
         
         setUser(userWithType)
         localStorage.setItem('user', JSON.stringify(userWithType))
+        console.log('✅ AuthContext: User profile fetched successfully:', userWithType.email)
+        setLoading(false) // Set loading false here after success
       } else if (response.status === 401) {
         // Token expired, try to refresh
+        console.log('🔄 AuthContext: Token expired (401), attempting to refresh...')
         const newToken = await refreshToken()
         if (newToken) {
-          // Retry with new token
-          fetchUserProfile()
+          console.log('🔄 AuthContext: Token refreshed, retrying profile fetch...')
+          // Retry with new token - DON'T set loading to false, let the recursive call handle it
+          await fetchUserProfile()
+          return
+        } else {
+          console.log('❌ AuthContext: Token refresh failed, logging out')
+          setLoading(false)
+          logout()
         }
       } else {
+        console.log('❌ AuthContext: Failed to fetch profile, status:', response.status)
+        setLoading(false)
         logout()
       }
     } catch (error) {
-      console.error('Fetch user profile error:', error)
-      logout()
-    } finally {
+      console.error('❌ AuthContext: Fetch user profile error:', error)
+      // Don't logout on error, might be network issue
+      const storedUser = localStorage.getItem('user')
+      if (storedUser) {
+        setUser(JSON.parse(storedUser))
+        console.log('📦 AuthContext: Using cached user due to error')
+      }
       setLoading(false)
     }
   }

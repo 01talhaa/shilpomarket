@@ -1,110 +1,63 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import ProductHeader from "../../components/ProductHeader" // Assuming this path is correct
+import ProductHeader from "../../components/ProductHeader"
+import { getRootCategories } from "@/lib/categoriesData"
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
 export default function ProductsPage() {
+  const categories = getRootCategories();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortBy, setSortBy] = useState("featured")
   const [priceRange, setPriceRange] = useState([0, 10000])
-  const [showFilters, setShowFilters] = useState(false) // New state for filter visibility
+  const [showFilters, setShowFilters] = useState(false)
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [inStockOnly, setInStockOnly] = useState(false);
 
-  const categories = [
-    { id: "all", name: "All Categories", count: 1250 },
-    { id: "metals", name: "Metals & Alloys", count: 320 },
-    { id: "plastics", name: "Plastics & Polymers", count: 280 },
-    { id: "chemicals", name: "Chemicals", count: 195 },
-    { id: "textiles", name: "Textiles", count: 150 },
-    { id: "electronics", name: "Electronic Materials", count: 125 },
-    { id: "construction", name: "Construction Materials", count: 180 },
-  ]
+  useEffect(() => {
+    fetchProducts();
+  }, [selectedCategory, sortBy, priceRange, verifiedOnly, inStockOnly]);
 
-  const products = [
-    {
-      id: 1,
-      name: "Premium Steel Rods",
-      supplier: "MetalCorp Industries",
-      price: 1250,
-      image: "/placeholder.svg?height=250&width=250",
-      category: "metals",
-      rating: 4.8,
-      minOrder: "5 tons",
-      location: "USA",
-      verified: true,
-      inStock: true,
-    },
-    {
-      id: 2,
-      name: "Industrial Grade Plastic Pellets",
-      supplier: "PolyTech Solutions",
-      price: 850,
-      image: "/placeholder.svg?height=250&width=250",
-      category: "plastics",
-      rating: 4.9,
-      minOrder: "2 tons",
-      location: "Germany",
-      verified: true,
-      inStock: true,
-    },
-    {
-      id: 3,
-      name: "Organic Cotton Fiber",
-      supplier: "EcoTextile Co.",
-      price: 2100,
-      image: "/placeholder.svg?height=250&width=250",
-      category: "textiles",
-      rating: 4.7,
-      minOrder: "1 ton",
-      location: "India",
-      verified: true,
-      inStock: false,
-    },
-    {
-      id: 4,
-      name: "Chemical Grade Aluminum",
-      supplier: "AlumTech Industries",
-      price: 1800,
-      image: "/placeholder.svg?height=250&width=250",
-      category: "chemicals",
-      rating: 4.6,
-      minOrder: "3 tons",
-      location: "UK",
-      verified: true,
-      inStock: true,
-    },
-    {
-      id: 5,
-      name: "High-Grade Copper Wire",
-      supplier: "CopperCore Ltd",
-      price: 3200,
-      image: "/placeholder.svg?height=250&width=250",
-      category: "electronics",
-      rating: 4.9,
-      minOrder: "1 ton",
-      location: "Japan",
-      verified: true,
-      inStock: true,
-    },
-    {
-      id: 6,
-      name: "Reinforced Concrete Mix",
-      supplier: "BuildTech Materials",
-      price: 450,
-      image: "/placeholder.svg?height=250&width=250",
-      category: "construction",
-      rating: 4.5,
-      minOrder: "10 tons",
-      location: "Canada",
-      verified: false,
-      inStock: true,
-    },
-  ]
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      let url = `${API_BASE_URL}/api/products?`;
+      
+      if (selectedCategory !== 'all') {
+        url += `category=${selectedCategory}&`;
+      }
+      
+      url += `minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}`;
+      
+      if (inStockOnly) {
+        url += `&inStock=true`;
+      }
 
-  const filteredProducts = products.filter((product) => {
-    if (selectedCategory !== "all" && product.category !== selectedCategory) return false
-    if (product.price < priceRange[0] || product.price > priceRange[1]) return false
-    return true
-  })
+      // Sorting
+      let sortParam = '-createdAt';
+      if (sortBy === 'price-low') sortParam = 'price';
+      if (sortBy === 'price-high') sortParam = '-price';
+      if (sortBy === 'rating') sortParam = '-rating';
+      if (sortBy === 'newest') sortParam = '-createdAt';
+      
+      url += `&sort=${sortParam}`;
+
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data.products || []);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredProducts = products;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -134,20 +87,27 @@ export default function ProductsPage() {
                 <div className="mb-4">
                   <h4 className="text-xs font-medium text-gray-700 mb-2">Categories</h4>
                   <div className="space-y-1">
+                    <button
+                      onClick={() => setSelectedCategory("all")}
+                      className={`w-full text-left px-2 py-1 rounded text-xs transition-colors ${
+                        selectedCategory === "all"
+                          ? "bg-blue-100 text-blue-800"
+                          : "hover:bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      All Categories
+                    </button>
                     {categories.map((category) => (
                       <button
                         key={category.id}
-                        onClick={() => setSelectedCategory(category.id)}
+                        onClick={() => setSelectedCategory(category.name)}
                         className={`w-full text-left px-2 py-1 rounded text-xs transition-colors ${
-                          selectedCategory === category.id
+                          selectedCategory === category.name
                             ? "bg-blue-100 text-blue-800"
                             : "hover:bg-gray-100 text-gray-600"
                         }`}
                       >
-                        <div className="flex justify-between items-center">
-                          <span>{category.name}</span>
-                          <span className="text-xs">({category.count})</span>
-                        </div>
+                        {category.name}
                       </button>
                     ))}
                   </div>
@@ -155,14 +115,16 @@ export default function ProductsPage() {
 
                 {/* Price Range */}
                 <div className="mb-4">
-                  <h4 className="text-xs font-medium text-gray-700 mb-2">Price Range ($/ton)</h4>
+                  <h4 className="text-xs font-medium text-gray-700 mb-2">Price Range ($/unit)</h4>
                   <div className="space-y-2">
                     <input
                       type="range"
                       min="0"
                       max="10000"
                       value={priceRange[1]}
-                      onChange={(e) => setPriceRange([priceRange[0], Number.parseInt(e.target.value)])}
+                      onChange={(e) => {
+                        setPriceRange([priceRange[0], Number.parseInt(e.target.value)]);
+                      }}
                       className="w-full"
                     />
                     <div className="flex justify-between text-xs text-gray-600">
@@ -176,20 +138,24 @@ export default function ProductsPage() {
                 <div className="space-y-2">
                   <div>
                     <label className="flex items-center space-x-2">
-                      <input type="checkbox" className="rounded" />
+                      <input 
+                        type="checkbox" 
+                        className="rounded"
+                        checked={verifiedOnly}
+                        onChange={(e) => setVerifiedOnly(e.target.checked)}
+                      />
                       <span className="text-xs text-gray-700">Verified Suppliers Only</span>
                     </label>
                   </div>
                   <div>
                     <label className="flex items-center space-x-2">
-                      <input type="checkbox" className="rounded" />
+                      <input 
+                        type="checkbox" 
+                        className="rounded"
+                        checked={inStockOnly}
+                        onChange={(e) => setInStockOnly(e.target.checked)}
+                      />
                       <span className="text-xs text-gray-700">In Stock</span>
-                    </label>
-                  </div>
-                  <div>
-                    <label className="flex items-center space-x-2">
-                      <input type="checkbox" className="rounded" />
-                      <span className="text-xs text-gray-700">Free Shipping</span>
                     </label>
                   </div>
                 </div>
@@ -201,7 +167,9 @@ export default function ProductsPage() {
               {/* Sort and View Options */}
               <div className="flex flex-col sm:flex-row justify-between items-center mb-3 bg-white rounded-lg p-2 shadow-sm">
                 <div className="flex items-center space-x-4 mb-2 sm:mb-0">
-                  <span className="text-sm text-gray-600">{filteredProducts.length} products</span>
+                  <span className="text-sm text-gray-600">
+                    {loading ? 'Loading...' : `${filteredProducts.length} products`}
+                  </span>
                 </div>
                 <div className="flex items-center space-x-4">
                   <select
@@ -218,68 +186,90 @@ export default function ProductsPage() {
                 </div>
               </div>
 
-              {/* Products Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-                {filteredProducts.map((product, index) => (
-                  <Link key={product.id} href={`/products/${product.id}`}>
-                    <div className="bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
-                      <div className="relative">
-                        <img
-                          src={product.image || "/placeholder.svg"}
-                          alt={product.name}
-                          className="w-full h-32 object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                        {product.verified && (
-                          <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
-                            ✓ Verified
+              {/* Loading State */}
+              {loading ? (
+                <div className="text-center py-12">
+                  <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                  <p className="mt-4 text-gray-600">Loading products...</p>
+                </div>
+              ) : filteredProducts.length === 0 ? (
+                <div className="text-center py-12 bg-white rounded-lg shadow">
+                  <p className="text-gray-600">No products found</p>
+                </div>
+              ) : (
+                <>
+                  {/* Products Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                    {filteredProducts.map((product) => (
+                      <Link key={product._id} href={`/products/${product._id}`}>
+                        <div className="bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
+                          <div className="relative">
+                            <img
+                              src={product.images?.[0]?.url || "/placeholder.svg"}
+                              alt={product.name}
+                              className="w-full h-32 object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                            {product.supplier?.verified && (
+                              <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
+                                ✓ Verified
+                              </div>
+                            )}
+                            {!product.inStock && (
+                              <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
+                                Out of Stock
+                              </div>
+                            )}
                           </div>
-                        )}
-                        {!product.inStock && (
-                          <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium shadow-lg">
-                            Out of Stock
-                          </div>
-                        )}
-                      </div>
 
-                      <div className="p-3">
-                        <div className="flex items-start justify-between mb-2">
-                          <div className="flex-1">
-                            <h3 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-1">
-                              {product.name}
-                            </h3>
-                            <p className="text-xs text-gray-600 font-medium">{product.supplier}</p>
-                          </div>
-                          {product.inStock && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800 font-medium">
-                              <div className="w-2 h-2 bg-green-400 rounded-full mr-1"></div>
-                              In Stock
-                            </span>
-                          )}
-                        </div>
-                        
-                        <div className="flex items-center mb-2">
-                          <div className="flex items-center mr-4">
-                            <span className="text-yellow-400 text-xs">★</span>
-                            <span className="text-xs font-medium text-gray-700 ml-1">{product.rating}</span>
-                            <span className="text-xs text-gray-500 ml-1">(reviews)</span>
-                          </div>
-                        </div>
+                          <div className="p-3">
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="flex-1">
+                                <h3 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-1">
+                                  {product.name}
+                                </h3>
+                                <p className="text-xs text-gray-600 font-medium">{product.supplierName}</p>
+                              </div>
+                              {product.inStock && (
+                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-green-100 text-green-800 font-medium">
+                                  <div className="w-2 h-2 bg-green-400 rounded-full mr-1"></div>
+                                  In Stock
+                                </span>
+                              )}
+                            </div>
+                            
+                            <div className="flex items-center mb-2">
+                              <div className="flex items-center mr-4">
+                                <span className="text-yellow-400 text-xs">★</span>
+                                <span className="text-xs font-medium text-gray-700 ml-1">
+                                  {product.rating ? product.rating.toFixed(1) : 'New'}
+                                </span>
+                                <span className="text-xs text-gray-500 ml-1">
+                                  ({product.reviewCount || 0})
+                                </span>
+                              </div>
+                            </div>
 
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <span className="text-sm font-bold text-gray-900">${product.price}/ton</span>
-                          </div>
-                          <div className="text-right">
-                            <span className="text-xs text-gray-500 block">Min order</span>
-                            <span className="text-xs font-medium text-gray-700">{product.minOrder}</span>
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <span className="text-sm font-bold text-gray-900">
+                                  ${product.price}/{product.unit}
+                                </span>
+                              </div>
+                              <div className="text-right">
+                                <span className="text-xs text-gray-500 block">Min order</span>
+                                <span className="text-xs font-medium text-gray-700">
+                                  {product.minOrder} {product.unit}
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              )}
 
               {/* Pagination */}
               <div className="flex justify-center mt-6">

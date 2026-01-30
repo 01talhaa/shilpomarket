@@ -1,16 +1,17 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import Header from "../../../components/Header"
 import { API_ENDPOINTS } from "../../../lib/api"
+import { getRootCategories } from "../../../lib/categoriesData"
 import { toast } from "sonner"
 
 export default function SignupPage() {
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [accountType, setAccountType] = useState("buyer")
-  const [categories, setCategories] = useState([])
+  const [categories] = useState(getRootCategories())
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     // Personal Info
@@ -41,30 +42,6 @@ export default function SignupPage() {
 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
-  // Fetch categories from API
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(API_ENDPOINTS.SUPPLIER_CATEGORIES())
-        const result = await response.json()
-        
-        if (response.ok && result.success) {
-          setCategories(result.data)
-        } else {
-          console.error('Failed to fetch categories:', result)
-          // Fallback to empty array
-          setCategories([])
-        }
-      } catch (error) {
-        console.error('Error fetching categories:', error)
-        // Fallback to empty array
-        setCategories([])
-      }
-    }
-
-    fetchCategories()
-  }, [])
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
@@ -161,14 +138,21 @@ export default function SignupPage() {
         
         localStorage.setItem('user', JSON.stringify(userWithType))
         
-        // Redirect to dashboard based on account type
-        setTimeout(() => {
-          if (accountType === "supplier") {
-            router.push("/seller/dashboard")
-          } else {
+        // For suppliers, show pending approval message
+        if (accountType === "supplier") {
+          toast.info("Your account is pending admin approval. You'll be able to login once approved.", {
+            duration: 5000
+          })
+          
+          setTimeout(() => {
+            router.push("/auth/login")
+          }, 2000)
+        } else {
+          // Buyers can login immediately
+          setTimeout(() => {
             router.push("/buyer/dashboard")
-          }
-        }, 1500)
+          }, 1500)
+        }
       } else {
         toast.error(result.message || "Signup failed. Please try again.")
       }
@@ -536,23 +520,19 @@ export default function SignupPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-3">
                       Interested Categories (Select all that apply)
                     </label>
-                    {loading ? (
-                      <div className="text-gray-500">Loading categories...</div>
-                    ) : (
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                        {categories.map((category) => (
-                          <label key={category.id} className="flex items-center space-x-2">
-                            <input
-                              type="checkbox"
-                              checked={formData.interestedCategories.includes(category.id)}
-                              onChange={() => handleCategoryToggle(category.id)}
-                              className="rounded"
-                            />
-                            <span className="text-sm text-gray-700">{category.name}</span>
-                          </label>
-                        ))}
-                      </div>
-                    )}
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {categories.map((category) => (
+                        <label key={category.id} className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            checked={formData.interestedCategories.includes(category.id)}
+                            onChange={() => handleCategoryToggle(category.id)}
+                            className="rounded"
+                          />
+                          <span className="text-sm text-gray-700">{category.name}</span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
 
                   <div className="space-y-3 mt-6 pt-6 border-t border-gray-200">
